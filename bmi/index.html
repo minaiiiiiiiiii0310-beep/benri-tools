@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI計算ツール｜身長と体重から肥満度を判定（無料）</title>
+<meta name="description" content="身長と体重を入力するだけでBMI（体格指数）と肥満度の判定、適正体重の目安を自動計算。登録不要・無料のBMI計算ツール。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>BMI計算</h1>
+  <p class="lead">身長と体重を入力すると、BMI（体格指数）と肥満度の判定、適正体重の目安を自動で計算します。</p>
+
+  <div class="tool">
+    <div class="row"><label>身長 (cm)</label><input type="number" id="h" class="in" placeholder="例：170"></div>
+    <div class="row"><label>体重 (kg)</label><input type="number" id="w" class="in" placeholder="例：60"></div>
+    <div class="result"><span class="big" id="val">--</span><div id="cat" class="lbl">身長と体重を入力してください</div><div id="ideal" class="lbl"></div></div>
+  </div>
+
+  <h2>BMIの判定基準（日本肥満学会）</h2>
+  <dl class="faq">
+    <dt>18.5未満</dt><dd>低体重（やせ）</dd>
+    <dt>18.5〜25未満</dt><dd>普通体重</dd>
+    <dt>25以上</dt><dd>肥満（数値により1〜4度）</dd>
+    <dt>適正体重の目安</dt><dd>BMI22となる体重（最も病気になりにくいとされる）で計算しています。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+
+<script>
+(function(){
+  var h=document.getElementById('h');
+  function calc(){
+    var hv=parseFloat(h.value), wv=parseFloat(document.getElementById('w').value);
+    if(!hv||!wv||hv<=0||wv<=0){document.getElementById('val').textContent='--';document.getElementById('cat').textContent='身長と体重を入力してください';document.getElementById('ideal').textContent='';return;}
+    var m=hv/100, bmi=wv/(m*m), c;
+    if(bmi<18.5)c='低体重（やせ）'; else if(bmi<25)c='普通体重'; else if(bmi<30)c='肥満（1度）'; else if(bmi<35)c='肥満（2度）'; else if(bmi<40)c='肥満（3度）'; else c='肥満（4度）';
+    document.getElementById('val').textContent=bmi.toFixed(1);
+    document.getElementById('cat').textContent=c;
+    document.getElementById('ideal').textContent='適正体重の目安：'+(22*m*m).toFixed(1)+' kg';
+  }
+  h.addEventListener('input',calc);
+  document.getElementById('w').addEventListener('input',calc);
+})();
+</script>
+</body>
+</html>

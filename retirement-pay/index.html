@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>退職金 概算 (税引後 手取り 込み)｜無料ツール・登録不要</title>
+<meta name="description" content="勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。">
+<link rel="canonical" href="https://benri-tools.example.com/retirement-pay/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<!-- OGP (Facebook・Slack・Discord 等) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://benri-tools.example.com/retirement-pay/">
+<meta property="og:title" content="退職金 概算 (税引後 手取り 込み)｜無料ツール・登録不要">
+<meta property="og:description" content="勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。">
+<meta property="og:image" content="https://benri-tools.example.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card (X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="退職金 概算 (税引後 手取り 込み)｜無料ツール・登録不要">
+<meta name="twitter:description" content="勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。">
+<meta name="twitter:image" content="https://benri-tools.example.com/og.png">
+
+<!-- 構造化データ (WebApplication) -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"退職金 概算 (税引後 手取り 込み)","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}
+</script>
+
+<link rel="stylesheet" href="../style.css">
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+
+<!-- AdSense (審査通過後 有効化) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>🛡 退職金 概算 (税引後 手取り 込み)</h1>
+  <p class="lead">勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。</p>
+
+  <div class="tool">
+    <label>勤続 年数:</label>
+    <input id="years" class="in" type="number" value="20" min="1" />
+    <label>退職時の 基本給 (月額 円):</label>
+    <input id="salary" class="in" type="number" value="350000" />
+    <label>退職 事由:</label>
+    <select id="reason" class="in">
+      <option value="0.75">自己都合</option>
+      <option value="1.00" selected>会社都合 (リストラ・倒産)</option>
+      <option value="1.05">定年</option>
+    </select>
+    <label>退職金 制度:</label>
+    <select id="plan" class="in">
+      <option value="1.00" selected>標準的 大企業 (中労委 統計)</option>
+      <option value="0.70">中小企業 (中退共 想定)</option>
+      <option value="0.50">退職金 制度 弱い 企業</option>
+      <option value="1.30">公務員・大企業 上位</option>
+    </select>
+    <div class="bar"><button type="button" class="btn primary" id="calc">退職金を 算出</button></div>
+    <div class="cards">
+      <div class="cell"><div class="num" id="gross">¥0</div><div class="cap">退職金 (額面)</div></div>
+      <div class="cell"><div class="num" id="tax" style="color:#c00;">¥0</div><div class="cap">税金 (所得税+住民税)</div></div>
+      <div class="cell"><div class="num" id="net" style="color:#16a34a;">¥0</div><div class="cap">手取り</div></div>
+    </div>
+    <h2>計算 内訳</h2>
+    <div id="detail" class="cap" style="font-size:14px;line-height:1.8;"></div>
+
+    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  </div>
+
+  <!-- 記事内 広告 -->
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>よくある質問</h2><dl class="faq"><dt>会社の 退職金 規程との 差は？</dt><dd>±30% 程度。実際は 会社の 退職金規程 (就業規則 添付) で 決まります。人事 部門に "退職金 試算" を 依頼すれば 正確な額が 出ます。本ツールは 「聞く前の 心の準備」 用。</dd><dt>退職所得 控除 とは？</dt><dd>退職金には 大きな 税優遇 が あり、勤続20年までは 年40万円、20年超は 年70万円 が 非課税です。さらに 残りも 1/2 だけが 課税対象 ('退職所得')。</dd><dt>iDeCo や DC の 取扱い は？</dt><dd>本ツールは 会社の 退職一時金 のみ。確定拠出年金 (DC・iDeCo) は 別途 計算が 必要です。受取り方 (一時金 vs 年金) で 税金が 大きく 変わります。</dd></dl>
+
+  <!-- 関連 ツール (内部リンク 強化・回遊率UP) -->
+  <h2>🔗 関連 ツール</h2>
+  <div class="grid" id="relatedTools"></div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<!-- 関連 ツール 動的 挿入 -->
+<script>
+(function(){
+  const all = [{"slug": "json-format", "icon": "🧩", "title": "JSON フォーマッタ", "desc": "JSON を 整形（インデント）して 見やすく 表示。入力ミスの 検出にも。"}, {"slug": "url-encode", "icon": "🔗", "title": "URL エンコード / デコード", "desc": "URL に 含められない 文字 (日本語・記号) を %XX 形式に 変換、その 逆も。"}, {"slug": "unixtime", "icon": "⏰", "title": "Unix タイム ⇔ 日時 変換", "desc": "Unix タイムスタンプ（秒/ミリ秒）と JST 日時を 相互 変換。"}, {"slug": "hash", "icon": "🔐", "title": "ハッシュ生成 (SHA-256)", "desc": "テキストの ハッシュ値を 計算。データ 改変チェックや パスワード 比較に。"}, {"slug": "uuid", "icon": "🆔", "title": "UUID v4 生成", "desc": "ランダムな UUID (Universally Unique Identifier) を 生成。"}, {"slug": "loan", "icon": "🏠", "title": "住宅ローン 月返済 計算", "desc": "借入額・金利・年数を 入れると 元利均等の 月返済額と 総支払額を 計算。"}, {"slug": "gas-cost", "icon": "⛽", "title": "ガソリン代 計算", "desc": "走行距離・燃費・ガソリン単価から 費用を 算出。旅行費用 試算に。"}, {"slug": "hourly-yearly", "icon": "💴", "title": "時給 → 月収・年収 換算", "desc": "時給と 1日労働時間・週日数で 月収・年収を 自動計算。"}, {"slug": "deviation", "icon": "📊", "title": "偏差値 計算", "desc": "得点・平均・標準偏差から 偏差値を 計算。試験 結果 分析に。"}, {"slug": "warikan", "icon": "🍻", "title": "割り勘 計算 (幹事 補助付き)", "desc": "合計金額と 人数を 入力。端数 切り上げ・幹事 多めなど 柔軟に 対応。"}, {"slug": "electricity-cost", "icon": "💡", "title": "電気代 シミュレータ", "desc": "家電の 消費電力(W) × 使用時間 × 単価 で 電気代を 算出。電気代 高騰 対策に。"}, {"slug": "nisa-sim", "icon": "📈", "title": "つみたて NISA / 積立投資 シミュレータ", "desc": "毎月の 積立額・年利・期間から 将来 評価額を 複利計算。新NISA 対応。"}, {"slug": "work-hours", "icon": "🕐", "title": "労働時間 集計 (始業・終業・休憩)", "desc": "始業 / 終業 / 休憩から 1日の 労働時間と 賃金を 計算。複数日 集計も。"}, {"slug": "side-job-wage", "icon": "🏷", "title": "副業 実時給 (本当の 時給)", "desc": "月収 を 実労働時間で 割って 「本当の 時給」 を 可視化。経費考慮も。"}, {"slug": "rule-72", "icon": "⏫", "title": "72の法則 (資産 倍化 計算)", "desc": "年利○% で 資産が 2倍に なるのは 何年後？72÷利率 の 早見表 で 直感的に。"}, {"slug": "stopwatch", "icon": "⏱", "title": "ストップウォッチ", "desc": "ミリ秒 単位の 計測。ラップ 記録 機能 付き。"}, {"slug": "timer", "icon": "⏳", "title": "カウントダウン タイマー", "desc": "分秒を 指定 して 開始。終了時 アラーム 音。"}, {"slug": "pomodoro", "icon": "🍅", "title": "ポモドーロ タイマー", "desc": "25分 集中 → 5分 休憩 を 繰り返す 学習 法。4セット で 長休憩。"}, {"slug": "meeting-cost", "icon": "💰", "title": "この 会議いくら？ 会議費用 計算機", "desc": "参加人数 × 時給 × 時間 で 会議の コストを 可視化。「無駄な 会議」 撲滅 ツール。"}, {"slug": "date-shift", "icon": "📆", "title": "○日後 / ○日前 計算", "desc": "指定 日付の N 日後・前を 計算。締切 や 妊娠 出産予定日 計算に。"}, {"slug": "goal-tracker", "icon": "🎯", "title": "目標達成日 逆算 (ダイエット・貯金 等)", "desc": "現在値 → 目標値 まで 1日あたり 進捗で 何日 / いつ 達成かを 計算。"}, {"slug": "read-time", "icon": "📖", "title": "読了時間 予測 (記事・本)", "desc": "テキストを 貼ると 読了 時間を 推定。ブログ 公開時の 「○分で 読めます」 表示に。"}, {"slug": "tweet-count", "icon": "🐦", "title": "X (Twitter) 文字数 カウンター", "desc": "X (旧Twitter) / Bluesky / Threads の 投稿 文字数 を リアルタイム カウント。"}, {"slug": "random", "icon": "🎲", "title": "ランダム 選択 / サイコロ / コイン", "desc": "迷ったら 任せる！選択肢から ランダム 抽選、サイコロ、コイントス。"}, {"slug": "qr-code", "icon": "🔲", "title": "QR コード 生成", "desc": "URL や テキストを QR コード化。スマホで 簡単に 読み取れます。"}, {"slug": "car-buyback", "icon": "🚗", "title": "車 買取 概算 (営業電話なし)", "desc": "メーカー・年式・走行距離から 買取概算を 即時表示。一括査定の 電話地獄なし、個人情報も 不要。"}, {"slug": "realestate-value", "icon": "🏠", "title": "不動産 売却 概算 (営業電話なし)", "desc": "立地・築年数・面積から マンション/戸建/土地の 売却概算を 即時表示。査定サイトに 登録せずに 相場が 分かります。"}, {"slug": "moving-cost", "icon": "🚚", "title": "引越し 費用 概算 (営業電話なし)", "desc": "世帯人数・距離・時期から 引越し費用の 相場を 即時表示。一括見積もりサイトの 電話地獄を 回避。"}, {"slug": "wedding-cost", "icon": "💍", "title": "結婚式 費用 概算 (営業電話なし)", "desc": "招待人数・スタイル・衣装から 結婚式の 総額・自己負担 (ご祝儀 差引後) を 即時表示。"}, {"slug": "renovation-cost", "icon": "🏚", "title": "リフォーム 費用 概算 (営業電話なし)", "desc": "部位を 選ぶだけで リフォーム費用の 相場を 即時表示。訪問見積もりの 高額提案を 回避。"}, {"slug": "career-value", "icon": "💼", "title": "転職 市場価値 (年収相場)", "desc": "業界・役職・経験・スキルから 市場価値 (適正年収) を 即時表示。エージェントを 通さず 相場感を 把握。"}, {"slug": "retirement-pay", "icon": "🛡", "title": "退職金 概算 (税引後 手取り 込み)", "desc": "勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}, {"slug": "lawyer-fee", "icon": "⚖️", "title": "弁護士 費用 相場 (旧日弁連 基準)", "desc": "案件種別・経済利益から 着手金・報酬金の 相場を 即時表示。法律相談 前に 概算を 把握。"}, {"slug": "compensation", "icon": "📜", "title": "慰謝料 相場 (判例ベース)", "desc": "事案別の 慰謝料 相場を 判例 平均から 即時表示。弁護士相談 前に 概算を 把握。"}, {"slug": "gold-buyback", "icon": "🪙", "title": "金・プラチナ 買取 概算", "desc": "純度・重量・当日相場から 買取額を 即時表示。店舗で 買い叩かれる 前に 自分で 計算。"}, {"slug": "furusato-limit", "icon": "🎁", "title": "ふるさと納税 上限額 (給与所得者)", "desc": "年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}, {"slug": "income-wall", "icon": "🚧", "title": "年収の壁 (103・106・130・150万円) 判定", "desc": "パート・アルバイトの 年収から 「どの壁」を 超えると 何が 起きるかを 一発判定。"}, {"slug": "take-home", "icon": "💴", "title": "手取り計算 (年収・月収 → 手取り)", "desc": "額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}, {"slug": "side-tax", "icon": "🧾", "title": "副業 確定申告 必要判定 + 税額", "desc": "副業所得・経費から 確定申告の 要否を 判定し、追加 納税額を 試算。20万円ルール に 対応。"}, {"slug": "ideco-tax", "icon": "🏦", "title": "iDeCo (個人型確定拠出年金) 節税額", "desc": "月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}, {"slug": "unemployment", "icon": "🏃", "title": "失業保険 受給額 (基本手当)", "desc": "離職前6ヶ月の 給与から 基本手当 日額・総額・所定 給付日数を 算出。"}, {"slug": "pension", "icon": "👴", "title": "年金 受給額 概算 (国民年金+厚生年金)", "desc": "加入 状況・平均年収から 65歳以降の 年金 受給額 (月額・年額) を 概算。"}, {"slug": "child-allowance", "icon": "👶", "title": "児童手当 受給額 (2024年制度拡充版)", "desc": "子供の 年齢・人数から 月額・総額を 計算。2024年10月〜 所得制限撤廃 + 高校生 まで 拡大に 対応。"}, {"slug": "overtime-pay", "icon": "⏰", "title": "残業代 未払い 計算機 (割増 込み)", "desc": "労働時間・基本給から 法定 残業代 (時間外/深夜/休日) を 算出。サービス残業の 損失 見える化。"}, {"slug": "paid-leave", "icon": "🏖", "title": "有給休暇 付与日数 (年次有給休暇)", "desc": "入社日から 現在までの 有給 付与日数 + 残日数を 自動計算。労基法 39条 ベース。"}, {"slug": "dismissal-pay", "icon": "📋", "title": "解雇予告手当 計算機", "desc": "解雇予告から 解雇日までの 日数 不足分の 手当 (労基法 20条) を 計算。"}, {"slug": "child-support", "icon": "👨‍👩‍👧", "title": "養育費 相場 (家裁 算定表ベース)", "desc": "離婚後の 養育費 相場を 家庭裁判所の 標準算定方式から 即時表示。"}, {"slug": "buy-vs-rent", "icon": "🏘", "title": "持ち家 vs 賃貸 損益分岐 (30年シミュ)", "desc": "家賃・住宅価格・諸経費から 30年間の 総コストを 比較。「結局 どっち得？」 を 即答。"}, {"slug": "education-cost", "icon": "🎓", "title": "教育費 総額 (幼〜大学・公立私立 別)", "desc": "保育園〜大学までの 教育費 総額を 進路 シナリオ別 に 即時表示。"}, {"slug": "retirement-fund", "icon": "🌅", "title": "老後資金 必要額 (2000万円問題)", "desc": "想定 生活費・年金から 老後 必要 資金を 算出。「2000万円 問題」 の 真相を 自分の 数字で。"}, {"slug": "metabolism", "icon": "🔥", "title": "基礎代謝 + PFC バランス (ダイエット用)", "desc": "Harris-Benedict 式で 基礎代謝・1日必要カロリー・PFC バランスを 算出。ダイエット 計画に。"}, {"slug": "daycare-cost", "icon": "🧒", "title": "保育料 概算 (認可保育所・自治体平均)", "desc": "世帯年収・子供年齢から 認可保育所の 保育料を 概算 (自治体平均)。"}, {"slug": "car-cost", "icon": "🚙", "title": "車 維持費 年間 (税・保険・車検・ガソリン)", "desc": "車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}, {"slug": "mobile-plan", "icon": "📱", "title": "携帯 月額 最適化 (格安SIM 比較)", "desc": "通信量・通話量から 最適な 携帯プランを 提案。3大キャリア vs 格安 SIM の 差を 即時表示。"}, {"slug": "health-check", "icon": "🩺", "title": "健康診断 数値 判定 (信号 表示)", "desc": "血圧・血糖・コレステロール・肝機能 等の 数値を 入力すると 基準値 と 信号 (青/黄/赤) で 判定。"}, {"slug": "mbti", "icon": "🧠", "title": "MBTI 16タイプ 簡易診断 (8問)", "desc": "8つの 質問に 答えるだけで 16タイプの 性格を 判定。INTJ・ENFP 等 シェア用 結果も。"}, {"slug": "life-time", "icon": "⏳", "title": "人生の 残り時間 リアルタイム カウント", "desc": "生年月日 + 性別から 平均寿命までの 残り時間を 秒単位で カウント。今 この 瞬間を 大事に 思える ツール。"}, {"slug": "income-rank", "icon": "📊", "title": "同年代 年収 偏差値・上位 何%", "desc": "年齢・年収を 入力するだけで 「あなたは 同年代の 上位 ◯%」 と 即時表示。賃金構造基本統計調査ベース。"}, {"slug": "savings-rank", "icon": "💰", "title": "同年代 貯金額 偏差値・上位 何%", "desc": "年齢・貯金額から 同年代での 順位を 算出。金融庁 「家計の金融行動」 ベース。"}, {"slug": "days-alive", "icon": "🎂", "title": "生まれてから 何日? 次の キリ番 まで", "desc": "あなたは これまで 何日 生きてきた？10000日・15000日 など キリ番 まで 何日？シェア用 ツール。"}, {"slug": "lifetime-income", "icon": "💵", "title": "生涯年収 シミュレータ", "desc": "現在の 年齢・年収・想定 昇給率から 退職までの 生涯年収を 計算。「人生で あといくら 稼ぐ？」"}, {"slug": "animal-uranai", "icon": "🐾", "title": "動物占い (生年月日 12タイプ)", "desc": "生年月日から 12種類の 動物に 分類。人気の 動物占いで あなたの 性格と 相性が 一目瞭然。"}, {"slug": "name-match", "icon": "💕", "title": "名前 相性 診断 (2人の 名前を 入力)", "desc": "2人の 名前から 相性%を 即時表示。古典的 ながら 永遠の 人気テーマ。"}, {"slug": "image-compress", "icon": "🖼", "title": "画像 圧縮 (ブラウザ内・送信なし)", "desc": "JPEG・PNG 画像を 品質指定で 圧縮。メール添付・SNS投稿 用に サイズダウン。"}, {"slug": "image-resize", "icon": "📐", "title": "画像 リサイズ (px / % 指定)", "desc": "画像を 指定 サイズ や 割合に 一括 リサイズ。SNS用・ブログ用に 整える。"}, {"slug": "kirakira-name", "icon": "✨", "title": "キラキラネーム 度 判定", "desc": "お子さん (or 自分) の 名前を 入れると 「キラキラネーム 度」 を 判定。読みやすさ・当て字度 など。"}, {"slug": "career-test", "icon": "🧭", "title": "適職診断 (10問・5カテゴリ)", "desc": "10問の 質問で あなたに 向いている 職業 カテゴリを 判定。"}, {"slug": "black-company", "icon": "🏴", "title": "ブラック企業度 チェック (10項目)", "desc": "勤務先の 状況を 10項目 チェックすると 「ブラック企業度」 を 100点 満点で 判定。"}, {"slug": "fire-years", "icon": "🔥", "title": "FIRE 達成 年数 (経済的自立 シミュ)", "desc": "年収・支出・投資利回りから 「働かなくても 生きていける」 状態 (FIRE) までの 年数を 算出。"}, {"slug": "taxi-fare", "icon": "🚕", "title": "タクシー料金 概算 (主要都市)", "desc": "距離 (km) と 都市から タクシー料金を 即時 概算。深夜・休日 加算 対応。"}];
+  const cur = 'retirement-pay';
+  const others = all.filter(t => t.slug !== cur).sort(()=>Math.random()-0.5).slice(0, 4);
+  const html = others.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+  const el = document.getElementById('relatedTools');
+  if (el) el.innerHTML = html;
+})();
+</script>
+<script>
+
+// 中央労働委員会 退職金 統計を 簡易化した 支給月数
+const SCHEDULE = [
+  [1, 0.5], [3, 2], [5, 3.5], [10, 8.5], [15, 15.0],
+  [20, 23.0], [25, 32.0], [30, 41.0], [35, 50.0], [40, 58.0]
+];
+function months(years) {
+  if (years <= 1) return 0.5;
+  for (let i = 0; i < SCHEDULE.length - 1; i++) {
+    if (years >= SCHEDULE[i][0] && years < SCHEDULE[i+1][0]) {
+      const [y1, m1] = SCHEDULE[i];
+      const [y2, m2] = SCHEDULE[i+1];
+      return m1 + (m2 - m1) * (years - y1) / (y2 - y1);
+    }
+  }
+  return SCHEDULE[SCHEDULE.length-1][1] + (years - 40) * 1.5;
+}
+function deduction(years) {
+  // 退職所得控除
+  if (years <= 20) return Math.max(800000, 400000 * years);
+  return 8000000 + 700000 * (years - 20);
+}
+// 簡易 所得税率 (退職所得用)
+function incomeTax(taxable) {
+  // taxable = (退職金 - 控除) / 2
+  const T = [
+    [1950000, 0.05, 0],
+    [3300000, 0.10, 97500],
+    [6950000, 0.20, 427500],
+    [9000000, 0.23, 636000],
+    [18000000, 0.33, 1536000],
+    [40000000, 0.40, 2796000],
+    [Infinity, 0.45, 4796000]
+  ];
+  for (const [cap, rate, sub] of T) {
+    if (taxable <= cap) return Math.max(0, taxable * rate - sub);
+  }
+  return 0;
+}
+document.getElementById('calc').onclick = () => {
+  const years = parseFloat(document.getElementById('years').value);
+  const salary = parseFloat(document.getElementById('salary').value);
+  const reasonF = parseFloat(document.getElementById('reason').value);
+  const planF = parseFloat(document.getElementById('plan').value);
+  const mo = months(years);
+  const gross = Math.round(salary * mo * reasonF * planF);
+  const ded = deduction(years);
+  const taxable = Math.max(0, (gross - ded) / 2);
+  const incomeT = incomeTax(taxable);
+  const resTax = taxable * 0.10; // 住民税 10%
+  const tax = Math.round(incomeT + resTax);
+  const net = gross - tax;
+  const fmt = v => '¥' + v.toLocaleString('ja-JP');
+  document.getElementById('gross').textContent = fmt(gross);
+  document.getElementById('tax').textContent = fmt(tax);
+  document.getElementById('net').textContent = fmt(net);
+  document.getElementById('detail').innerHTML =
+    `支給月数: ${mo.toFixed(1)}ヶ月分 (勤続${years}年 → 中労委統計 補間)<br>` +
+    `× 基本給: ¥${salary.toLocaleString('ja-JP')}<br>` +
+    `× 退職事由 係数: ${reasonF.toFixed(2)}<br>` +
+    `× 企業 規模 係数: ${planF.toFixed(2)}<br>` +
+    `<br>退職所得 控除: ¥${ded.toLocaleString('ja-JP')} (勤続${years}年)<br>` +
+    `課税対象 額: ¥${Math.round(taxable).toLocaleString('ja-JP')} (= (退職金 - 控除) / 2)<br>` +
+    `所得税 概算: ¥${Math.round(incomeT).toLocaleString('ja-JP')}<br>` +
+    `住民税 概算: ¥${Math.round(resTax).toLocaleString('ja-JP')}`;
+};
+
+</script>
+</body>
+</html>

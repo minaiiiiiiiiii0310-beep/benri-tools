@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>車 維持費 年間 (税・保険・車検・ガソリン)｜無料ツール・登録不要</title>
+<meta name="description" content="車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。">
+<link rel="canonical" href="https://benri-tools.example.com/car-cost/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<!-- OGP (Facebook・Slack・Discord 等) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://benri-tools.example.com/car-cost/">
+<meta property="og:title" content="車 維持費 年間 (税・保険・車検・ガソリン)｜無料ツール・登録不要">
+<meta property="og:description" content="車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。">
+<meta property="og:image" content="https://benri-tools.example.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card (X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="車 維持費 年間 (税・保険・車検・ガソリン)｜無料ツール・登録不要">
+<meta name="twitter:description" content="車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。">
+<meta name="twitter:image" content="https://benri-tools.example.com/og.png">
+
+<!-- 構造化データ (WebApplication) -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"車 維持費 年間 (税・保険・車検・ガソリン)","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}
+</script>
+
+<link rel="stylesheet" href="../style.css">
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+
+<!-- AdSense (審査通過後 有効化) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>🚙 車 維持費 年間 (税・保険・車検・ガソリン)</h1>
+  <p class="lead">車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。</p>
+
+  <div class="tool">
+    <label>車種:</label>
+    <select id="type" class="in">
+      <option value="kei">軽自動車 (660cc以下)</option>
+      <option value="compact" selected>コンパクト・1.5Lクラス</option>
+      <option value="mid">2.0L クラス</option>
+      <option value="large">2.5L 以上・SUV</option>
+      <option value="luxury">高級車 (3.0L超)</option>
+    </select>
+    <label>年間 走行 距離 (km):</label>
+    <input id="km" class="in" type="number" value="10000" />
+    <label>燃費 (km/L):</label>
+    <input id="kmpl" class="in" type="number" step="0.1" value="18" />
+    <label>ガソリン 単価 (円/L):</label>
+    <input id="gas" class="in" type="number" value="175" />
+    <label>駐車場 月額 (持ち家は 0 円):</label>
+    <input id="parking" class="in" type="number" value="15000" />
+    <label>任意保険 年額 (年齢・等級で 大きく 変動):</label>
+    <input id="insurance" class="in" type="number" value="60000" />
+    <div class="bar"><button type="button" class="btn primary" id="calc">年間 維持費</button></div>
+    <div class="cards">
+      <div class="cell"><div class="num" id="yearly" style="color:#c00;">¥0</div><div class="cap">年間 合計</div></div>
+      <div class="cell"><div class="num" id="monthly">¥0</div><div class="cap">月平均</div></div>
+    </div>
+    <h2>内訳 (年間)</h2>
+    <div id="detail" class="cap" style="font-size:14px;line-height:1.8;"></div>
+
+    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  </div>
+
+  <!-- 記事内 広告 -->
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>よくある質問</h2><dl class="faq"><dt>カーシェア vs 車保有 どっち？</dt><dd>本ツールの 年間合計 / 12 で 月コスト を 出し、カーシェア利用予定 時間 × 料金 (タイムズ 220円/15分) と 比較。月20時間 以下なら カーシェア有利。</dd><dt>EV/HV だと 安い？</dt><dd>HV は ガソリン代 が 30-40% 減。EV は 電気代 < ガソリン代 ですが 車両価格 が 高い + 充電インフラ 課題。本ツールで 燃費 25-40 km/L 設定すると HV シミュ 可能。</dd></dl>
+
+  <!-- 関連 ツール (内部リンク 強化・回遊率UP) -->
+  <h2>🔗 関連 ツール</h2>
+  <div class="grid" id="relatedTools"></div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<!-- 関連 ツール 動的 挿入 -->
+<script>
+(function(){
+  const all = [{"slug": "json-format", "icon": "🧩", "title": "JSON フォーマッタ", "desc": "JSON を 整形（インデント）して 見やすく 表示。入力ミスの 検出にも。"}, {"slug": "url-encode", "icon": "🔗", "title": "URL エンコード / デコード", "desc": "URL に 含められない 文字 (日本語・記号) を %XX 形式に 変換、その 逆も。"}, {"slug": "unixtime", "icon": "⏰", "title": "Unix タイム ⇔ 日時 変換", "desc": "Unix タイムスタンプ（秒/ミリ秒）と JST 日時を 相互 変換。"}, {"slug": "hash", "icon": "🔐", "title": "ハッシュ生成 (SHA-256)", "desc": "テキストの ハッシュ値を 計算。データ 改変チェックや パスワード 比較に。"}, {"slug": "uuid", "icon": "🆔", "title": "UUID v4 生成", "desc": "ランダムな UUID (Universally Unique Identifier) を 生成。"}, {"slug": "loan", "icon": "🏠", "title": "住宅ローン 月返済 計算", "desc": "借入額・金利・年数を 入れると 元利均等の 月返済額と 総支払額を 計算。"}, {"slug": "gas-cost", "icon": "⛽", "title": "ガソリン代 計算", "desc": "走行距離・燃費・ガソリン単価から 費用を 算出。旅行費用 試算に。"}, {"slug": "hourly-yearly", "icon": "💴", "title": "時給 → 月収・年収 換算", "desc": "時給と 1日労働時間・週日数で 月収・年収を 自動計算。"}, {"slug": "deviation", "icon": "📊", "title": "偏差値 計算", "desc": "得点・平均・標準偏差から 偏差値を 計算。試験 結果 分析に。"}, {"slug": "warikan", "icon": "🍻", "title": "割り勘 計算 (幹事 補助付き)", "desc": "合計金額と 人数を 入力。端数 切り上げ・幹事 多めなど 柔軟に 対応。"}, {"slug": "electricity-cost", "icon": "💡", "title": "電気代 シミュレータ", "desc": "家電の 消費電力(W) × 使用時間 × 単価 で 電気代を 算出。電気代 高騰 対策に。"}, {"slug": "nisa-sim", "icon": "📈", "title": "つみたて NISA / 積立投資 シミュレータ", "desc": "毎月の 積立額・年利・期間から 将来 評価額を 複利計算。新NISA 対応。"}, {"slug": "work-hours", "icon": "🕐", "title": "労働時間 集計 (始業・終業・休憩)", "desc": "始業 / 終業 / 休憩から 1日の 労働時間と 賃金を 計算。複数日 集計も。"}, {"slug": "side-job-wage", "icon": "🏷", "title": "副業 実時給 (本当の 時給)", "desc": "月収 を 実労働時間で 割って 「本当の 時給」 を 可視化。経費考慮も。"}, {"slug": "rule-72", "icon": "⏫", "title": "72の法則 (資産 倍化 計算)", "desc": "年利○% で 資産が 2倍に なるのは 何年後？72÷利率 の 早見表 で 直感的に。"}, {"slug": "stopwatch", "icon": "⏱", "title": "ストップウォッチ", "desc": "ミリ秒 単位の 計測。ラップ 記録 機能 付き。"}, {"slug": "timer", "icon": "⏳", "title": "カウントダウン タイマー", "desc": "分秒を 指定 して 開始。終了時 アラーム 音。"}, {"slug": "pomodoro", "icon": "🍅", "title": "ポモドーロ タイマー", "desc": "25分 集中 → 5分 休憩 を 繰り返す 学習 法。4セット で 長休憩。"}, {"slug": "meeting-cost", "icon": "💰", "title": "この 会議いくら？ 会議費用 計算機", "desc": "参加人数 × 時給 × 時間 で 会議の コストを 可視化。「無駄な 会議」 撲滅 ツール。"}, {"slug": "date-shift", "icon": "📆", "title": "○日後 / ○日前 計算", "desc": "指定 日付の N 日後・前を 計算。締切 や 妊娠 出産予定日 計算に。"}, {"slug": "goal-tracker", "icon": "🎯", "title": "目標達成日 逆算 (ダイエット・貯金 等)", "desc": "現在値 → 目標値 まで 1日あたり 進捗で 何日 / いつ 達成かを 計算。"}, {"slug": "read-time", "icon": "📖", "title": "読了時間 予測 (記事・本)", "desc": "テキストを 貼ると 読了 時間を 推定。ブログ 公開時の 「○分で 読めます」 表示に。"}, {"slug": "tweet-count", "icon": "🐦", "title": "X (Twitter) 文字数 カウンター", "desc": "X (旧Twitter) / Bluesky / Threads の 投稿 文字数 を リアルタイム カウント。"}, {"slug": "random", "icon": "🎲", "title": "ランダム 選択 / サイコロ / コイン", "desc": "迷ったら 任せる！選択肢から ランダム 抽選、サイコロ、コイントス。"}, {"slug": "qr-code", "icon": "🔲", "title": "QR コード 生成", "desc": "URL や テキストを QR コード化。スマホで 簡単に 読み取れます。"}, {"slug": "car-buyback", "icon": "🚗", "title": "車 買取 概算 (営業電話なし)", "desc": "メーカー・年式・走行距離から 買取概算を 即時表示。一括査定の 電話地獄なし、個人情報も 不要。"}, {"slug": "realestate-value", "icon": "🏠", "title": "不動産 売却 概算 (営業電話なし)", "desc": "立地・築年数・面積から マンション/戸建/土地の 売却概算を 即時表示。査定サイトに 登録せずに 相場が 分かります。"}, {"slug": "moving-cost", "icon": "🚚", "title": "引越し 費用 概算 (営業電話なし)", "desc": "世帯人数・距離・時期から 引越し費用の 相場を 即時表示。一括見積もりサイトの 電話地獄を 回避。"}, {"slug": "wedding-cost", "icon": "💍", "title": "結婚式 費用 概算 (営業電話なし)", "desc": "招待人数・スタイル・衣装から 結婚式の 総額・自己負担 (ご祝儀 差引後) を 即時表示。"}, {"slug": "renovation-cost", "icon": "🏚", "title": "リフォーム 費用 概算 (営業電話なし)", "desc": "部位を 選ぶだけで リフォーム費用の 相場を 即時表示。訪問見積もりの 高額提案を 回避。"}, {"slug": "career-value", "icon": "💼", "title": "転職 市場価値 (年収相場)", "desc": "業界・役職・経験・スキルから 市場価値 (適正年収) を 即時表示。エージェントを 通さず 相場感を 把握。"}, {"slug": "retirement-pay", "icon": "🛡", "title": "退職金 概算 (税引後 手取り 込み)", "desc": "勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}, {"slug": "lawyer-fee", "icon": "⚖️", "title": "弁護士 費用 相場 (旧日弁連 基準)", "desc": "案件種別・経済利益から 着手金・報酬金の 相場を 即時表示。法律相談 前に 概算を 把握。"}, {"slug": "compensation", "icon": "📜", "title": "慰謝料 相場 (判例ベース)", "desc": "事案別の 慰謝料 相場を 判例 平均から 即時表示。弁護士相談 前に 概算を 把握。"}, {"slug": "gold-buyback", "icon": "🪙", "title": "金・プラチナ 買取 概算", "desc": "純度・重量・当日相場から 買取額を 即時表示。店舗で 買い叩かれる 前に 自分で 計算。"}, {"slug": "furusato-limit", "icon": "🎁", "title": "ふるさと納税 上限額 (給与所得者)", "desc": "年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}, {"slug": "income-wall", "icon": "🚧", "title": "年収の壁 (103・106・130・150万円) 判定", "desc": "パート・アルバイトの 年収から 「どの壁」を 超えると 何が 起きるかを 一発判定。"}, {"slug": "take-home", "icon": "💴", "title": "手取り計算 (年収・月収 → 手取り)", "desc": "額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}, {"slug": "side-tax", "icon": "🧾", "title": "副業 確定申告 必要判定 + 税額", "desc": "副業所得・経費から 確定申告の 要否を 判定し、追加 納税額を 試算。20万円ルール に 対応。"}, {"slug": "ideco-tax", "icon": "🏦", "title": "iDeCo (個人型確定拠出年金) 節税額", "desc": "月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}, {"slug": "unemployment", "icon": "🏃", "title": "失業保険 受給額 (基本手当)", "desc": "離職前6ヶ月の 給与から 基本手当 日額・総額・所定 給付日数を 算出。"}, {"slug": "pension", "icon": "👴", "title": "年金 受給額 概算 (国民年金+厚生年金)", "desc": "加入 状況・平均年収から 65歳以降の 年金 受給額 (月額・年額) を 概算。"}, {"slug": "child-allowance", "icon": "👶", "title": "児童手当 受給額 (2024年制度拡充版)", "desc": "子供の 年齢・人数から 月額・総額を 計算。2024年10月〜 所得制限撤廃 + 高校生 まで 拡大に 対応。"}, {"slug": "overtime-pay", "icon": "⏰", "title": "残業代 未払い 計算機 (割増 込み)", "desc": "労働時間・基本給から 法定 残業代 (時間外/深夜/休日) を 算出。サービス残業の 損失 見える化。"}, {"slug": "paid-leave", "icon": "🏖", "title": "有給休暇 付与日数 (年次有給休暇)", "desc": "入社日から 現在までの 有給 付与日数 + 残日数を 自動計算。労基法 39条 ベース。"}, {"slug": "dismissal-pay", "icon": "📋", "title": "解雇予告手当 計算機", "desc": "解雇予告から 解雇日までの 日数 不足分の 手当 (労基法 20条) を 計算。"}, {"slug": "child-support", "icon": "👨‍👩‍👧", "title": "養育費 相場 (家裁 算定表ベース)", "desc": "離婚後の 養育費 相場を 家庭裁判所の 標準算定方式から 即時表示。"}, {"slug": "buy-vs-rent", "icon": "🏘", "title": "持ち家 vs 賃貸 損益分岐 (30年シミュ)", "desc": "家賃・住宅価格・諸経費から 30年間の 総コストを 比較。「結局 どっち得？」 を 即答。"}, {"slug": "education-cost", "icon": "🎓", "title": "教育費 総額 (幼〜大学・公立私立 別)", "desc": "保育園〜大学までの 教育費 総額を 進路 シナリオ別 に 即時表示。"}, {"slug": "retirement-fund", "icon": "🌅", "title": "老後資金 必要額 (2000万円問題)", "desc": "想定 生活費・年金から 老後 必要 資金を 算出。「2000万円 問題」 の 真相を 自分の 数字で。"}, {"slug": "metabolism", "icon": "🔥", "title": "基礎代謝 + PFC バランス (ダイエット用)", "desc": "Harris-Benedict 式で 基礎代謝・1日必要カロリー・PFC バランスを 算出。ダイエット 計画に。"}, {"slug": "daycare-cost", "icon": "🧒", "title": "保育料 概算 (認可保育所・自治体平均)", "desc": "世帯年収・子供年齢から 認可保育所の 保育料を 概算 (自治体平均)。"}, {"slug": "car-cost", "icon": "🚙", "title": "車 維持費 年間 (税・保険・車検・ガソリン)", "desc": "車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}, {"slug": "mobile-plan", "icon": "📱", "title": "携帯 月額 最適化 (格安SIM 比較)", "desc": "通信量・通話量から 最適な 携帯プランを 提案。3大キャリア vs 格安 SIM の 差を 即時表示。"}, {"slug": "health-check", "icon": "🩺", "title": "健康診断 数値 判定 (信号 表示)", "desc": "血圧・血糖・コレステロール・肝機能 等の 数値を 入力すると 基準値 と 信号 (青/黄/赤) で 判定。"}, {"slug": "mbti", "icon": "🧠", "title": "MBTI 16タイプ 簡易診断 (8問)", "desc": "8つの 質問に 答えるだけで 16タイプの 性格を 判定。INTJ・ENFP 等 シェア用 結果も。"}, {"slug": "life-time", "icon": "⏳", "title": "人生の 残り時間 リアルタイム カウント", "desc": "生年月日 + 性別から 平均寿命までの 残り時間を 秒単位で カウント。今 この 瞬間を 大事に 思える ツール。"}, {"slug": "income-rank", "icon": "📊", "title": "同年代 年収 偏差値・上位 何%", "desc": "年齢・年収を 入力するだけで 「あなたは 同年代の 上位 ◯%」 と 即時表示。賃金構造基本統計調査ベース。"}, {"slug": "savings-rank", "icon": "💰", "title": "同年代 貯金額 偏差値・上位 何%", "desc": "年齢・貯金額から 同年代での 順位を 算出。金融庁 「家計の金融行動」 ベース。"}, {"slug": "days-alive", "icon": "🎂", "title": "生まれてから 何日? 次の キリ番 まで", "desc": "あなたは これまで 何日 生きてきた？10000日・15000日 など キリ番 まで 何日？シェア用 ツール。"}, {"slug": "lifetime-income", "icon": "💵", "title": "生涯年収 シミュレータ", "desc": "現在の 年齢・年収・想定 昇給率から 退職までの 生涯年収を 計算。「人生で あといくら 稼ぐ？」"}, {"slug": "animal-uranai", "icon": "🐾", "title": "動物占い (生年月日 12タイプ)", "desc": "生年月日から 12種類の 動物に 分類。人気の 動物占いで あなたの 性格と 相性が 一目瞭然。"}, {"slug": "name-match", "icon": "💕", "title": "名前 相性 診断 (2人の 名前を 入力)", "desc": "2人の 名前から 相性%を 即時表示。古典的 ながら 永遠の 人気テーマ。"}, {"slug": "image-compress", "icon": "🖼", "title": "画像 圧縮 (ブラウザ内・送信なし)", "desc": "JPEG・PNG 画像を 品質指定で 圧縮。メール添付・SNS投稿 用に サイズダウン。"}, {"slug": "image-resize", "icon": "📐", "title": "画像 リサイズ (px / % 指定)", "desc": "画像を 指定 サイズ や 割合に 一括 リサイズ。SNS用・ブログ用に 整える。"}, {"slug": "kirakira-name", "icon": "✨", "title": "キラキラネーム 度 判定", "desc": "お子さん (or 自分) の 名前を 入れると 「キラキラネーム 度」 を 判定。読みやすさ・当て字度 など。"}, {"slug": "career-test", "icon": "🧭", "title": "適職診断 (10問・5カテゴリ)", "desc": "10問の 質問で あなたに 向いている 職業 カテゴリを 判定。"}, {"slug": "black-company", "icon": "🏴", "title": "ブラック企業度 チェック (10項目)", "desc": "勤務先の 状況を 10項目 チェックすると 「ブラック企業度」 を 100点 満点で 判定。"}, {"slug": "fire-years", "icon": "🔥", "title": "FIRE 達成 年数 (経済的自立 シミュ)", "desc": "年収・支出・投資利回りから 「働かなくても 生きていける」 状態 (FIRE) までの 年数を 算出。"}, {"slug": "taxi-fare", "icon": "🚕", "title": "タクシー料金 概算 (主要都市)", "desc": "距離 (km) と 都市から タクシー料金を 即時 概算。深夜・休日 加算 対応。"}];
+  const cur = 'car-cost';
+  const others = all.filter(t => t.slug !== cur).sort(()=>Math.random()-0.5).slice(0, 4);
+  const html = others.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+  const el = document.getElementById('relatedTools');
+  if (el) el.innerHTML = html;
+})();
+</script>
+<script>
+
+document.getElementById('calc').onclick = () => {
+  const type = document.getElementById('type').value;
+  const km = parseFloat(document.getElementById('km').value) || 0;
+  const kmpl = parseFloat(document.getElementById('kmpl').value) || 1;
+  const gas = parseFloat(document.getElementById('gas').value) || 0;
+  const parking = parseFloat(document.getElementById('parking').value) || 0;
+  const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+  // 自動車税 (年額)
+  const tax = {kei: 10800, compact: 30500, mid: 39500, large: 51000, luxury: 88000}[type];
+  // 自賠責 (年換算 = 2年分 / 2)
+  const jibai = {kei: 11000, compact: 12500, mid: 12500, large: 12500, luxury: 12500}[type];
+  // 車検 (2年に1回・年換算): 法定費用 + 整備
+  const shaken_total = {kei: 60000, compact: 80000, mid: 100000, large: 130000, luxury: 180000}[type];
+  const shaken = shaken_total / 2;
+  // ガソリン代
+  const fuel = (km / kmpl) * gas;
+  // 駐車場
+  const park_yearly = parking * 12;
+  // メンテ (タイヤ・オイル・洗車 等)
+  const maint = {kei: 30000, compact: 40000, mid: 50000, large: 60000, luxury: 80000}[type];
+  const total = tax + jibai + shaken + fuel + park_yearly + insurance + maint;
+  const fmt = v => '¥' + Math.round(v).toLocaleString('ja-JP');
+  document.getElementById('yearly').textContent = fmt(total);
+  document.getElementById('monthly').textContent = fmt(total / 12);
+  document.getElementById('detail').innerHTML =
+    `自動車税: ${fmt(tax)}<br>` +
+    `自賠責 保険 (年換算): ${fmt(jibai)}<br>` +
+    `車検 (年換算): ${fmt(shaken)}<br>` +
+    `任意保険: ${fmt(insurance)}<br>` +
+    `ガソリン代 (${km.toLocaleString('ja-JP')}km × ${gas}円÷${kmpl}km/L): ${fmt(fuel)}<br>` +
+    `駐車場 (年): ${fmt(park_yearly)}<br>` +
+    `メンテナンス (タイヤ・オイル・洗車 等): ${fmt(maint)}<br>` +
+    `<strong>合計: ${fmt(total)}/年</strong>`;
+};
+
+</script>
+</body>
+</html>

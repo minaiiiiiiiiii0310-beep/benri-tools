@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e88e5"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="200" font-size="72" font-weight="900" text-anchor="middle" fill="white" font-family="sans-serif">便利ツール 80選</text>
+  <text x="600" y="290" font-size="40" text-anchor="middle" fill="#bbdefb" font-family="sans-serif">面倒・わかりにくいを 即答に</text>
+  <text x="600" y="400" font-size="32" text-anchor="middle" fill="white" font-family="sans-serif">MBTI ・ 年収偏差値 ・ 画像圧縮 ・ ふるさと納税</text>
+  <text x="600" y="450" font-size="32" text-anchor="middle" fill="white" font-family="sans-serif">手取り計算 ・ 残業代 ・ 養育費 ・ 老後資金</text>
+  <text x="600" y="560" font-size="28" text-anchor="middle" fill="#bbdefb" font-family="sans-serif">🔒 全て ブラウザ内 処理 ・ 登録不要 ・ 完全無料</text>
+</svg>

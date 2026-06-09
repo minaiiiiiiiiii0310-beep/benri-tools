@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西暦・和暦変換ツール｜令和・平成・昭和を一発変換</title>
+<meta name="description" content="西暦と和暦（令和・平成・昭和・大正・明治）を相互に変換。年を入力するだけで一瞬で変換できる無料ツール。登録不要・ブラウザ内処理。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>西暦・和暦変換</h1>
+  <p class="lead">西暦と和暦（令和・平成・昭和・大正・明治）を相互に変換します。年を入力すると自動で変換します。</p>
+
+  <div class="tool">
+    <h2 style="border:none;padding:0;font-size:16px;">西暦 → 和暦</h2>
+    <div class="row"><label>西暦（年）</label><input type="number" id="sei" class="in" placeholder="例：2026"></div>
+    <div class="result"><span id="outA" class="lbl">西暦を入力してください</span></div>
+
+    <h2 style="border:none;padding:0;font-size:16px;margin-top:20px;">和暦 → 西暦</h2>
+    <div class="row"><label>元号</label><select id="era" class="in"><option>令和</option><option>平成</option><option>昭和</option><option>大正</option><option>明治</option></select></div>
+    <div class="row"><label>年</label><input type="number" id="num" class="in" placeholder="例：8"></div>
+    <div class="result"><span id="outB" class="lbl">年を入力してください</span></div>
+  </div>
+
+  <h2>元号の対応（開始年）</h2>
+  <dl class="faq">
+    <dt>令和</dt><dd>2019年〜（令和元年 = 2019年）</dd>
+    <dt>平成</dt><dd>1989年〜2019年</dd>
+    <dt>昭和</dt><dd>1926年〜1989年</dd>
+    <dt>大正 / 明治</dt><dd>大正：1912年〜／明治：1868年〜</dd>
+  </dl>
+  <p class="note">※ 改元のあった年は年内に元号が変わるため、境界年は実際の月日により異なる場合があります。</p>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+
+<script>
+(function(){
+  var si=document.getElementById('sei');
+  function s2w(y){ if(y>=2019)return '令和'+(y-2018)+'年'; if(y>=1989)return '平成'+(y-1988)+'年'; if(y>=1926)return '昭和'+(y-1925)+'年'; if(y>=1912)return '大正'+(y-1911)+'年'; if(y>=1868)return '明治'+(y-1867)+'年'; return '明治より前は非対応'; }
+  var base={'令和':2018,'平成':1988,'昭和':1925,'大正':1911,'明治':1867};
+  function a(){ var y=parseInt(si.value); if(isNaN(y)){document.getElementById('outA').textContent='西暦を入力してください';return;} document.getElementById('outA').textContent=y+'年 = '+s2w(y); }
+  function b(){ var e=document.getElementById('era').value, n=parseInt(document.getElementById('num').value); if(isNaN(n)||n<1){document.getElementById('outB').textContent='年を入力してください';return;} document.getElementById('outB').textContent=e+n+'年 = 西暦 '+(base[e]+n)+' 年'; }
+  si.addEventListener('input',a);
+  document.getElementById('era').addEventListener('change',b);
+  document.getElementById('num').addEventListener('input',b);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消費税計算ツール｜税込・税抜を一瞬で計算（10%/8%対応）</title>
+<meta name="description" content="金額を入力するだけで、税抜→税込／税込→税抜を一瞬で計算。消費税10%と軽減税率8%に対応。消費税額も表示。登録不要・無料。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>消費税計算</h1>
+  <p class="lead">金額を入力すると、税込・税抜と消費税額を一瞬で計算します。10%・軽減税率8%に対応。</p>
+
+  <div class="tool">
+    <div class="row"><label>金額 (円)</label><input type="number" id="amt" class="in" placeholder="例：1000"></div>
+    <div class="checks">
+      <label><input type="radio" name="mode" value="add" checked> 税抜→税込</label>
+      <label><input type="radio" name="mode" value="sub"> 税込→税抜</label>
+    </div>
+    <div class="checks">
+      <label><input type="radio" name="rate" value="10" checked> 10%</label>
+      <label><input type="radio" name="rate" value="8"> 8%（軽減税率）</label>
+    </div>
+    <div class="result"><span id="out" class="lbl">金額を入力してください</span></div>
+  </div>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>軽減税率8%とは？</dt><dd>飲食料品（外食・酒類を除く）や定期購読の新聞などに適用される税率です。</dd>
+    <dt>端数の扱いは？</dt><dd>税抜→税込は消費税を切り捨て、税込→税抜は税抜額を四捨五入で計算しています（事業者の処理により差が出る場合があります）。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+
+<script>
+(function(){
+  var box=document.getElementById('amt');
+  function calc(){
+    var amt=parseFloat(box.value);
+    if(isNaN(amt)){document.getElementById('out').textContent='金額を入力してください';return;}
+    var rate=parseFloat(document.querySelector('input[name=rate]:checked').value);
+    var mode=document.querySelector('input[name=mode]:checked').value, res;
+    if(mode==='add'){ var t=Math.floor(amt*rate/100); res='税込：'+Math.floor(amt+t).toLocaleString()+' 円（うち消費税 '+t.toLocaleString()+' 円）'; }
+    else { var net=Math.round(amt/(1+rate/100)); res='税抜：'+net.toLocaleString()+' 円（うち消費税 '+(amt-net).toLocaleString()+' 円）'; }
+    document.getElementById('out').textContent=res;
+  }
+  box.addEventListener('input',calc);
+  var rs=document.querySelectorAll('input[name=rate],input[name=mode]');
+  for(var i=0;i<rs.length;i++){rs[i].addEventListener('change',calc);}
+})();
+</script>
+</body>
+</html>

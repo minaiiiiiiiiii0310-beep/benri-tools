@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文字数カウント｜コピペで一瞬・無料ツール</title>
+<meta name="description" content="貼り付けるだけで文字数を瞬時にカウント。空白あり/なし、行数、原稿用紙換算、全角半角、バイト数も表示。登録不要・ブラウザ内処理で安全な無料ツール。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>文字数カウント</h1>
+  <p class="lead">テキストを入力・貼り付けすると、文字数を自動でカウントします。レポートやSNS投稿の文字数チェックに。</p>
+
+  <div class="tool">
+    <textarea id="input" class="in" placeholder="ここに文章を貼り付けてください"></textarea>
+    <div class="bar">
+      <button type="button" class="btn primary" id="copy">本文をコピー<span class="copied" id="copied">コピーしました</span></button>
+      <button type="button" class="btn ghost" id="clear">クリア</button>
+    </div>
+    <div class="cards">
+      <div class="cell"><div class="num" id="all">0</div><div class="cap">文字数（空白含む）</div></div>
+      <div class="cell"><div class="num" id="nospace">0</div><div class="cap">文字数（空白除く）</div></div>
+      <div class="cell"><div class="num" id="lines">0</div><div class="cap">行数</div></div>
+      <div class="cell"><div class="num" id="genko">0</div><div class="cap">原稿用紙（400字）</div></div>
+      <div class="cell"><div class="num" id="zen">0</div><div class="cap">全角文字数</div></div>
+      <div class="cell"><div class="num" id="han">0</div><div class="cap">半角文字数</div></div>
+      <div class="cell"><div class="num" id="byte">0</div><div class="cap">バイト数(UTF-8)</div></div>
+    </div>
+    <p class="note">🔒 入力した文章はあなたのブラウザ内だけで処理され、サーバーには送信されません。</p>
+  </div>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>全角・半角はどう数えますか？</dt><dd>日本語などは全角、英数字・記号は半角として個別にカウントします。</dd>
+    <dt>原稿用紙の枚数は？</dt><dd>空白を除いた文字数を400字で割って算出します（端数は切り上げ）。</dd>
+    <dt>入力した文章は保存されますか？</dt><dd>いいえ。すべてブラウザ内で処理され、どこにも送信・保存されません。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+
+<script>
+(function(){
+  var ta=document.getElementById('input');
+  function fmt(n){return n.toLocaleString('ja-JP');}
+  function isSpace(c){return c===32||c===9||c===10||c===13||c===12||c===12288;}
+  function isFull(code){ if(code<=127)return false; if(code>=65377&&code<=65439)return false; return true; }
+  function update(){
+    var t=ta.value, chars=Array.from(t), all=chars.length, noSpace=0, zen=0, han=0;
+    for(var i=0;i<chars.length;i++){ var code=chars[i].charCodeAt(0); if(isSpace(code))continue; noSpace++; if(isFull(code))zen++; else han++; }
+    var clean=t.split(String.fromCharCode(13)).join('');
+    var lines=t.length===0?0:clean.split(String.fromCharCode(10)).length;
+    var bytes=new Blob([t]).size, genko=Math.ceil(noSpace/400);
+    document.getElementById('all').textContent=fmt(all);
+    document.getElementById('nospace').textContent=fmt(noSpace);
+    document.getElementById('lines').textContent=fmt(lines);
+    document.getElementById('genko').textContent=fmt(genko);
+    document.getElementById('zen').textContent=fmt(zen);
+    document.getElementById('han').textContent=fmt(han);
+    document.getElementById('byte').textContent=fmt(bytes);
+  }
+  ta.addEventListener('input',update);
+  document.getElementById('clear').addEventListener('click',function(){ta.value='';update();ta.focus();});
+  document.getElementById('copy').addEventListener('click',function(){
+    if(!ta.value)return; var c=document.getElementById('copied');
+    function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(fin).catch(fin);} else {ta.select();document.execCommand('copy');fin();}
+  });
+  update();
+})();
+</script>
+</body>
+</html>

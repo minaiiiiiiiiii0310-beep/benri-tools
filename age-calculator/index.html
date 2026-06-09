@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年齢計算ツール｜生年月日から満年齢を自動計算（無料）</title>
+<meta name="description" content="生年月日を入れるだけで、満年齢・あと何日で誕生日・生まれてからの総日数を自動計算。登録不要・無料の年齢計算ツール。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>年齢計算</h1>
+  <p class="lead">生年月日を入力すると、今日時点の満年齢・次の誕生日まで・生まれてからの日数を自動で計算します。</p>
+  <div class="tool">
+    <div class="row"><label>生年月日</label><input type="date" id="bd" class="in"></div>
+    <div class="result"><span class="big" id="age">--</span><div class="lbl">歳</div><div id="detail" class="lbl">生年月日を入力してください</div></div>
+  </div>
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>満年齢とは？</dt><dd>生まれた日を0歳とし、誕生日ごとに1歳増える、日本で一般的な数え方です。</dd>
+    <dt>入力した情報は保存されますか？</dt><dd>いいえ。すべてブラウザ内で計算され、外部に送信されません。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var bd=document.getElementById('bd');
+  function calc(){
+    if(!bd.value){document.getElementById('age').textContent='--';document.getElementById('detail').textContent='生年月日を入力してください';return;}
+    var p=bd.value.split('-'); var b=new Date(+p[0],+p[1]-1,+p[2]);
+    var n=new Date(); var today=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+    if(b>today){document.getElementById('age').textContent='--';document.getElementById('detail').textContent='未来の日付です';return;}
+    var y=today.getFullYear()-b.getFullYear(), m=today.getMonth()-b.getMonth(), d=today.getDate()-b.getDate();
+    if(d<0){ m--; d+=new Date(today.getFullYear(),today.getMonth(),0).getDate(); }
+    if(m<0){ y--; m+=12; }
+    var nb=new Date(today.getFullYear(),b.getMonth(),b.getDate());
+    if(nb<today) nb=new Date(today.getFullYear()+1,b.getMonth(),b.getDate());
+    var until=Math.round((nb-today)/86400000);
+    var total=Math.round((today-b)/86400000);
+    document.getElementById('age').textContent=y;
+    var bstr=(until===0)?'今日は誕生日です！🎉':('次の誕生日まで あと '+until.toLocaleString()+' 日');
+    document.getElementById('detail').innerHTML='満'+y+'歳 '+m+'ヶ月 '+d+'日<br>'+bstr+'<br>生まれてから '+total.toLocaleString()+' 日';
+  }
+  bd.addEventListener('input',calc);
+})();
+</script>
+</body>
+</html>

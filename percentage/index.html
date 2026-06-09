@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パーセント計算ツール｜割合・増減率を簡単計算（無料）</title>
+<meta name="description" content="「XのY%は？」「XはYの何%？」「XからYへの増減率は？」を一瞬で計算。割引や割合の計算に。登録不要・無料のパーセント計算ツール。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>パーセント計算</h1>
+  <p class="lead">割合・割引・増減率の計算をまとめて。よく使う3パターンに対応しています。</p>
+
+  <div class="tool">
+    <h2 style="border:none;padding:0;font-size:16px;">① XのY%はいくつ？</h2>
+    <div class="row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="number" id="a1" class="in" style="max-width:140px" placeholder="X"> の <input type="number" id="a2" class="in" style="max-width:120px" placeholder="Y">%</div>
+    <div class="result"><span id="r1" class="lbl">数値を入力してください</span></div>
+
+    <h2 style="border:none;padding:0;font-size:16px;margin-top:20px;">② XはYの何％？</h2>
+    <div class="row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="number" id="b1" class="in" style="max-width:140px" placeholder="X"> は <input type="number" id="b2" class="in" style="max-width:140px" placeholder="Y"> の…</div>
+    <div class="result"><span id="r2" class="lbl">数値を入力してください</span></div>
+
+    <h2 style="border:none;padding:0;font-size:16px;margin-top:20px;">③ XからYへの増減率は？</h2>
+    <div class="row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="number" id="c1" class="in" style="max-width:140px" placeholder="元の値 X"> → <input type="number" id="c2" class="in" style="max-width:140px" placeholder="後の値 Y"></div>
+    <div class="result"><span id="r3" class="lbl">数値を入力してください</span></div>
+  </div>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  function num(id){ var v=parseFloat(document.getElementById(id).value); return isNaN(v)?null:v; }
+  function calc(){
+    var a1=num('a1'),a2=num('a2');
+    document.getElementById('r1').textContent=(a1!==null&&a2!==null)?(a1+' の '+a2+'% = '+(a1*a2/100).toLocaleString()):'数値を入力してください';
+    var b1=num('b1'),b2=num('b2');
+    document.getElementById('r2').textContent=(b1!==null&&b2!==null&&b2!==0)?(b1+' は '+b2+' の '+(b1/b2*100).toFixed(2)+'%'):'数値を入力してください';
+    var c1=num('c1'),c2=num('c2');
+    if(c1!==null&&c2!==null&&c1!==0){ var rate=(c2-c1)/c1*100; document.getElementById('r3').textContent=(rate>=0?'+':'')+rate.toFixed(2)+'%（'+(rate>=0?'増加':'減少')+'）'; }
+    else document.getElementById('r3').textContent='数値を入力してください';
+  }
+  ['a1','a2','b1','b2','c1','c2'].forEach(function(id){document.getElementById(id).addEventListener('input',calc);});
+})();
+</script>
+</body>
+</html>

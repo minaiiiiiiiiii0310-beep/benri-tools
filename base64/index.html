@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base64エンコード・デコードツール｜日本語対応・無料</title>
+<meta name="description" content="テキストをBase64にエンコード／デコードできる無料ツール。日本語（UTF-8）にも対応。すべてブラウザ内で処理し送信しません。登録不要。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>Base64 エンコード / デコード</h1>
+  <p class="lead">テキストをBase64に変換、またはBase64から元に戻します。日本語（UTF-8）にも対応しています。</p>
+  <div class="tool">
+    <div class="row"><label>入力テキスト</label><textarea id="src" class="in" placeholder="変換したい文字列を入力"></textarea></div>
+    <div class="bar"><button class="btn primary" id="enc">エンコード →</button><button class="btn primary" id="dec">← デコード</button><button class="btn ghost" id="clear">クリア</button></div>
+    <div class="row"><label>結果<span class="copied" id="copied">コピーしました</span></label><textarea id="out" class="out" readonly placeholder="結果がここに表示されます"></textarea></div>
+    <div class="bar"><button class="btn ghost" id="copy">結果をコピー</button></div>
+    <p class="note">🔒 変換はすべてブラウザ内で行われ、入力内容は送信されません。</p>
+  </div>
+  <h2>Base64とは？</h2>
+  <dl class="faq">
+    <dt>Base64</dt><dd>データを英数字と記号（A-Z, a-z, 0-9, +, /）だけで表す方式。メールやデータ埋め込みでよく使われます。</dd>
+    <dt>日本語は使えますか？</dt><dd>はい。UTF-8として正しくエンコード／デコードします。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var src=document.getElementById('src'), out=document.getElementById('out');
+  document.getElementById('enc').addEventListener('click',function(){
+    try{ out.value=btoa(unescape(encodeURIComponent(src.value))); }catch(e){ out.value='エンコードできませんでした'; }
+  });
+  document.getElementById('dec').addEventListener('click',function(){
+    try{ out.value=decodeURIComponent(escape(atob(src.value.trim()))); }catch(e){ out.value='デコードできません（正しいBase64ではありません）'; }
+  });
+  document.getElementById('clear').addEventListener('click',function(){ src.value=''; out.value=''; src.focus(); });
+  document.getElementById('copy').addEventListener('click',function(){
+    if(!out.value)return; var c=document.getElementById('copied');
+    function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(out.value).then(fin).catch(fin);}else{out.select();document.execCommand('copy');fin();}
+  });
+})();
+</script>
+</body>
+</html>

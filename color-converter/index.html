@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カラーコード変換ツール｜HEX⇔RGB相互変換（無料）</title>
+<meta name="description" content="カラーコードをHEX（#RRGGBB）とRGBで相互変換できる無料ツール。カラーピッカーつき。Webデザイン・CSS作成に。登録不要・ブラウザ内処理。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>カラーコード変換（HEX ⇔ RGB）</h1>
+  <p class="lead">HEXコード（#RRGGBB）とRGB値を相互に変換します。カラーピッカーで選んでもOK。CSSやデザインに。</p>
+  <div class="tool">
+    <div class="row"><label>カラーピッカー</label><input type="color" id="pick" value="#2b7de9" style="width:80px;height:44px;border:1px solid #d0d7de;border-radius:8px;background:#fff;"></div>
+    <div class="row"><label>HEX</label><input type="text" id="hex" class="in" placeholder="#2b7de9" value="#2b7de9"></div>
+    <div class="row"><label>RGB</label><input type="text" id="rgb" class="in" placeholder="rgb(43, 125, 233)"></div>
+    <div class="result"><div id="preview" style="height:60px;border-radius:8px;border:1px solid #e2e8f0;background:#2b7de9;"></div></div>
+  </div>
+  <h2>使い方</h2>
+  <dl class="faq">
+    <dt>HEX → RGB</dt><dd>HEX欄に「#2b7de9」のように入力すると、RGBとプレビューが更新されます。</dd>
+    <dt>RGB → HEX</dt><dd>RGB欄に「43,125,233」または「rgb(43,125,233)」と入力すると、HEXが更新されます。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var pick=document.getElementById('pick'), hex=document.getElementById('hex'), rgb=document.getElementById('rgb'), prev=document.getElementById('preview');
+  function clamp(n){ return Math.max(0,Math.min(255,n)); }
+  function toHex(r,g,b){ function h(n){var s=clamp(n).toString(16);return s.length<2?'0'+s:s;} return '#'+h(r)+h(g)+h(b); }
+  function apply(r,g,b){
+    var hx=toHex(r,g,b);
+    hex.value=hx; rgb.value='rgb('+clamp(r)+', '+clamp(g)+', '+clamp(b)+')'; prev.style.background=hx; pick.value=hx;
+  }
+  function fromHex(v){
+    v=v.replace('#','').trim();
+    if(v.length===3) v=v[0]+v[0]+v[1]+v[1]+v[2]+v[2];
+    if(v.length!==6||/[^0-9a-fA-F]/.test(v)) return null;
+    return [parseInt(v.substr(0,2),16),parseInt(v.substr(2,2),16),parseInt(v.substr(4,2),16)];
+  }
+  pick.addEventListener('input',function(){ var c=fromHex(pick.value); if(c)apply(c[0],c[1],c[2]); });
+  hex.addEventListener('input',function(){ var c=fromHex(hex.value); if(c)apply(c[0],c[1],c[2]); });
+  rgb.addEventListener('input',function(){ var m=rgb.value.match(/\d+/g); if(m&&m.length>=3)apply(+m[0],+m[1],+m[2]); });
+  apply(43,125,233);
+})();
+</script>
+</body>
+</html>

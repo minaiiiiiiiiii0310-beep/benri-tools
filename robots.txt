@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://benri-tools.example.com/sitemap.xml

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日数計算ツール｜2つの日付の間の日数を計算（無料）</title>
+<meta name="description" content="開始日と終了日を入れるだけで、その間の日数を自動計算。記念日・締切・経過日数の確認に。登録不要・無料の日数計算ツール。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>日数計算（日付の間の日数）</h1>
+  <p class="lead">2つの日付を入力すると、その間の日数を自動で計算します。締切までの残り日数や、経過日数の確認に便利です。</p>
+  <div class="tool">
+    <div class="row"><label>開始日</label><input type="date" id="d1" class="in"></div>
+    <div class="row"><label>終了日</label><input type="date" id="d2" class="in"></div>
+    <div class="result"><span class="big" id="days">--</span><div class="lbl">日</div><div id="detail" class="lbl">2つの日付を入力してください</div></div>
+  </div>
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>両端の日は含まれますか？</dt><dd>標準では「差の日数」（終了日−開始日）を表示します。両端を含む日数も併記します。</dd>
+    <dt>過去・未来どちらでもOK？</dt><dd>はい。終了日が開始日より前でも、日数を計算します。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var d1=document.getElementById('d1'), d2=document.getElementById('d2');
+  function p(v){ var a=v.split('-'); return new Date(+a[0],+a[1]-1,+a[2]); }
+  function calc(){
+    if(!d1.value||!d2.value){document.getElementById('days').textContent='--';document.getElementById('detail').textContent='2つの日付を入力してください';return;}
+    var diff=Math.round((p(d2.value)-p(d1.value))/86400000);
+    var abs=Math.abs(diff);
+    document.getElementById('days').textContent=abs.toLocaleString();
+    var dir=diff<0?'（終了日が前です）':'';
+    document.getElementById('detail').innerHTML='差の日数：'+abs.toLocaleString()+' 日 '+dir+'<br>両端を含む：'+(abs+1).toLocaleString()+' 日<br>約 '+(abs/7).toFixed(1)+' 週間 / 約 '+(abs/30.44).toFixed(1)+' ヶ月';
+  }
+  d1.addEventListener('input',calc); d2.addEventListener('input',calc);
+})();
+</script>
+</body>
+</html>

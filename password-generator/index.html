@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パスワード生成ツール｜安全なランダムパスワードを無料作成</title>
+<meta name="description" content="強力でランダムなパスワードを無料生成。文字数や文字種（英大小・数字・記号）を選べます。暗号学的乱数を使い、ブラウザ内で生成。登録不要・安全。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>パスワード生成</h1>
+  <p class="lead">推測されにくい強力なパスワードを、その場でランダム生成します。文字数と文字種を選んでください。</p>
+
+  <div class="tool">
+    <div class="row"><label>文字数： <span id="lenval">12</span></label><input type="range" id="len" min="4" max="64" value="12" style="width:100%"></div>
+    <div class="checks">
+      <label><input type="checkbox" id="lower" checked> 英小文字</label>
+      <label><input type="checkbox" id="upper" checked> 英大文字</label>
+      <label><input type="checkbox" id="num" checked> 数字</label>
+      <label><input type="checkbox" id="sym"> 記号</label>
+    </div>
+    <div class="bar"><button class="btn primary" id="gen">生成する</button><button class="btn ghost" id="copy">コピー<span class="copied" id="copied">コピーしました</span></button></div>
+    <input type="text" id="out" class="out" readonly>
+    <p class="note">🔒 パスワードは暗号学的乱数でブラウザ内生成され、どこにも送信されません。</p>
+  </div>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>安全なパスワードの長さは？</dt><dd>一般に12文字以上で英大小・数字・記号を混ぜると安全性が高まります。</dd>
+    <dt>生成したパスワードは漏れませんか？</dt><dd>生成はすべてあなたのブラウザ内で完結し、サーバーには一切送信されません。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+
+<script>
+(function(){
+  function gen(){
+    var len=parseInt(document.getElementById('len').value)||12;
+    var s='';
+    if(document.getElementById('lower').checked)s+='abcdefghijklmnopqrstuvwxyz';
+    if(document.getElementById('upper').checked)s+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if(document.getElementById('num').checked)s+='0123456789';
+    if(document.getElementById('sym').checked)s+='!@#%&*()-_=+?';
+    if(!s){document.getElementById('out').value='1種類以上を選んでください';return;}
+    var a=new Uint32Array(len),o='';
+    crypto.getRandomValues(a);
+    for(var i=0;i<len;i++){o+=s.charAt(a[i]%s.length);}
+    document.getElementById('out').value=o;
+  }
+  document.getElementById('gen').addEventListener('click',gen);
+  document.getElementById('copy').addEventListener('click',function(){
+    var o=document.getElementById('out'); if(!o.value)return;
+    var c=document.getElementById('copied');
+    function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o.value).then(fin).catch(fin);} else {o.select();document.execCommand('copy');fin();}
+  });
+  var sl=document.getElementById('len');
+  sl.addEventListener('input',function(){document.getElementById('lenval').textContent=sl.value;});
+  gen();
+})();
+</script>
+</body>
+</html>
