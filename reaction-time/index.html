@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>反応速度テスト｜あなたの反射神経は何ミリ秒？（無料・登録不要）</title>
+<meta name="description" content="画面が緑になった瞬間にクリック。5回の平均反応速度(ミリ秒)を測定し、反射神経をランク判定します。無料・登録不要・ブラウザ完結。結果をシェアして友達と勝負！">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>⚡ 反応速度テスト</h1>
+  <p class="lead">画面が<strong>緑になった瞬間</strong>にクリック（タップ）！ 5回の平均で、あなたの反射神経をランク判定します。早押しゲーム感覚でどうぞ。</p>
+
+  <div class="tool">
+    <div id="board" style="user-select:none;cursor:pointer;border-radius:14px;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;font-weight:800;background:#2563eb;transition:background .05s;padding:20px;">
+      <div id="big" style="font-size:30px;line-height:1.4;">クリックして<br>スタート</div>
+      <div id="sub" style="font-size:15px;font-weight:600;margin-top:10px;opacity:.92;">緑になったらすぐクリック！（5回）</div>
+    </div>
+    <div class="result" id="scorebox" style="display:none;">
+      <span class="big" id="avg">--</span><div class="lbl">ミリ秒（平均）</div>
+      <div class="lbl" id="rank"></div>
+      <div class="lbl" id="detail" style="font-size:13px;margin-top:6px;"></div>
+      <div class="bar" style="justify-content:center;"><button class="btn primary" id="again">もう一度</button><button class="btn ghost" id="share">結果をコピー</button></div>
+      <span class="copied" id="copied">コピーしました</span>
+    </div>
+  </div>
+
+  <h2>反応速度の目安</h2>
+  <dl class="faq">
+    <dt>200ms未満</dt><dd>超人級。eスポーツ選手レベルの反射神経です。</dd>
+    <dt>200〜250ms</dt><dd>かなり速い。一般平均（約250ms）を上回ります。</dd>
+    <dt>250〜350ms</dt><dd>平均的。多くの人がこの範囲です。</dd>
+    <dt>350ms以上</dt><dd>ゆっくりめ。寝不足やデバイスの遅延も影響します。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var board=document.getElementById('board'), big=document.getElementById('big'), sub=document.getElementById('sub');
+  var TOTAL=5, times=[], state='idle', startAt=0, timer=null;
+  function setBg(c){ board.style.background=c; }
+  function reset(){ state='idle'; times=[]; setBg('#2563eb'); big.innerHTML='クリックして<br>スタート'; sub.textContent='緑になったらすぐクリック！（5回）'; document.getElementById('scorebox').style.display='none'; }
+  function waitNext(){
+    state='waiting'; setBg('#dc2626'); big.textContent='待て…'; sub.textContent=(times.length+1)+' / '+TOTAL+' 回目';
+    var delay=900+Math.random()*2600;
+    timer=setTimeout(function(){ state='ready'; setBg('#16a34a'); big.textContent='今だ！クリック！'; startAt=performance.now(); }, delay);
+  }
+  function finish(){
+    state='done';
+    var avg=Math.round(times.reduce(function(a,b){return a+b;},0)/times.length);
+    var best=Math.min.apply(null,times);
+    var rank, emo;
+    if(avg<200){rank='超人級 🦸';} else if(avg<250){rank='かなり速い ⚡';} else if(avg<300){rank='平均より上 👍';} else if(avg<350){rank='平均的 🙂';} else {rank='ゆっくりめ 🐢';}
+    document.getElementById('avg').textContent=avg;
+    document.getElementById('rank').textContent=rank;
+    document.getElementById('detail').textContent='ベスト '+best+'ms ／ 全'+TOTAL+'回: '+times.join(', ')+' ms';
+    document.getElementById('scorebox').style.display='';
+    big.innerHTML='結果が出ました！'; sub.textContent='下のスコアを確認'; setBg('#2563eb');
+    window.__share='【反応速度テスト】平均 '+avg+'ms（'+rank+'）ベスト'+best+'ms ＃便利ツール patto-tool.com';
+  }
+  board.addEventListener('click', function(){
+    if(state==='idle'){ waitNext(); return; }
+    if(state==='waiting'){ clearTimeout(timer); setBg('#ea580c'); big.textContent='早すぎ！'; sub.textContent='緑になってから。もう一度…'; state='early'; setTimeout(waitNext,800); return; }
+    if(state==='ready'){
+      var ms=Math.round(performance.now()-startAt); times.push(ms);
+      setBg('#2563eb'); big.textContent=ms+' ms';
+      if(times.length>=TOTAL){ setTimeout(finish,500); } else { sub.textContent='ナイス！次へ…'; setTimeout(waitNext,650); }
+      return;
+    }
+    if(state==='done'){ reset(); }
+  });
+  document.getElementById('again').addEventListener('click',function(e){ e.stopPropagation(); reset(); });
+  document.getElementById('share').addEventListener('click',function(e){ e.stopPropagation(); var c=document.getElementById('copied'); function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);} if(navigator.clipboard){navigator.clipboard.writeText(window.__share||'').then(fin).catch(fin);} });
+})();
+</script>
+</body>
+</html>

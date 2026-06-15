@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>詐欺通販サイト チェッカー｜偽ショッピングサイトを見抜く（無料）</title>
+<meta name="description" content="「安すぎるサイト、買って大丈夫？」URLの危険サイン解析＋10項目のチェックリストで、偽通販・詐欺ショッピングサイトの可能性を診断。被害時の対処法も解説。無料・登録不要・ブラウザ内処理。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>🛒 詐欺通販サイト チェッカー</h1>
+  <p class="lead">「ブランド品が80%オフ…これ本物？」そんな時に。<strong>① サイトのURL解析</strong>と<strong>② 10項目のチェックリスト</strong>（国民生活センターの注意喚起に基づく）で、偽通販サイトの可能性を診断します。</p>
+
+  <div class="tool">
+    <h2 style="margin-top:8px;">① サイトのURLを貼り付け（任意）</h2>
+    <div class="row"><input type="url" id="url" class="in" placeholder="例：https://www.example-shop.top/sale"></div>
+
+    <h2>② サイトの様子をチェック（当てはまるものに ✓）</h2>
+    <div id="checklist" style="display:flex;flex-direction:column;gap:10px;">
+      <label class="chk"><input type="checkbox" data-w="25"> 価格が極端に安い（定価の半額以下・全品大幅セールなど）</label>
+      <label class="chk"><input type="checkbox" data-w="30"> 支払い方法が「銀行振込のみ」（クレカ・代引き不可）</label>
+      <label class="chk"><input type="checkbox" data-w="25"> 振込先の口座名義が「個人名」または「外国人名」</label>
+      <label class="chk"><input type="checkbox" data-w="20"> 会社概要・特定商取引法の表記がない／住所が曖昧</label>
+      <label class="chk"><input type="checkbox" data-w="15"> 日本語が不自然（機械翻訳っぽい・変なフォント）</label>
+      <label class="chk"><input type="checkbox" data-w="15"> 連絡先がフリーメール（gmail・outlook・yahoo等）だけ</label>
+      <label class="chk"><input type="checkbox" data-w="10"> 電話番号の記載がない（メールフォームのみ）</label>
+      <label class="chk"><input type="checkbox" data-w="10"> どこも売り切れの人気商品の在庫が「常に豊富」</label>
+      <label class="chk"><input type="checkbox" data-w="10"> 店名やブランド名とURLのドメイン名が無関係</label>
+      <label class="chk"><input type="checkbox" data-w="10"> サイト名で検索しても口コミ・評判が見つからない</label>
+    </div>
+
+    <div class="bar" style="margin-top:18px;"><button class="btn primary" id="check">診断する</button><button class="btn ghost" id="clear">クリア</button></div>
+
+    <div class="result" id="resbox" style="display:none;text-align:left;">
+      <div style="text-align:center;"><span class="big" id="verdict">--</span><div class="lbl" id="score"></div></div>
+      <ul id="flags" style="margin-top:14px;"></ul>
+      <div class="bar" id="links" style="justify-content:center;"></div>
+      <div id="advice" class="note" style="font-size:13.5px;"></div>
+    </div>
+    <p class="note">🔒 入力内容はブラウザ内でのみ解析され、送信されません。⚠️ 簡易診断であり、安全の保証ではありません。少しでも怪しいと感じたら購入しないのが最善です。</p>
+  </div>
+
+  <h2>もし買ってしまったら（被害時の対処）</h2>
+  <dl class="faq">
+    <dt>クレジットカードで払った</dt><dd>すぐカード会社に連絡。「チャージバック（支払取消）」を相談できます。カードの再発行も検討を。</dd>
+    <dt>銀行振込してしまった</dt><dd>すぐ振込先の銀行と警察（#9110）へ。「振り込め詐欺救済法」により口座凍結・被害回復ができる場合があります。スピードが命です。</dd>
+    <dt>相談先</dt><dd>消費者ホットライン <strong>188</strong> ／ 警察相談 <strong>#9110</strong> ／ 都道府県警のサイバー犯罪相談窓口</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<style>.chk{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-weight:500;cursor:pointer;margin:0;} .chk:hover{border-color:#2563eb;} .chk input{margin-top:4px;}</style>
+<script>
+(function(){
+  var BAD_TLD=['.top','.xyz','.icu','.tk','.cf','.gq','.ml','.work','.rest','.fit','.cn','.ru','.shop','.club','.online','.site','.live','.lat','.sbs','.cfd','.bond','.store'];
+  var DDNS=['duckdns.org','no-ip.com','ddns.net','hopto.org'];
+  var BRANDS={'amazon':['amazon.co.jp','amazon.jp','amazon.com'],'rakuten':['rakuten.co.jp','rakuten.com'],'yahoo':['yahoo.co.jp','yahoo.com'],'mercari':['mercari.com','jp.mercari.com'],'uniqlo':['uniqlo.com'],'nike':['nike.com'],'adidas':['adidas.com','adidas.co.jp'],'zozotown|zozo':['zozo.jp'],'apple':['apple.com'],'gu':['gu-global.com']};
+  function endsWithDomain(host,dom){ return host===dom || host.slice(-(dom.length+1))==='.'+dom; }
+  function check(){
+    var flags=[], score=0;
+    // --- URL解析 ---
+    var raw=document.getElementById('url').value.trim();
+    if(raw){
+      var u=raw; if(!/^https?:\/\//i.test(u)) u='http://'+u;
+      var host=''; try{ host=new URL(u).hostname.toLowerCase(); }catch(e){}
+      if(host){
+        if(/^http:\/\//i.test(raw)){ flags.push(['危険','https非対応（http://）の通販サイトは論外です。カード情報を入れてはいけません']); score+=25; }
+        if(host.indexOf('xn--')>-1){ flags.push(['危険','国際化ドメイン（xn--）で本物そっくりに偽装している可能性']); score+=30; }
+        BAD_TLD.forEach(function(t){ if(host.slice(-t.length)===t){ flags.push(['注意','「'+t+'」ドメインは偽通販サイトでの使用率が高い番地です（'+host+'）']); score+=20; } });
+        DDNS.forEach(function(d){ if(endsWithDomain(host,d)){ flags.push(['危険','無料の動的DNS上のサイトです。通販で使われることはまずありません']); score+=35; } });
+        for(var b in BRANDS){ var re=new RegExp('('+b+')','i'); if(re.test(host)){ var ok=BRANDS[b].some(function(d){return endsWithDomain(host,d);}); if(!ok){ flags.push(['危険','「'+host+'」はブランド名を含むのに公式ドメイン（'+BRANDS[b][0]+' 等）ではありません。なりすましの典型です']); score+=40; } } }
+        if((host.match(/-/g)||[]).length>=3){ flags.push(['注意','ハイフン多用の不自然なドメインです']); score+=10; }
+        if(/[0-9]{3,}/.test(host.split('.')[0])){ flags.push(['注意','ドメインに長い数字列。自動生成された使い捨てドメインの可能性']); score+=10; }
+      }
+    }
+    // --- チェックリスト ---
+    var checked=0;
+    document.querySelectorAll('#checklist input[type=checkbox]').forEach(function(cb){
+      if(cb.checked){ checked++; score+=parseInt(cb.getAttribute('data-w'))||10;
+        flags.push(['注意','✓ '+cb.parentElement.textContent.trim()]); }
+    });
+    if(!raw && checked===0){ return; }
+    var verdict,color;
+    if(score>=60){ verdict='詐欺サイトの疑い：濃厚 🚨'; color='#dc2626'; }
+    else if(score>=30){ verdict='危険サインあり ⚠️'; color='#ea580c'; }
+    else { verdict='大きな危険サインなし ✅'; color='#16a34a'; }
+    document.getElementById('verdict').textContent=verdict;
+    document.getElementById('verdict').style.color=color;
+    document.getElementById('score').textContent='危険スコア：'+score+'点（チェック '+checked+'件＋URL解析）';
+    var ul=document.getElementById('flags'); ul.innerHTML='';
+    flags.forEach(function(f){ var li=document.createElement('li'); li.textContent=(f[0]==='危険'?'🔴':'🟠')+' '+f[1]; ul.appendChild(li); });
+    var links=document.getElementById('links'); links.innerHTML='';
+    if(raw){
+      var q=encodeURIComponent(raw.replace(/^https?:\/\//,'').split('/')[0]);
+      [['🔎 このサイトの評判を検索','https://www.google.com/search?q='+q+'+%E8%A9%90%E6%AC%BA+%E5%8F%A3%E3%82%B3%E3%83%9F'],
+       ['🌐 ドメインの登録日を調べる(Whois)','https://www.whois.com/whois/'+q]].forEach(function(l){
+        var a=document.createElement('a'); a.className='btn ghost'; a.style.textDecoration='none'; a.target='_blank'; a.rel='noopener'; a.href=l[1]; a.textContent=l[0]; links.appendChild(a);
+      });
+    }
+    document.getElementById('advice').innerHTML = score>=30
+      ? '<strong>このサイトでの購入はやめておきましょう。</strong>特に「銀行振込のみ」「個人名義口座」は偽通販の決定的サインです。同じ商品は公式サイトか大手モール（Amazon/楽天等）で。被害に遭ったら 188 / #9110 へ。'
+      : '決定的なサインは見つかりませんでしたが、初めて使うサイトでは「ドメインの登録日が最近すぎないか（Whois）」「評判検索」も確認すると安心です。';
+    document.getElementById('resbox').style.display='';
+  }
+  document.getElementById('check').addEventListener('click',check);
+  document.getElementById('clear').addEventListener('click',function(){
+    document.getElementById('url').value='';
+    document.querySelectorAll('#checklist input').forEach(function(cb){cb.checked=false;});
+    document.getElementById('resbox').style.display='none';
+  });
+})();
+</script>
+</body>
+</html>

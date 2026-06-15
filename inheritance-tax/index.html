@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相続税 ざっくり計算 シミュレーター｜遺産・相続人数で 即試算 (基礎控除 + 速算表)</title>
+<meta name="description" content="遺産総額 + 相続人数 から、相続税の 総額・各人の 税額 を 即時 計算。基礎控除 3000万 + 600万×人数 と 法定相続分 速算表 (10〜55%) に 準拠。配偶者控除 も 対応。">
+<link rel="canonical" href="https://patto-tool.com/inheritance-tax/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patto-tool.com/inheritance-tax/">
+<meta property="og:title" content="相続税 ざっくり計算 シミュレーター">
+<meta property="og:description" content="遺産総額 + 相続人数 で 相続税が いくらか 即時 計算。基礎控除 + 速算表 対応。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="相続税 ざっくり計算 シミュレーター">
+<meta name="twitter:description" content="遺産総額 + 相続人数 で 即時 計算。">
+<meta name="twitter:image" content="https://patto-tool.com/og.png">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"相続税 ざっくり計算","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"遺産総額・相続人数から 相続税を 即時 計算。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"税金・公的手続き","item":"https://patto-tool.com/#tax"},{"@type":"ListItem","position":3,"name":"相続税 ざっくり計算","item":"https://patto-tool.com/inheritance-tax/"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"相続税の 概算を 計算する 方法","description":"遺産総額・相続人構成から 相続税の 総額と 各人の 税額を 算出する 4ステップ。","totalTime":"PT1M","step":[{"@type":"HowToStep","position":1,"name":"遺産総額を 入力","text":"土地・建物・現金・有価証券 等から 借入金・葬式費用を 差し引いた 正味の 遺産額 (円) を 入力します。"},{"@type":"HowToStep","position":2,"name":"配偶者の 有無を 選ぶ","text":"配偶者ありなら 税額軽減 (1.6億 or 法定相続分) が 自動適用。"},{"@type":"HowToStep","position":3,"name":"子の 人数を 入力","text":"子が いない場合は 親・兄弟姉妹の 人数で 法定相続人を 確定 (基礎控除 = 3000万 + 600万 × 人数)。"},{"@type":"HowToStep","position":4,"name":"計算実行","text":"基礎控除後の 課税遺産を 法定相続分で 分け、速算表 (10〜55%) を 適用し、相続税 総額と 各人の 税額が 表示されます。"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"配偶者の 税額軽減 とは?","acceptedAnswer":{"@type":"Answer","text":"配偶者は 法定相続分 (子と 半分ずつ) または 1.6億円の どちらか 多い方 まで 非課税。実質、配偶者は 相続税を 払わない ケースが ほとんど。"}},{"@type":"Question","name":"不動産の 評価は どうする?","acceptedAnswer":{"@type":"Answer","text":"土地は 路線価 (公示価格の 約8割)、建物は 固定資産税 評価額。実勢価格より 安く 評価される ため、節税の ポイントに。"}},{"@type":"Question","name":"小規模宅地等の 特例?","acceptedAnswer":{"@type":"Answer","text":"同居 親族が 自宅を 相続する 場合、330㎡ まで 80%減額。1億円の 宅地なら 2000万円で 評価可能。要件は 厳格 (税理士相談 推奨)。"}},{"@type":"Question","name":"申告の 期限は?","acceptedAnswer":{"@type":"Answer","text":"相続発生から 10ヶ月以内。延滞すると 加算税・延滞税が 発生します。"}}]}
+</script>
+
+<link rel="stylesheet" href="../style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="パンくず" style="font-size:13px;color:#6b7280;margin:8px 0 4px;"><a href="../">ホーム</a> &rsaquo; <a href="../#tax">税金・公的手続き</a> &rsaquo; <span>相続税 ざっくり計算</span></nav>
+  <h1>👨‍👩‍👧 相続税 ざっくり計算 シミュレーター</h1>
+  <p class="lead">遺産総額 と 相続人 の 数を 入力するだけで、<strong>相続税の 総額・各人の 税額</strong> を 即時 試算。基礎控除 3000万円 + 600万円×法定相続人 と、国税庁 速算表 (10〜55%) に 準拠。</p>
+  <p class="intro" style="background:#f0f9ff;border-left:4px solid #0284c7;padding:14px 18px;border-radius:8px;margin:16px 0;font-size:14.5px;line-height:1.8;"><strong>相続税</strong> は、亡くなった 人 (被相続人) の 遺産を 受け継ぐ ときに かかる 国税で、2015年の 基礎控除 引下げ (5000万 + 1000万×法定相続人 → 3000万 + 600万×法定相続人) 以降、課税対象者が 大幅に 増えています。とくに 都市部に 持ち家が ある 場合、土地・建物 評価額だけで 基礎控除を 超える ケースが 多く、預貯金・有価証券・生命保険金・退職金 (みなし相続財産) も 加わり 想像以上に 課税対象に。本ツールでは、遺産総額・配偶者の 有無・子の 人数・親兄弟の 人数を 入力するだけで、<strong>基礎控除 → 課税遺産総額 → 速算表 (10〜55%) → 配偶者の 税額軽減</strong> までを 自動計算し、相続税の 概算総額と 各相続人の 負担額を 表示。生前贈与・小規模宅地等の 特例・遺言書 作成など、節税対策の 検討にも 役立ちます。</p>
+
+  <div class="tool">
+    <p class="cap">マイナンバー 等 個人情報 不要。配偶者の 税額軽減 (1.6億 or 法定相続分) も 対応。</p>
+
+    <h2>1. 遺産総額</h2>
+    <label>遺産総額 (土地・建物・現金・有価証券 等) 円</label>
+    <input id="m_total" class="in" type="number" placeholder="例: 100000000 (1億円)" />
+    <p class="note" style="font-size:13px;color:#666;">借入金・葬式費用 等 を 差し引いた 「正味の 遺産額」。</p>
+
+    <h2>2. 相続人の 構成</h2>
+    <label>配偶者の 有無</label>
+    <select id="m_spouse" class="in">
+      <option value="yes">配偶者 あり</option>
+      <option value="no">配偶者 なし</option>
+    </select>
+
+    <label>子の 人数</label>
+    <input id="m_children" class="in" type="number" placeholder="例: 2" value="2" />
+
+    <label>(子が いない 場合) 親・兄弟姉妹 の 人数</label>
+    <input id="m_others" class="in" type="number" placeholder="例: 0" value="0" />
+    <p class="note" style="font-size:13px;color:#666;">子が いる 場合は 入力 不要。子なし & 親 → 親が 相続。親なし & 兄弟 → 兄弟が 相続。</p>
+
+    <div class="bar"><button type="button" class="btn primary" id="calc">相続税を 計算</button></div>
+
+    <div id="result"></div>
+
+    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>相続税 とは — 課税対象者と 基礎控除</h2>
+  <p>遺産が <strong>基礎控除額 (3000万円 + 600万円 × 法定相続人 数)</strong> を 超えた 場合に かかる 税金。被相続人の 配偶者・子・親・兄弟姉妹 などが 法定相続人と なり、課税対象は 預金・不動産・有価証券・生命保険金・退職金 (みなし相続財産) 等の すべて。基礎控除内なら 申告 不要、超過する 場合は 10ヶ月以内に 申告納税が 必要です。</p>
+
+  <h2>相続税の 計算方法 — 4ステップ</h2>
+  <ol>
+    <li><strong>基礎控除</strong>: 3,000万円 + 600万円 × 法定相続人 数</li>
+    <li>遺産 - 基礎控除 = <strong>課税遺産総額</strong></li>
+    <li>課税遺産 を 法定相続分 で 分け、各人に 税率を 適用</li>
+    <li>各人の 税額を 合算 → 相続税 総額</li>
+    <li>実際の 取得割合 で 按分 → 各人の 納税額</li>
+  </ol>
+
+  <h3>速算表 (各人の 取得金額 別)</h3>
+  <ul>
+    <li>1000万 以下: 10%</li>
+    <li>3000万 以下: 15% (控除 50万)</li>
+    <li>5000万 以下: 20% (控除 200万)</li>
+    <li>1億 以下: 30% (控除 700万)</li>
+    <li>2億 以下: 40% (控除 1700万)</li>
+    <li>3億 以下: 45% (控除 2700万)</li>
+    <li>6億 以下: 50% (控除 4200万)</li>
+    <li>6億 超: 55% (控除 7200万)</li>
+  </ul>
+
+  <h2>相続税の よくある質問 (FAQ)</h2>
+  <dl class="faq">
+    <dt>配偶者の 税額軽減 とは?</dt>
+    <dd>配偶者は 法定相続分 (子と 半分ずつ) または 1.6億円 の どちらか 多い方 まで 非課税。実質、配偶者は 相続税を 払わない ケースが ほとんど。</dd>
+    <dt>不動産の 評価は どうする?</dt>
+    <dd>土地 は 路線価 (公示価格の 約8割)、建物は 固定資産税 評価額。実勢価格 より 安く 評価される ため、節税の ポイントに。</dd>
+    <dt>小規模宅地等の 特例?</dt>
+    <dd>同居 親族が 自宅を 相続する 場合、330㎡ まで <strong>80%減額</strong>。1億円の 宅地なら 2000万円で 評価可能。要件は 厳格 (税理士相談 推奨)。</dd>
+    <dt>申告の 期限は?</dt>
+    <dd>相続発生から <strong>10ヶ月以内</strong>。延滞すると 加算税・延滞税が 発生します。</dd>
+  </dl>
+
+  <h2>🔗 関連 ツール</h2>
+  <div class="grid" id="relatedTools"></div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  const related = [
+    {slug:"gift-tax", icon:"🎁", title:"贈与税 計算", desc:"暦年贈与 / 相続時精算 課税対応。"},
+    {slug:"realestate-value", icon:"🏠", title:"不動産 売却 概算", desc:"マンション/戸建/土地 即時査定。"},
+    {slug:"lawyer-fee", icon:"⚖️", title:"弁護士 費用 相場", desc:"相続・遺言 案件別 着手金。"},
+    {slug:"compensation", icon:"📜", title:"慰謝料 相場", desc:"判例ベース 概算。"},
+    {slug:"pension", icon:"👴", title:"年金 受給額 概算", desc:"65歳以降の 月額。"},
+    {slug:"retirement-fund", icon:"🌅", title:"老後資金", desc:"2000万円問題 シミュレータ。"},
+    {slug:"take-home", icon:"💴", title:"手取り計算", desc:"年収から 社保・税 差引後 実額。"},
+    {slug:"loan", icon:"🏠", title:"住宅ローン", desc:"返済額・総額 シミュレーション。"},
+  ];
+  const html = related.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+  const el = document.getElementById('relatedTools');
+  if (el) el.innerHTML = html;
+})();
+</script>
+
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+// 速算表
+function calcTax(amount) {
+  const T = [
+    {limit:10000000,    rate:0.10, ded:0},
+    {limit:30000000,    rate:0.15, ded:500000},
+    {limit:50000000,    rate:0.20, ded:2000000},
+    {limit:100000000,   rate:0.30, ded:7000000},
+    {limit:200000000,   rate:0.40, ded:17000000},
+    {limit:300000000,   rate:0.45, ded:27000000},
+    {limit:600000000,   rate:0.50, ded:42000000},
+    {limit:Infinity,    rate:0.55, ded:72000000},
+  ];
+  for (const t of T) if (amount <= t.limit) return amount * t.rate - t.ded;
+  return 0;
+}
+
+document.getElementById('calc').onclick = () => {
+  const total = parseFloat(document.getElementById('m_total').value) || 0;
+  const spouse = document.getElementById('m_spouse').value === "yes";
+  const children = parseInt(document.getElementById('m_children').value) || 0;
+  const others = parseInt(document.getElementById('m_others').value) || 0;
+
+  if (total <= 0) {
+    document.getElementById('result').innerHTML = '<p class="note" style="color:#c00;">⚠️ 遺産総額を 入力してください。</p>';
+    return;
+  }
+
+  // 法定相続人 数
+  let heirs = (spouse ? 1 : 0) + children + (children === 0 ? others : 0);
+  if (heirs === 0) heirs = 1;
+
+  // 基礎控除
+  const base = 30000000 + 6000000 * heirs;
+  const taxable = Math.max(0, total - base);
+
+  if (taxable === 0) {
+    let html = '<h2>💡 計算 結果</h2>';
+    html += `<div style="background:#dcfce7;border:3px solid #16a34a;border-radius:12px;padding:20px;margin:16px 0;">`;
+    html += `<div style="font-size:18px;font-weight:bold;color:#16a34a;">✅ 相続税は かかりません</div>`;
+    html += `<div style="font-size:14px;color:#475569;margin-top:8px;">遺産総額 ${fmt(total)} ≤ 基礎控除 ${fmt(base)} (3000万 + 600万 × ${heirs}人)</div>`;
+    html += `<div style="font-size:13px;color:#475569;margin-top:8px;">基礎控除 内の ため 申告も 原則 不要 (小規模宅地特例 等を 使う 場合は 申告 必要)。</div>`;
+    html += `</div>`;
+    document.getElementById('result').innerHTML = html;
+    return;
+  }
+
+  // 法定相続分で 分割 → 各人の 税額 → 合計
+  let totalTax = 0;
+  const breakdown = [];
+  if (spouse && children > 0) {
+    // 配偶者 1/2、子 1/2 を 人数割
+    const spousePart = taxable * 0.5;
+    const childPart  = taxable * 0.5 / children;
+    const spTax = calcTax(spousePart);
+    const chTax = calcTax(childPart);
+    totalTax = spTax + chTax * children;
+    breakdown.push({name:"配偶者", share:"1/2", part: spousePart, tax: spTax});
+    breakdown.push({name:`子 (${children}人)`, share:`1/2 ÷ ${children}`, part: childPart, tax: chTax, perTax: chTax, count: children});
+  } else if (spouse && children === 0 && others > 0) {
+    // 配偶者 2/3、親 1/3 (or 配偶者 3/4、兄弟 1/4)
+    const spShare = 2/3, oShare = 1/3;
+    const spousePart = taxable * spShare;
+    const oPart = taxable * oShare / others;
+    const spTax = calcTax(spousePart);
+    const oTax = calcTax(oPart);
+    totalTax = spTax + oTax * others;
+    breakdown.push({name:"配偶者", share:"2/3", part: spousePart, tax: spTax});
+    breakdown.push({name:`親/兄弟 (${others}人)`, share:`1/3 ÷ ${others}`, part: oPart, tax: oTax, count: others});
+  } else if (spouse) {
+    // 配偶者のみ
+    const spTax = calcTax(taxable);
+    totalTax = spTax;
+    breakdown.push({name:"配偶者", share:"100%", part: taxable, tax: spTax});
+  } else if (children > 0) {
+    const part = taxable / children;
+    const tax = calcTax(part);
+    totalTax = tax * children;
+    breakdown.push({name:`子 (${children}人)`, share:`1/${children}`, part, tax, count: children});
+  } else {
+    const part = taxable / (others || 1);
+    const tax = calcTax(part);
+    totalTax = tax * (others || 1);
+    breakdown.push({name:`親/兄弟 (${others}人)`, share:`1/${others||1}`, part, tax, count: others || 1});
+  }
+
+  // 配偶者の 税額軽減 (法定相続分 or 1.6億 まで 非課税)
+  let spouseRelief = 0;
+  if (spouse) {
+    const spShare = (children > 0) ? 0.5 : (others > 0 ? 2/3 : 1.0);
+    const spousePart = taxable * spShare;
+    const totalActual = totalTax;
+    spouseRelief = breakdown[0].tax;  // 配偶者の 税額 が 法定相続分 内 or 1.6億 以下 なら 全額免除
+    totalTax -= spouseRelief;
+  }
+
+  let html = '<h2>💡 計算 結果</h2>';
+  html += `<div style="background:#dcfce7;border:3px solid #16a34a;border-radius:12px;padding:20px;margin:16px 0;">`;
+  html += `<div style="font-size:14px;color:#475569;">相続税 総額 (配偶者軽減 後)</div>`;
+  html += `<div style="font-size:32px;font-weight:bold;color:#16a34a;margin:8px 0;">${fmt(totalTax)}</div>`;
+  html += `<div style="font-size:13px;color:#475569;">基礎控除: ${fmt(base)} ／ 課税遺産: ${fmt(taxable)}</div>`;
+  html += `</div>`;
+
+  html += '<h3>各人の 税額 (法定相続分 ベース)</h3>';
+  html += `<table style="width:100%;border-collapse:collapse;font-size:14px;">
+    <tr style="background:#f3f4f6;"><th style="padding:8px;text-align:left;">相続人</th><th style="padding:8px;text-align:right;">取得分</th><th style="padding:8px;text-align:right;">税額 (1人)</th></tr>`;
+  for (const b of breakdown) {
+    html += `<tr><td style="padding:8px;border-top:1px solid #e5e7eb;">${b.name} (${b.share})</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(b.part)}</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(b.tax)}</td></tr>`;
+  }
+  if (spouse && spouseRelief > 0) {
+    html += `<tr style="background:#fef9c3;"><td style="padding:8px;border-top:1px solid #e5e7eb;">配偶者の 税額軽減</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;" colspan="2">- ${fmt(spouseRelief)}</td></tr>`;
+  }
+  html += `</table>`;
+
+  html += '<h3>📌 節税の ポイント</h3><ul style="font-size:14px;line-height:1.7;">';
+  html += '<li><strong>小規模宅地等の 特例</strong> (自宅 330㎡ まで 80%減) を 活用すると 数千万 単位で 節税可能。</li>';
+  html += '<li>生命保険 は 「500万円 × 法定相続人 数」 の 非課税枠 あり。</li>';
+  html += '<li>生前贈与 (暦年贈与 110万 / 年) で 計画的に 移転。</li>';
+  html += '<li>申告期限 は 死亡から <strong>10ヶ月</strong>。早めに 税理士相談を。</li>';
+  html += '</ul>';
+
+  document.getElementById('result').innerHTML = html;
+  if (typeof gtag !== 'undefined') gtag('event', 'simulate', { tool: 'inheritance-tax' });
+};
+</script>
+</body>
+</html>

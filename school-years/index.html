@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入学・卒業年 自動計算｜履歴書の学歴欄が一瞬で埋まる（早生まれ対応・無料）</title>
+<meta name="description" content="生年月日を入れるだけで、小学校〜大学の入学・卒業年を西暦・和暦で自動計算。早生まれにも自動対応。履歴書・職務経歴書・エントリーシートの学歴欄作成に。無料・登録不要。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>🎓 入学・卒業年 自動計算（学歴早見表）</h1>
+  <p class="lead">履歴書の学歴欄、「何年に卒業したっけ…？」を一瞬で解決。生年月日を入れるだけで、<strong>小学校〜大学の入学・卒業年</strong>を<strong>西暦・和暦の両方</strong>で表示します。<strong>早生まれ（1/1〜4/1生まれ）にも自動対応</strong>。</p>
+
+  <div class="tool">
+    <div class="row"><label>生年月日</label><input type="date" id="bd" class="in"></div>
+    <div class="checks">
+      <label><input type="checkbox" id="ronin"> 浪人・留年あり（年数を指定）</label>
+      <input type="number" id="roninY" class="in" style="max-width:90px;display:none;" min="1" max="5" value="1">
+    </div>
+    <div id="hayaumare" class="note" style="display:none;"></div>
+    <div style="overflow-x:auto;">
+      <table id="tbl" style="display:none;width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+        <thead><tr style="background:#eff6ff;"><th style="padding:10px;text-align:left;">学校</th><th style="padding:10px;text-align:left;">入学</th><th style="padding:10px;text-align:left;">卒業</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="bar" id="copybar" style="display:none;"><button class="btn primary" id="copy">履歴書用テキストをコピー</button><span class="copied" id="copied">コピーしました</span></div>
+  </div>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>早生まれとは？</dt><dd>1月1日〜4月1日生まれの人。同学年の中で誕生日が遅いため、入学・卒業年が「生まれ年＋6」ではなく「＋6か＋7」のどちらかにずれます。本ツールは自動で正しく計算します。</dd>
+    <dt>4月1日生まれはどちらの学年？</dt><dd>法律上「4月1日生まれは前の学年」になります（学年は4月2日生まれ〜翌年4月1日生まれで構成）。本ツールも4月1日を早生まれとして扱います。</dd>
+    <dt>浪人・留年した場合は？</dt><dd>「浪人・留年あり」にチェックして年数を入れると、大学の入学・卒業年がその分後ろにずれます。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var bd=document.getElementById('bd'), ronin=document.getElementById('ronin'), roninY=document.getElementById('roninY');
+  function wareki(y){
+    if(y>=2019) return '令和'+(y-2018===1?'元':y-2018)+'年';
+    if(y>=1989) return '平成'+(y-1988===1?'元':y-1988)+'年';
+    if(y>=1926) return '昭和'+(y-1925===1?'元':y-1925)+'年';
+    if(y>=1912) return '大正'+(y-1911)+'年';
+    return '明治'+(y-1867)+'年';
+  }
+  function cell(y,m){ return '<td style="padding:10px;border-top:1px solid #f1f5f9;">'+y+'年'+m+'月<br><span style="font-size:12px;color:#6b7280;">'+wareki(y)+m+'月</span></td>'; }
+  function calc(){
+    if(!bd.value){ document.getElementById('tbl').style.display='none'; document.getElementById('copybar').style.display='none'; document.getElementById('hayaumare').style.display='none'; return; }
+    var p=bd.value.split('-'), by=+p[0], bm=+p[1], bdd=+p[2];
+    // 学年基準：4/2生まれ〜翌4/1生まれが同学年。早生まれ＝1/1〜4/1
+    var early=(bm<4)||(bm===4&&bdd===1);
+    var base=early? by : by+1; // 小学校入学年 = base + 6
+    var e1=base+6;             // 小入学
+    var extra=(ronin.checked? (parseInt(roninY.value)||1) : 0);
+    var rows=[
+      ['小学校', e1, e1+6],
+      ['中学校', e1+6, e1+9],
+      ['高等学校', e1+9, e1+12],
+      ['大学（4年制）', e1+12+extra, e1+16+extra]
+    ];
+    var html='';
+    rows.forEach(function(r){ html+='<tr><td style="padding:10px;border-top:1px solid #f1f5f9;font-weight:700;">'+r[0]+'</td>'+cell(r[1],4)+cell(r[2],3)+'</tr>'; });
+    document.getElementById('rows').innerHTML=html;
+    document.getElementById('tbl').style.display='';
+    document.getElementById('copybar').style.display='';
+    var hm=document.getElementById('hayaumare');
+    hm.style.display='';
+    hm.textContent= early? '🌸 早生まれ（1/1〜4/1）として計算しています。' : '通常生まれ（4/2〜12/31）として計算しています。';
+    window.__text=rows.map(function(r){ return r[1]+'年4月　'+r[0]+' 入学\n'+r[2]+'年3月　'+r[0]+' 卒業'; }).join('\n');
+  }
+  bd.addEventListener('input',calc);
+  ronin.addEventListener('change',function(){ roninY.style.display=ronin.checked?'':'none'; calc(); });
+  roninY.addEventListener('input',calc);
+  document.getElementById('copy').addEventListener('click',function(){
+    var c=document.getElementById('copied');
+    function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);}
+    if(navigator.clipboard&&window.__text){ navigator.clipboard.writeText(window.__text).then(fin).catch(fin); }
+  });
+})();
+</script>
+</body>
+</html>

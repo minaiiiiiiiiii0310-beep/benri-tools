@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>個人事業主・フリーランス 経費にできる? 判定 (70項目)｜無料・登録不要</title>
+<meta name="description" content="個人事業主・フリーランスの 「これ 経費にできる?」 を 70項目から 即時判定。家賃・通信費・接待・服・自動車・教育など 主要カテゴリ網羅。家事按分の 目安%も 表示。">
+<link rel="canonical" href="https://patto-tool.com/expense-check/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patto-tool.com/expense-check/">
+<meta property="og:title" content="個人事業主・フリーランス 経費にできる? 判定 (70項目)">
+<meta property="og:description" content="家賃・通信費・接待・服・自動車 等 70項目から 経費判定。家事按分の 目安%も。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="個人事業主・フリーランス 経費にできる? 判定">
+<meta name="twitter:description" content="70項目から 即時判定。家事按分の 目安%も 表示。">
+<meta name="twitter:image" content="https://patto-tool.com/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"個人事業主・フリーランス 経費判定","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"70項目から 経費判定。家事按分の 目安%も 表示。"}
+</script>
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+<style>
+.search-box{width:100%;padding:12px 16px;font-size:16px;border:2px solid var(--accent);border-radius:10px;margin:12px 0 20px;box-sizing:border-box}
+.tag-bar{display:flex;gap:8px;overflow-x:auto;padding:4px 0 16px}
+.tag-bar button{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:20px;white-space:nowrap;cursor:pointer;font-size:14px}
+.tag-bar button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.item{display:flex;gap:12px;padding:14px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff}
+.item.ok{border-left:5px solid var(--green)}
+.item.cond{border-left:5px solid var(--orange)}
+.item.ng{border-left:5px solid var(--red)}
+.item .emoji{font-size:24px}
+.item .body{flex:1}
+.item .name{font-weight:bold;font-size:15px}
+.item .judge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:bold;margin-left:8px}
+.judge-ok{background:#dcfce7;color:#16a34a}
+.judge-cond{background:#fef3c7;color:#ea580c}
+.judge-ng{background:#fee2e2;color:#c00}
+.item .reason{color:#475569;font-size:13px;margin-top:4px;line-height:1.5}
+.item .anbun{margin-top:4px;font-size:13px;color:var(--accent-dark);font-weight:bold}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+<h1>🧾 個人事業主・フリーランス 経費にできる? 判定</h1>
+<p class="lead">確定申告で 「これって 経費?」 と 迷う 70項目を 一覧 + キーワード検索 で 即時判定。<strong>家事按分</strong> (自宅兼事務所の 家賃・光熱費 等) の 目安%も 表示。</p>
+<div class="tool">
+<p class="cap">国税庁の 通達 + 一般的な 税理士 見解 ベース。最終 判断は 税務署 / 税理士 に 確認を。</p>
+<input id="q" class="search-box" placeholder="🔍 キーワード検索 (例: 服 / 家賃 / 飲食 / 旅行 / 接待)">
+<div class="tag-bar" id="tags">
+<button class="active" data-cat="all">すべて</button>
+<button data-cat="ok">✅ OK</button>
+<button data-cat="cond">⚠️ 条件付き</button>
+<button data-cat="ng">❌ NG</button>
+<button data-cat="住居">🏠 住居</button>
+<button data-cat="通信">📱 通信</button>
+<button data-cat="飲食">🍽 飲食</button>
+<button data-cat="衣服">👔 衣服</button>
+<button data-cat="自動車">🚗 自動車</button>
+<button data-cat="旅行">✈️ 旅行</button>
+<button data-cat="学習">📚 学習</button>
+<button data-cat="健康">💪 健康</button>
+<button data-cat="その他">📦 その他</button>
+</div>
+<div id="list"></div>
+<p id="empty" style="display:none;color:#999;text-align:center;padding:40px">該当する 項目が ありません。</p>
+<p class="note" style="margin-top:16px">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+</div>
+<ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+<h2>💡 経費 計上の 基本ルール</h2>
+<ol>
+<li><strong>業務との 関連性</strong> — 売上に 直接 or 間接的に 結びつくこと。私的な 支出 は NG。</li>
+<li><strong>領収書・レシート の 保管</strong> — 7年間 保管義務 (帳簿は 10年)。電子帳簿保存法 対応。</li>
+<li><strong>家事按分</strong> — 自宅兼事務所 等 業務 + 私用 混在の 場合、業務 使用率で 案分 (面積比・時間比・回数比)。</li>
+<li><strong>10万円以上の 資産</strong> — 一括 経費 NG。減価償却 (年数で 分割)。</li>
+<li><strong>勘定科目</strong> — 適切な 科目に 分類 (消耗品費・通信費・地代家賃・交際費 等)。</li>
+</ol>
+<h2>よくある質問</h2>
+<dl class="faq">
+<dt>レシート しか ない 場合 でも 経費 にできる?</dt><dd>OK です。但し 5万円 超 (税抜) の レシートは 取引先名・支払先・金額が 必要。手書き 領収書 推奨。</dd>
+<dt>家族との 食事 は 経費?</dt><dd>原則 NG。ただし 家族が 業務 委託 契約で 取引している 場合 (青色 専従者給与 等) は 「打ち合わせ」 として OK の 可能性 あり。</dd>
+<dt>クレジットカード で 支払った 場合 は?</dt><dd>クレカ 明細 + 利用 店舗の レシート の セット保管 で OK。事業用 カードを 分けると 仕訳が 楽。</dd>
+<dt>白色 申告 と 青色 申告 で 経費 ルール は 違う?</dt><dd>経費の 基本ルール は 同じ。青色は さらに 「青色専従者給与」 「30万円未満 一括 経費」 等の 特典あり。</dd>
+<dt>税務調査で 否認される リスクは?</dt><dd>「業務 関連性が 説明できない」 「家事按分の 根拠が ない」 が 典型。証憑 + メモ で 業務 関連性を 残しておく。</dd>
+</dl>
+<h2>🔗 関連 ツール</h2>
+<div class="grid" id="relatedTools"></div>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+<script>
+const ITEMS=[
+{emoji:"🏠",name:"自宅家賃 (賃貸)",cat:"住居",judge:"cond",reason:"自宅 兼事務所 として 業務 使用 する 部屋の 面積比で 按分。",anbun:"目安: 20〜30% (1部屋を 仕事用)"},
+{emoji:"🏠",name:"自宅 住宅ローン",cat:"住居",judge:"cond",reason:"ローン 元本は NG、利息分は 業務使用率で 按分可能。固定資産税・減価償却費 も 按分OK。",anbun:"目安: 20〜30% (利息部分)"},
+{emoji:"💡",name:"電気代",cat:"住居",judge:"cond",reason:"業務 使用率 で 按分。PC・照明・エアコンの 使用時間 比。",anbun:"目安: 30〜50%"},
+{emoji:"💧",name:"水道代",cat:"住居",judge:"cond",reason:"原則 NG。ただし 接客業・料理研究家 等 業務上 必要なら 按分可。",anbun:"目安: 0〜10%"},
+{emoji:"🔥",name:"ガス代",cat:"住居",judge:"cond",reason:"原則 NG。料理 系 業務 (フードクリエイター 等) なら 按分可。",anbun:"目安: 0〜20%"},
+{emoji:"📺",name:"NHK 受信料",cat:"住居",judge:"cond",reason:"業務上 必要 (ジャーナリスト・脚本家 等) なら 按分可。",anbun:"目安: 0〜30%"},
+{emoji:"🛋",name:"家具・インテリア (10万円未満)",cat:"住居",judge:"cond",reason:"事務所用 デスク・椅子は OK。リビング 家具は 業務関連 説明 必要。"},
+{emoji:"🧹",name:"掃除用品・洗剤",cat:"住居",judge:"cond",reason:"自宅 兼事務所 なら 按分。",anbun:"目安: 20〜30%"},
+{emoji:"🛏",name:"寝具・布団",cat:"住居",judge:"ng",reason:"完全 私的支出。"},
+{emoji:"📱",name:"スマホ 通信費",cat:"通信",judge:"cond",reason:"業務 利用率で 按分。仕事の 電話・メール・SNS 運用 等。",anbun:"目安: 30〜70%"},
+{emoji:"📞",name:"固定電話",cat:"通信",judge:"cond",reason:"業務専用 なら 全額 OK。",anbun:"目安: 50〜100%"},
+{emoji:"🌐",name:"自宅 インターネット (光回線)",cat:"通信",judge:"cond",reason:"業務 使用率で 按分。在宅 ワークなら 高め。",anbun:"目安: 30〜70%"},
+{emoji:"📡",name:"ポケットWi-Fi",cat:"通信",judge:"cond",reason:"業務専用 なら 全額。プライベート 兼用 なら 按分。",anbun:"目安: 50〜100%"},
+{emoji:"☁️",name:"クラウドストレージ (Dropbox等)",cat:"通信",judge:"ok",reason:"業務用 アカウント なら 全額 OK。"},
+{emoji:"📧",name:"独自ドメイン・サーバー代",cat:"通信",judge:"ok",reason:"ビジネス 用なら 全額 OK。"},
+{emoji:"💻",name:"Adobe / Microsoft 365 等 ソフト",cat:"通信",judge:"ok",reason:"業務用 ソフトウェア なら 全額 OK。"},
+{emoji:"📲",name:"スマホ 本体 (10万円未満)",cat:"通信",judge:"cond",reason:"業務専用 なら 全額、兼用なら 按分。"},
+{emoji:"🍽",name:"取引先との 接待・会食",cat:"飲食",judge:"ok",reason:"交際費 として OK。日付・店名・参加者 (相手の 会社名・氏名) を 領収書に メモ。"},
+{emoji:"🍱",name:"打ち合わせ ランチ (相手あり)",cat:"飲食",judge:"ok",reason:"会議費 として OK。1人 5,000円 以下なら 接待 ではなく 会議費 で 計上 可能。"},
+{emoji:"🍔",name:"1人で 食べた ランチ",cat:"飲食",judge:"ng",reason:"私的支出。業務 関連 性 なし。"},
+{emoji:"☕",name:"1人 カフェ作業",cat:"飲食",judge:"cond",reason:"カフェの 席代 (場所代) として 計上可能 と する 見解 あり。但し 飲食代 のみ なら グレー。"},
+{emoji:"🍶",name:"取引先 同伴の 接待 (高級店)",cat:"飲食",judge:"ok",reason:"交際費 OK。但し 個人事業主 は 制限なし、法人化 後は 上限あり。"},
+{emoji:"🥘",name:"出張 中の 食事代",cat:"飲食",judge:"ok",reason:"出張中の 自分の 食事は OK (旅費交通費 or 出張手当)。"},
+{emoji:"🍻",name:"取引先と 2次会 (バー 等)",cat:"飲食",judge:"cond",reason:"接待の 延長 と 認められれば OK。1次会から 流れで が 安全。"},
+{emoji:"🎂",name:"取引先への お中元・お歳暮",cat:"飲食",judge:"ok",reason:"交際費 OK。3,000〜5,000円 程度 が 一般的。"},
+{emoji:"☕",name:"事務所内 の コーヒー・お茶代",cat:"飲食",judge:"ok",reason:"福利厚生費 として OK (打ち合わせ 茶菓子 含む)。"},
+{emoji:"👔",name:"作業着・制服・ユニフォーム",cat:"衣服",judge:"ok",reason:"業務専用 衣服 は OK。"},
+{emoji:"👞",name:"営業用 革靴・スーツ",cat:"衣服",judge:"ng",reason:"普段 着られる ものは NG (私的 利用と 区別 できない)。"},
+{emoji:"💼",name:"スーツ (業務専用 と 説明できる場合)",cat:"衣服",judge:"cond",reason:"職業上 必須 (士業の 法廷スーツ 等) は OK。説明が 必要。"},
+{emoji:"👗",name:"接客業の 着物・衣装",cat:"衣服",judge:"ok",reason:"業務専用 衣装 OK (ホステス・芸能人・モデル等)。"},
+{emoji:"🧤",name:"作業用 手袋・安全靴",cat:"衣服",judge:"ok",reason:"消耗品費 として OK。"},
+{emoji:"👜",name:"営業用 ビジネスバッグ",cat:"衣服",judge:"cond",reason:"業務専用 で 普段使い しない なら OK。"},
+{emoji:"⌚",name:"時計",cat:"衣服",judge:"ng",reason:"装飾品 扱い。業務専用 (タイムキーパー等) でも 通常 NG。"},
+{emoji:"🚗",name:"ガソリン代",cat:"自動車",judge:"cond",reason:"業務使用 分のみ。走行距離 記録 で 按分。",anbun:"目安: 30〜70%"},
+{emoji:"🛣",name:"高速道路 通行料",cat:"自動車",judge:"cond",reason:"業務 移動分 のみ。ETC 明細 + 業務日 を 残す。"},
+{emoji:"🅿️",name:"駐車場代 (取引先 訪問)",cat:"自動車",judge:"ok",reason:"業務関連 の 都度払い 駐車場は OK。"},
+{emoji:"🅿️",name:"月極 駐車場 (自宅用)",cat:"自動車",judge:"cond",reason:"業務 使用率で 按分。",anbun:"目安: 30〜50%"},
+{emoji:"🛠",name:"車検 / オイル交換",cat:"自動車",judge:"cond",reason:"業務 使用率で 按分。",anbun:"目安: 30〜70%"},
+{emoji:"📋",name:"自動車税・自動車保険",cat:"自動車",judge:"cond",reason:"業務 使用率で 按分。",anbun:"目安: 30〜70%"},
+{emoji:"🚕",name:"タクシー代 (業務移動)",cat:"自動車",judge:"ok",reason:"旅費交通費 OK。終電後 帰宅 等も 業務 関連 で OK。"},
+{emoji:"🚇",name:"電車・バス代",cat:"自動車",judge:"ok",reason:"業務移動 分は OK。Suica 履歴 で 管理。"},
+{emoji:"🚲",name:"自転車 (業務移動用)",cat:"自動車",judge:"cond",reason:"業務専用 なら 全額。10万円未満は 消耗品。"},
+{emoji:"✈️",name:"出張 航空券・新幹線",cat:"旅行",judge:"ok",reason:"完全 業務出張 なら 全額 OK。"},
+{emoji:"🏨",name:"出張 宿泊費",cat:"旅行",judge:"ok",reason:"業務出張 の 宿泊 は OK。"},
+{emoji:"🌅",name:"出張 ついで の 観光",cat:"旅行",judge:"cond",reason:"観光 部分の 交通費・宿泊は NG。業務日 と 観光日 を 分ける。"},
+{emoji:"🏖",name:"視察 旅行・社員旅行",cat:"旅行",judge:"cond",reason:"視察 目的 + 報告書 が あれば OK。家族同伴 は NG。"},
+{emoji:"🎫",name:"展示会・セミナー 参加費",cat:"旅行",judge:"ok",reason:"業務 研修 として OK。"},
+{emoji:"🛂",name:"パスポート 取得・更新",cat:"旅行",judge:"cond",reason:"海外 出張が ある 業務なら OK。"},
+{emoji:"📚",name:"業務関連 書籍・雑誌",cat:"学習",judge:"ok",reason:"新聞図書費 として OK。"},
+{emoji:"🎓",name:"資格 取得 講座 (業務関連)",cat:"学習",judge:"ok",reason:"業務 関連 資格 (士業・専門技能等) は 研修費 OK。"},
+{emoji:"🎓",name:"資格 取得 講座 (業務 無関係)",cat:"学習",judge:"ng",reason:"自己啓発 は NG。"},
+{emoji:"🎓",name:"大学・専門学校 学費",cat:"学習",judge:"ng",reason:"学歴 取得 は 私的支出 扱い。"},
+{emoji:"💻",name:"オンライン 講座 (Udemy 等)",cat:"学習",judge:"cond",reason:"業務関連 なら OK。"},
+{emoji:"💬",name:"英会話 (業務で 英語使用)",cat:"学習",judge:"cond",reason:"業務上 必要なら OK。海外 取引先 ありの 説明 が 必要。"},
+{emoji:"💪",name:"ジム会費 (健康増進)",cat:"健康",judge:"ng",reason:"私的支出。"},
+{emoji:"💪",name:"ジム会費 (フィットネスインストラクター 等)",cat:"健康",judge:"ok",reason:"業務上 必要 なら OK。"},
+{emoji:"🏥",name:"健康診断・人間ドック",cat:"健康",judge:"cond",reason:"原則 NG。法人化 後は 役員報酬 扱い で 計上可能 な場合あり。"},
+{emoji:"💊",name:"医薬品・サプリ",cat:"健康",judge:"ng",reason:"私的支出。医療費控除 で 個人 控除 可能。"},
+{emoji:"🦷",name:"歯科治療",cat:"健康",judge:"ng",reason:"医療費控除 で 個人 控除。経費 NG。"},
+{emoji:"💆",name:"マッサージ・整体",cat:"健康",judge:"ng",reason:"私的支出。"},
+{emoji:"💇",name:"美容院 (タレント・モデル 等)",cat:"健康",judge:"cond",reason:"業務上 必要 (撮影前 等) なら OK。明細に 業務日 記載。"},
+{emoji:"💇",name:"美容院 (普通の 業種)",cat:"健康",judge:"ng",reason:"私的支出。"},
+{emoji:"🎁",name:"取引先への お祝い金・香典",cat:"その他",judge:"ok",reason:"交際費 OK。香典袋 の コピー 推奨。"},
+{emoji:"💐",name:"取引先 開店祝い・お花",cat:"その他",judge:"ok",reason:"交際費 OK。"},
+{emoji:"🧧",name:"取引先 お年玉",cat:"その他",judge:"ng",reason:"私的支出 扱い。"},
+{emoji:"⛩",name:"神社 初詣・お祓い",cat:"その他",judge:"cond",reason:"事業 繁盛祈願 として 計上する 説 あり。明細 残す。"},
+{emoji:"📰",name:"新聞 (業務関連)",cat:"その他",judge:"cond",reason:"業務上 必要 (情報収集) なら OK。"},
+{emoji:"🎬",name:"映画・舞台 鑑賞",cat:"その他",judge:"cond",reason:"業務上 必要 (脚本家・評論家 等) なら OK。"},
+{emoji:"🎮",name:"ゲーム・サブスク (Netflix等)",cat:"その他",judge:"cond",reason:"業務上 必要 (ゲームライター・映像評論家 等) なら OK。"},
+{emoji:"💰",name:"事業用 銀行口座 振込手数料",cat:"その他",judge:"ok",reason:"支払手数料 として OK。"},
+{emoji:"💳",name:"事業用 クレジットカード 年会費",cat:"その他",judge:"ok",reason:"業務専用 カードなら OK。"},
+{emoji:"💼",name:"税理士 報酬",cat:"その他",judge:"ok",reason:"支払手数料 / 業務委託費 で OK。"},
+{emoji:"⚖️",name:"弁護士 相談料 (業務関連)",cat:"その他",judge:"ok",reason:"業務上 紛争 等の 相談 は OK。"},
+{emoji:"📦",name:"事務用品 (文房具・封筒 等)",cat:"その他",judge:"ok",reason:"消耗品費 として OK。"},
+{emoji:"🖨",name:"プリンター・インク",cat:"その他",judge:"ok",reason:"10万円未満 は 消耗品費。10万円以上 は 減価償却。"},
+{emoji:"🧾",name:"会計ソフト 利用料",cat:"その他",judge:"ok",reason:"OK。freee / マネーフォワード 等。"}
+];
+const JUDGE_LABEL={ok:"✅ OK",cond:"⚠️ 条件付き",ng:"❌ NG"};
+let curFilter="all";
+function render(){
+const q=document.getElementById('q').value.toLowerCase();
+const items=ITEMS.filter(it=>{
+if(curFilter==="all"){}
+else if(curFilter==="ok"&&it.judge!=="ok")return false;
+else if(curFilter==="cond"&&it.judge!=="cond")return false;
+else if(curFilter==="ng"&&it.judge!=="ng")return false;
+else if(!["all","ok","cond","ng"].includes(curFilter)&&it.cat!==curFilter)return false;
+if(q&&!(it.name.toLowerCase().includes(q)||it.reason.toLowerCase().includes(q)||it.cat.toLowerCase().includes(q)))return false;
+return true;
+});
+const list=document.getElementById('list');
+list.innerHTML=items.map(it=>`<div class="item ${it.judge}"><div class="emoji">${it.emoji}</div><div class="body"><div class="name">${it.name}<span class="judge judge-${it.judge}">${JUDGE_LABEL[it.judge]}</span></div><div class="reason">${it.reason}</div>${it.anbun?`<div class="anbun">${it.anbun}</div>`:''}</div></div>`).join('');
+document.getElementById('empty').style.display=items.length===0?'block':'none';
+}
+document.getElementById('q').addEventListener('input',render);
+document.querySelectorAll('#tags button').forEach(b=>{
+b.addEventListener('click',()=>{
+document.querySelectorAll('#tags button').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+curFilter=b.dataset.cat;
+render();
+if(typeof gtag!=='undefined')gtag('event','filter',{tool:'expense-check',cat:curFilter});
+});
+});
+render();
+(function(){
+const related=[
+{slug:"side-tax",icon:"🧾",title:"副業 確定申告 判定",desc:"20万円ルール + 税額試算。"},
+{slug:"take-home",icon:"💴",title:"手取り計算",desc:"額面→ 実額。"},
+{slug:"ideco-tax",icon:"🏦",title:"iDeCo 節税額",desc:"所得控除 で いくら 戻る。"},
+{slug:"retirement-insurance",icon:"🏥",title:"退職後の 健康保険 3択",desc:"国保 / 任継 / 扶養 比較。"}
+];
+const html=related.map(t=>`<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+const el=document.getElementById('relatedTools');
+if(el)el.innerHTML=html;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>タイピング速度測定｜文字数/分・正確率を計測（無料・登録不要）</title>
+<meta name="description" content="表示された文章を入力して、タイピング速度(文字/分)と正確率を測定。腕試しにどうぞ。無料・登録不要・ブラウザ完結。結果をシェアして勝負！">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>⌨️ タイピング速度測定</h1>
+  <p class="lead">表示された文章を入力してください。入力を始めると計測スタート、最後まで打つと「文字/分」と「正確率」を判定します。</p>
+
+  <div class="tool">
+    <div class="result" style="text-align:left;font-size:18px;line-height:1.9;" id="target">「読み込み中…」</div>
+    <div class="row"><textarea id="input" class="in" style="min-height:90px;font-family:inherit;font-size:16px;" placeholder="ここに入力（最初の1文字で計測開始）" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea></div>
+    <div class="bar"><button class="btn ghost" id="next">別の文章にする</button><span id="live" class="lbl" style="align-self:center;"></span></div>
+
+    <div class="result" id="scorebox" style="display:none;">
+      <span class="big" id="cpm">--</span><div class="lbl">文字 / 分</div>
+      <div class="lbl" id="rank"></div>
+      <div class="lbl" id="detail" style="font-size:13px;margin-top:6px;"></div>
+      <div class="bar" style="justify-content:center;"><button class="btn primary" id="retry">もう一度</button><button class="btn ghost" id="share">結果をコピー</button></div>
+      <span class="copied" id="copied">コピーしました</span>
+    </div>
+  </div>
+
+  <h2>速度の目安（文字/分）</h2>
+  <dl class="faq">
+    <dt>300以上</dt><dd>達人級。プロのライター・エンジニア並み。</dd>
+    <dt>200〜300</dt><dd>速い。仕事で困らないレベル。</dd>
+    <dt>120〜200</dt><dd>平均的。</dd>
+    <dt>120未満</dt><dd>ゆっくり。練習で必ず伸びます。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var SENTENCES=[
+    'すべての国民は、健康で文化的な最低限度の生活を営む権利を有する。',
+    '吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。',
+    '春はあけぼの。やうやう白くなりゆく山ぎは、すこしあかりて。',
+    '継続は力なり。小さな積み重ねが、やがて大きな差を生みます。',
+    '明日できることを今日やってしまおうと思える人は強い。',
+    'ブラウザだけで動く便利なツールを、無料で気軽に使ってください。'
+  ];
+  var target=document.getElementById('target'), input=document.getElementById('input'), live=document.getElementById('live');
+  var text='', startAt=0, running=false;
+  function pick(){ text=SENTENCES[Math.floor(Math.random()*SENTENCES.length)]; target.textContent='「'+text+'」'; input.value=''; startAt=0; running=false; live.textContent=''; document.getElementById('scorebox').style.display='none'; input.focus(); }
+  function accuracy(a,b){ var n=Math.min(a.length,b.length),ok=0; for(var i=0;i<n;i++){ if(a[i]===b[i])ok++; } return {ok:ok, rate: a.length? Math.round(ok/Math.max(a.length,b.length)*100):0 }; }
+  function finish(){
+    running=false;
+    var sec=(performance.now()-startAt)/1000;
+    var cpm=Math.round(input.value.length/sec*60);
+    var ac=accuracy(input.value, text);
+    var rank; if(cpm>=300)rank='達人級 🏆'; else if(cpm>=200)rank='速い ⚡'; else if(cpm>=120)rank='平均的 🙂'; else rank='ゆっくり 🐢';
+    document.getElementById('cpm').textContent=cpm;
+    document.getElementById('rank').textContent=rank;
+    document.getElementById('detail').textContent='正確率 '+ac.rate+'% ／ '+input.value.length+'文字を '+sec.toFixed(1)+'秒';
+    document.getElementById('scorebox').style.display='';
+    window.__share='【タイピング速度】'+cpm+'文字/分（'+rank+'）正確率'+ac.rate+'% ＃便利ツール patto-tool.com';
+  }
+  input.addEventListener('input', function(){
+    if(!running && input.value.length>0){ running=true; startAt=performance.now(); }
+    if(running){ var sec=(performance.now()-startAt)/1000; live.textContent='⏱ '+sec.toFixed(1)+'秒 / '+input.value.length+'文字'; }
+    if(input.value.length>=text.length){ finish(); }
+  });
+  document.getElementById('next').addEventListener('click',pick);
+  document.getElementById('retry').addEventListener('click',function(){ input.value=''; startAt=0; running=false; document.getElementById('scorebox').style.display='none'; live.textContent=''; input.focus(); });
+  document.getElementById('share').addEventListener('click',function(){ var c=document.getElementById('copied'); function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);} if(navigator.clipboard){navigator.clipboard.writeText(window.__share||'').then(fin).catch(fin);} });
+  pick();
+})();
+</script>
+</body>
+</html>

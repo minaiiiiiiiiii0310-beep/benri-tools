@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贈与税 計算 シミュレーター｜暦年贈与 / 相続時精算 課税 で 即時 試算 (一般 / 特例)</title>
+<meta name="description" content="贈与額 と 贈与者 の 関係から、贈与税の 額を 即時 計算。暦年贈与 (110万 基礎控除) と 相続時精算 課税 (2500万 控除) を 比較、一般 / 特例 (直系尊属→18歳以上) 区別も。">
+<link rel="canonical" href="https://patto-tool.com/gift-tax/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patto-tool.com/gift-tax/">
+<meta property="og:title" content="贈与税 計算 シミュレーター">
+<meta property="og:description" content="贈与額・関係 から 即時 試算。暦年 / 相続時精算 課税 比較。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="贈与税 計算 シミュレーター">
+<meta name="twitter:description" content="贈与額 + 関係 で 即時 税額算出。">
+<meta name="twitter:image" content="https://patto-tool.com/og.png">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"贈与税 計算","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"贈与額・関係から 贈与税を 即時 計算。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"税金・公的手続き","item":"https://patto-tool.com/#tax"},{"@type":"ListItem","position":3,"name":"贈与税 計算","item":"https://patto-tool.com/gift-tax/"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"贈与税を 計算する 方法","description":"贈与額・関係・課税方式から 贈与税の 額を 算出する 4ステップ。","totalTime":"PT1M","step":[{"@type":"HowToStep","position":1,"name":"1年間の 贈与額を 入力","text":"同じ 暦年 (1月〜12月) に 受け取った 贈与の 合計額を 円単位で 入力。"},{"@type":"HowToStep","position":2,"name":"贈与者との 関係を 選ぶ","text":"親・祖父母 → 18歳以上の 子・孫 なら 特例税率、それ以外 (兄弟・夫婦・友人) は 一般税率。"},{"@type":"HowToStep","position":3,"name":"受贈者の 年齢を 入力","text":"特例税率 適用には 受贈者が 18歳以上である ことが 必要。"},{"@type":"HowToStep","position":4,"name":"計算実行","text":"暦年贈与 (110万円 基礎控除) と 相続時精算 課税 (2500万円 控除) の 両方を 比較表示。"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"110万円 以下 なら 申告 不要?","acceptedAnswer":{"@type":"Answer","text":"はい。基礎控除内なら 贈与税ゼロ・申告不要。ただし 名義預金 (親が 通帳・印鑑を 管理) は 贈与と 認められない ことが あるので 注意。"}},{"@type":"Question","name":"毎年 110万 ずつ 贈与すれば 安全?","acceptedAnswer":{"@type":"Answer","text":"定期 (連年) 贈与と みなされる リスクあり。毎年 契約書 + 振込 + 金額・時期を 変える が 推奨。令和6年改正で 相続前 7年は 加算対象に。"}},{"@type":"Question","name":"住宅 取得 資金の 特例?","acceptedAnswer":{"@type":"Answer","text":"父母・祖父母から 住宅取得 のために もらう お金は 最大 1000万円 (省エネ住宅) まで 非課税。通常の 110万と 併用可能。"}},{"@type":"Question","name":"申告 期限は?","acceptedAnswer":{"@type":"Answer","text":"贈与を 受けた 翌年の 2月1日〜3月15日。期限後は 加算税・延滞税が 発生。"}}]}
+</script>
+
+<link rel="stylesheet" href="../style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav class="breadcrumb" aria-label="パンくず" style="font-size:13px;color:#6b7280;margin:8px 0 4px;"><a href="../">ホーム</a> &rsaquo; <a href="../#tax">税金・公的手続き</a> &rsaquo; <span>贈与税 計算</span></nav>
+  <h1>🎁 贈与税 計算 シミュレーター</h1>
+  <p class="lead">親・祖父母 等から お金や 不動産を もらった ときに かかる 贈与税。<strong>暦年贈与</strong> (110万円 基礎控除) と <strong>相続時精算 課税</strong> (2500万円 控除) を 自動 比較。</p>
+  <p class="intro" style="background:#f0f9ff;border-left:4px solid #0284c7;padding:14px 18px;border-radius:8px;margin:16px 0;font-size:14.5px;line-height:1.8;"><strong>贈与税</strong> は、個人から 個人へ お金・不動産・株式 等の 財産を 無償で 譲り渡した ときに 受贈者 (もらう側) に 課される 国税です。相続税の <strong>補完税</strong> として 高い 税率 (最大 55%) が 設定されている 一方で、<strong>暦年贈与 (年間 110万円 非課税)</strong> や <strong>相続時精算 課税 (累計 2500万円 控除 + 令和6年改正で 毎年 110万円 基礎控除 追加)</strong>、住宅取得資金 贈与 (最大 1000万円)、教育資金 一括贈与 (1500万円)、結婚・子育て資金 (1000万円) など 多くの 特例も 存在します。本ツールは 贈与額・贈与者と 受贈者の 関係 (直系尊属の 特例税率 / 一般税率)・受贈者の 年齢を 入力するだけで、令和6年 改正後の 国税庁 速算表を 用いて 贈与税額を 即時算出し、<strong>暦年贈与と 相続時精算 課税の 有利不利</strong> を 自動比較します。</p>
+
+  <div class="tool">
+    <p class="cap">直系尊属 → 18歳以上 の 子・孫 への 贈与 は 「特例税率」 で さらに 安く。</p>
+
+    <h2>1. 贈与の 情報</h2>
+    <label>1年間の 贈与額 円</label>
+    <input id="m_amount" class="in" type="number" placeholder="例: 5000000 (500万円)" />
+
+    <label>贈与者 と 受贈者の 関係</label>
+    <select id="m_rel" class="in">
+      <option value="special">親・祖父母 → 18歳以上 の 子・孫 (特例税率)</option>
+      <option value="general">それ以外 (一般税率) — 兄弟・夫婦・友人 等</option>
+    </select>
+
+    <label>受贈者の 年齢</label>
+    <input id="m_age" class="in" type="number" placeholder="例: 30" value="30" />
+
+    <h2>2. 課税方法を 比較</h2>
+    <p class="note" style="font-size:13px;color:#666;">受贈者の 選択で 「暦年贈与」 と 「相続時精算 課税」 の どちらかを 選べます (60歳以上の 親・祖父母 → 18歳以上の 子・孫 のみ 相続時精算 可)。</p>
+
+    <div class="bar"><button type="button" class="btn primary" id="calc">贈与税を 計算</button></div>
+
+    <div id="result"></div>
+
+    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>贈与税 とは — 課税対象と 非課税枠</h2>
+  <p>個人から 個人への 財産移転に かかる 国税。受贈者 (もらう人) が 申告納税します。1月〜12月の 1年間の 贈与額が 110万円を 超えたら 翌年 2/1〜3/15に 確定申告が 必要。配偶者の 居住用 不動産 贈与 (2000万円控除)・教育資金 一括贈与・結婚子育て資金 など 特例も 多く、活用すれば 大きく 節税できます。</p>
+
+  <h2>贈与税の 計算方法 — 2つの 課税方式</h2>
+
+  <h3>① 暦年贈与 (毎年 110万円 まで 非課税)</h3>
+  <ul>
+    <li>1月〜12月の 贈与額 - 110万円 = 課税対象</li>
+    <li>速算表で 税額算出</li>
+    <li>令和6年 改正: 相続前 <strong>7年以内</strong> の 贈与は 相続財産に 加算</li>
+  </ul>
+
+  <h3>② 相続時精算 課税 (累計 2500万 まで 非課税)</h3>
+  <ul>
+    <li>60歳以上の 親・祖父母 → 18歳以上の 子・孫</li>
+    <li>累計 2500万まで 贈与税ゼロ、超過分は 一律 20%</li>
+    <li>相続時に 全額を 相続財産に 加算</li>
+    <li>令和6年改正: 毎年 110万円 の <strong>基礎控除</strong> 追加 (持ち戻し なし)</li>
+  </ul>
+
+  <h3>速算表 (特例税率 / 一般税率)</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <tr style="background:#f3f4f6;"><th style="padding:6px;text-align:left;">基礎控除後 金額</th><th style="padding:6px;text-align:right;">特例税率</th><th style="padding:6px;text-align:right;">一般税率</th></tr>
+    <tr><td style="padding:6px;">200万 以下</td><td style="padding:6px;text-align:right;">10%</td><td style="padding:6px;text-align:right;">10%</td></tr>
+    <tr><td style="padding:6px;">400万 以下</td><td style="padding:6px;text-align:right;">15%</td><td style="padding:6px;text-align:right;">15%</td></tr>
+    <tr><td style="padding:6px;">600万 以下</td><td style="padding:6px;text-align:right;">20%</td><td style="padding:6px;text-align:right;">20%</td></tr>
+    <tr><td style="padding:6px;">1000万 以下</td><td style="padding:6px;text-align:right;">30%</td><td style="padding:6px;text-align:right;">30%</td></tr>
+    <tr><td style="padding:6px;">1500万 以下</td><td style="padding:6px;text-align:right;">40%</td><td style="padding:6px;text-align:right;">40%</td></tr>
+    <tr><td style="padding:6px;">3000万 以下</td><td style="padding:6px;text-align:right;">45%</td><td style="padding:6px;text-align:right;">50%</td></tr>
+    <tr><td style="padding:6px;">4500万 以下</td><td style="padding:6px;text-align:right;">50%</td><td style="padding:6px;text-align:right;">55%</td></tr>
+    <tr><td style="padding:6px;">4500万 超</td><td style="padding:6px;text-align:right;">55%</td><td style="padding:6px;text-align:right;">55%</td></tr>
+  </table>
+
+  <h2>贈与税の よくある質問 (FAQ)</h2>
+  <dl class="faq">
+    <dt>110万円 以下 なら 申告 不要?</dt>
+    <dd>はい。基礎控除 内なら 贈与税ゼロ・申告不要。ただし 名義預金 (親が 通帳・印鑑を 管理) は 贈与と 認められない ことが あるので 注意。</dd>
+    <dt>毎年 110万 ずつ 贈与すれば 安全?</dt>
+    <dd>定期 (連年) 贈与 と みなされる リスクあり。<strong>毎年 契約書 + 振込 + 金額・時期を 変える</strong> が 推奨。令和6年改正で 相続前 7年は 加算対象に。</dd>
+    <dt>住宅 取得 資金の 特例?</dt>
+    <dd>父母・祖父母から 住宅取得 のために もらう お金は 最大 1000万円 (省エネ住宅) まで 非課税。通常の 110万 と 併用可能。</dd>
+    <dt>申告 期限は?</dt>
+    <dd>贈与を 受けた 翌年の <strong>2月1日〜3月15日</strong>。期限後は 加算税・延滞税 が 発生。</dd>
+  </dl>
+
+  <h2>🔗 関連 ツール</h2>
+  <div class="grid" id="relatedTools"></div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  const related = [
+    {slug:"inheritance-tax", icon:"👨‍👩‍👧", title:"相続税 ざっくり計算", desc:"遺産・相続人数で 即試算。"},
+    {slug:"ideco-tax", icon:"🏦", title:"iDeCo 節税額", desc:"所得控除で いくら 戻る。"},
+    {slug:"furusato-limit", icon:"🎁", title:"ふるさと納税 上限", desc:"年収・家族構成で 寄付上限。"},
+    {slug:"realestate-value", icon:"🏠", title:"不動産 売却 概算", desc:"マンション/戸建/土地 即時 査定。"},
+    {slug:"housing-loan-deduction", icon:"🏠", title:"住宅ローン控除", desc:"13年間 還付額 即試算。"},
+    {slug:"medical-deduction", icon:"💊", title:"医療費控除", desc:"確定申告 還付額。"},
+    {slug:"spouse-deduction", icon:"💑", title:"配偶者控除 判定", desc:"103万・150万の 壁。"},
+    {slug:"take-home", icon:"💴", title:"手取り計算", desc:"年収から 実額。"},
+  ];
+  const html = related.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+  const el = document.getElementById('relatedTools');
+  if (el) el.innerHTML = html;
+})();
+</script>
+
+<script>
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP') + ' 円'; }
+
+// 速算表
+const SPECIAL = [
+  {limit: 2000000,  rate:0.10, ded:0},
+  {limit: 4000000,  rate:0.15, ded:100000},
+  {limit: 6000000,  rate:0.20, ded:300000},
+  {limit: 10000000, rate:0.30, ded:900000},
+  {limit: 15000000, rate:0.40, ded:1900000},
+  {limit: 30000000, rate:0.45, ded:2650000},
+  {limit: 45000000, rate:0.50, ded:4150000},
+  {limit: Infinity, rate:0.55, ded:6400000},
+];
+const GENERAL = [
+  {limit: 2000000,  rate:0.10, ded:0},
+  {limit: 3000000,  rate:0.15, ded:100000},
+  {limit: 4000000,  rate:0.20, ded:250000},
+  {limit: 6000000,  rate:0.30, ded:650000},
+  {limit: 10000000, rate:0.40, ded:1250000},
+  {limit: 15000000, rate:0.45, ded:1750000},
+  {limit: 30000000, rate:0.50, ded:2500000},
+  {limit: Infinity, rate:0.55, ded:4000000},
+];
+
+function calcReki(amount, isSpecial) {
+  const taxable = Math.max(0, amount - 1100000);
+  if (taxable === 0) return 0;
+  const T = isSpecial ? SPECIAL : GENERAL;
+  for (const t of T) if (taxable <= t.limit) return taxable * t.rate - t.ded;
+  return 0;
+}
+
+function calcSeisan(amount) {
+  // 相続時精算: 110万 基礎控除 + 2500万 累計控除、超過分 一律 20%
+  const afterBase = Math.max(0, amount - 1100000);
+  return Math.max(0, afterBase - 25000000) * 0.20;
+}
+
+document.getElementById('calc').onclick = () => {
+  const amount = parseFloat(document.getElementById('m_amount').value) || 0;
+  const rel = document.getElementById('m_rel').value;
+  const age = parseInt(document.getElementById('m_age').value) || 0;
+
+  if (amount <= 0) {
+    document.getElementById('result').innerHTML = '<p class="note" style="color:#c00;">⚠️ 贈与額を 入力してください。</p>';
+    return;
+  }
+
+  const isSpecial = rel === "special";
+  const taxReki = calcReki(amount, isSpecial);
+  const taxSeisan = calcSeisan(amount);
+  const canSeisan = isSpecial && age >= 18;
+
+  let html = '<h2>💡 計算 結果</h2>';
+
+  if (amount <= 1100000) {
+    html += `<div style="background:#dcfce7;border:3px solid #16a34a;border-radius:12px;padding:20px;margin:16px 0;">`;
+    html += `<div style="font-size:18px;font-weight:bold;color:#16a34a;">✅ 贈与税 ゼロ・申告不要</div>`;
+    html += `<div style="font-size:14px;color:#475569;margin-top:8px;">${fmt(amount)} ≤ 基礎控除 110万円 (暦年贈与)</div>`;
+    html += `</div>`;
+    document.getElementById('result').innerHTML = html;
+    return;
+  }
+
+  // 比較カード
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0;">';
+  const recommendReki = !canSeisan || taxReki <= taxSeisan;
+  const c1bg = recommendReki ? '#dcfce7' : '#f9fafb';
+  const c1b = recommendReki ? '3px solid #16a34a' : '1px solid #e5e7eb';
+  html += `<div style="background:${c1bg};border:${c1b};border-radius:12px;padding:16px;">`;
+  html += `<div style="font-weight:bold;font-size:15px;">📅 暦年贈与</div>`;
+  html += `<div style="font-size:24px;font-weight:bold;color:#1d4ed8;margin:8px 0;">${fmt(taxReki)}</div>`;
+  html += `<div style="font-size:13px;color:#475569;">税率: ${isSpecial?'特例':'一般'}</div>`;
+  if (recommendReki) html += `<div style="margin-top:10px;font-weight:bold;color:#16a34a;">⭐ おすすめ</div>`;
+  html += `</div>`;
+
+  const c2bg = (!recommendReki && canSeisan) ? '#dcfce7' : (canSeisan ? '#f9fafb' : '#fee2e2');
+  const c2b = (!recommendReki && canSeisan) ? '3px solid #16a34a' : '1px solid #e5e7eb';
+  html += `<div style="background:${c2bg};border:${c2b};border-radius:12px;padding:16px;">`;
+  html += `<div style="font-weight:bold;font-size:15px;">🏦 相続時精算 課税</div>`;
+  if (canSeisan) {
+    html += `<div style="font-size:24px;font-weight:bold;color:#1d4ed8;margin:8px 0;">${fmt(taxSeisan)}</div>`;
+    html += `<div style="font-size:13px;color:#475569;">累計 2500万 まで 0円</div>`;
+  } else {
+    html += `<div style="font-size:18px;color:#dc2626;margin:8px 0;">利用 不可</div>`;
+    html += `<div style="font-size:13px;color:#475569;">親・祖父母 → 18歳以上 子・孫 のみ</div>`;
+  }
+  if (!recommendReki && canSeisan) html += `<div style="margin-top:10px;font-weight:bold;color:#16a34a;">⭐ おすすめ</div>`;
+  html += `</div>`;
+  html += '</div>';
+
+  html += `<table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:16px;">
+    <tr style="background:#f3f4f6;"><th style="padding:8px;text-align:left;">項目</th><th style="padding:8px;text-align:right;">金額</th></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">贈与額</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(amount)}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">基礎控除</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">- 1,100,000 円</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">課税対象</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(amount - 1100000)}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">適用税率</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${isSpecial ? '特例税率' : '一般税率'}</td></tr>
+    <tr style="background:#fef9c3;"><td style="padding:8px;border-top:1px solid #e5e7eb;"><strong>暦年 贈与税</strong></td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;"><strong>${fmt(taxReki)}</strong></td></tr>
+  </table>`;
+
+  html += '<h3>📌 注意点</h3><ul style="font-size:14px;line-height:1.7;">';
+  html += '<li>相続時精算 課税 を 一度 選ぶと、その 贈与者 からの 贈与は <strong>二度と 暦年に 戻せません</strong>。</li>';
+  html += '<li>令和6年改正: 相続前 <strong>7年以内</strong> の 暦年贈与 は 相続財産に 加算 (持ち戻し)。</li>';
+  html += '<li>住宅取得 資金 (最大 1000万円) ・教育資金 (1500万円) ・結婚子育て (1000万円) など 別途 非課税枠あり。</li>';
+  html += '</ul>';
+
+  document.getElementById('result').innerHTML = html;
+  if (typeof gtag !== 'undefined') gtag('event', 'simulate', { tool: 'gift-tax' });
+};
+</script>
+</body>
+</html>

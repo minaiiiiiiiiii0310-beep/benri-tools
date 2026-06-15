@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スクショ黒塗りツール｜個人情報をマスキングして安全に共有（無料）</title>
+<meta name="description" content="スクリーンショットや画像の名前・住所・口座番号などを、ドラッグで黒塗り（モザイク）にして保存。SNS共有や問い合わせ前の個人情報保護に。無料・登録不要・画像は送信されません。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>⬛ スクショ黒塗り（マスキング）</h1>
+  <p class="lead">スクリーンショットを共有する前に、<strong>名前・住所・電話番号・口座情報</strong>などを隠しましょう。画像を読み込んで、隠したい場所を<strong>ドラッグでなぞるだけ</strong>。黒塗りとモザイクが選べます。</p>
+
+  <div class="tool">
+    <div class="row"><label>画像を選択（スクショ・写真）</label><input type="file" id="file" class="in" accept="image/*"></div>
+    <div class="checks" id="modebar" style="display:none;">
+      <label><input type="radio" name="mode" value="black" checked> ⬛ 黒塗り</label>
+      <label><input type="radio" name="mode" value="mosaic"> 🟪 モザイク</label>
+      <label><input type="radio" name="mode" value="white"> ⬜ 白塗り</label>
+    </div>
+    <div style="overflow:auto;"><canvas id="cv" style="max-width:100%;border:1px solid #e5e7eb;border-radius:12px;display:none;cursor:crosshair;touch-action:none;"></canvas></div>
+    <div class="bar" id="actionbar" style="display:none;">
+      <button class="btn ghost" id="undo">↩ 元に戻す</button>
+      <button class="btn ghost" id="reset">全部やり直す</button>
+      <button class="btn primary" id="dl">💾 保存（ダウンロード）</button>
+    </div>
+    <p class="note">🔒 画像はブラウザ内だけで処理され、サーバーには一切アップロードされません。保存時はメタデータ（位置情報等）も除去されます。</p>
+  </div>
+
+  <h2>使い方のコツ</h2>
+  <dl class="faq">
+    <dt>黒塗りとモザイク、どちらが安全？</dt><dd>確実なのは黒塗りです。粗いモザイクも実用上は十分ですが、文字をぼかす場合はモザイクの粒が細かすぎないことを確認してください。</dd>
+    <dt>失敗したら？</dt><dd>「元に戻す」で1つ前の状態に戻せます。「全部やり直す」で元画像からやり直せます。</dd>
+    <dt>マーカーアプリの黒塗りは透ける？</dt><dd>半透明マーカーの重ね塗りは画像処理で復元される事例があります。このツールの黒塗りは完全な不透明で、元の画素は残りません。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var img=null, rects=[], drawing=false, sx=0, sy=0, cx=0, cy=0;
+
+  function mode(){ return document.querySelector('input[name=mode]:checked').value; }
+
+  function redraw(tempRect){
+    if(!img) return;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.drawImage(img,0,0);
+    rects.forEach(function(r){ paint(r); });
+    if(tempRect){ ctx.save(); ctx.strokeStyle='#2563eb'; ctx.lineWidth=2; ctx.setLineDash([6,4]); ctx.strokeRect(tempRect.x,tempRect.y,tempRect.w,tempRect.h); ctx.restore(); }
+  }
+  function paint(r){
+    if(r.w<2||r.h<2) return;
+    if(r.mode==='mosaic'){
+      var block=Math.max(8, Math.round(Math.min(cv.width,cv.height)/60));
+      for(var y=r.y; y<r.y+r.h; y+=block){
+        for(var x=r.x; x<r.x+r.w; x+=block){
+          var px=ctx.getImageData(Math.min(x+block/2,cv.width-1), Math.min(y+block/2,cv.height-1),1,1).data;
+          ctx.fillStyle='rgb('+px[0]+','+px[1]+','+px[2]+')';
+          ctx.fillRect(x,y,Math.min(block,r.x+r.w-x),Math.min(block,r.y+r.h-y));
+        }
+      }
+    } else {
+      ctx.fillStyle=(r.mode==='white')?'#ffffff':'#000000';
+      ctx.fillRect(r.x,r.y,r.w,r.h);
+    }
+  }
+  function pos(e){
+    var rect=cv.getBoundingClientRect();
+    var clientX=(e.touches?e.touches[0].clientX:e.clientX);
+    var clientY=(e.touches?e.touches[0].clientY:e.clientY);
+    return { x:(clientX-rect.left)*(cv.width/rect.width), y:(clientY-rect.top)*(cv.height/rect.height) };
+  }
+  function norm(){ var x=Math.min(sx,cx), y=Math.min(sy,cy), w=Math.abs(cx-sx), h=Math.abs(cy-sy); return {x:x,y:y,w:w,h:h,mode:mode()}; }
+
+  function start(e){ if(!img)return; e.preventDefault(); drawing=true; var p=pos(e); sx=cx=p.x; sy=cy=p.y; }
+  function move(e){ if(!drawing)return; e.preventDefault(); var p=pos(e); cx=p.x; cy=p.y; redraw(norm()); }
+  function end(e){ if(!drawing)return; e.preventDefault(); drawing=false; var r=norm(); if(r.w>3&&r.h>3){ rects.push(r); } redraw(); }
+
+  cv.addEventListener('mousedown',start); cv.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+  cv.addEventListener('touchstart',start,{passive:false}); cv.addEventListener('touchmove',move,{passive:false}); cv.addEventListener('touchend',end,{passive:false});
+
+  document.getElementById('file').addEventListener('change',function(){
+    var f=this.files&&this.files[0]; if(!f)return;
+    var i=new Image();
+    i.onload=function(){
+      img=i; rects=[];
+      cv.width=i.naturalWidth; cv.height=i.naturalHeight;
+      cv.style.display=''; document.getElementById('modebar').style.display=''; document.getElementById('actionbar').style.display='';
+      redraw();
+    };
+    i.src=URL.createObjectURL(f);
+  });
+  document.getElementById('undo').addEventListener('click',function(){ rects.pop(); redraw(); });
+  document.getElementById('reset').addEventListener('click',function(){ rects=[]; redraw(); });
+  document.getElementById('dl').addEventListener('click',function(){
+    if(!img)return;
+    redraw(); // 選択枠なしの状態で確定
+    cv.toBlob(function(b){
+      if(!b)return;
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(b);
+      a.download='masked.png';
+      a.click();
+    },'image/png');
+  });
+})();
+</script>
+</body>
+</html>

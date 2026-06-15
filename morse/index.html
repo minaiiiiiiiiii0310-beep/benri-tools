@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>モールス信号 変換ツール｜文字⇔モールス・音で再生（無料）</title>
+<meta name="description" content="アルファベット・数字とモールス信号を相互変換。「・ー」表示＆ピーッと音で再生もできる無料ツール。SOSや暗号遊びに。登録不要・ブラウザ完結。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>📡 モールス信号変換</h1>
+  <p class="lead">英数字とモールス信号を相互変換します。「<strong>・ ー</strong>」で表示し、<strong>音で再生</strong>もできます（SOS = ・・・ ーーー ・・・）。暗号遊びや学習に。</p>
+
+  <div class="tool">
+    <div class="row"><label>テキスト（英数字）</label><textarea id="text" class="in" style="min-height:80px;font-family:inherit;" placeholder="例：SOS / HELLO 123">SOS</textarea></div>
+    <div class="bar"><button class="btn primary" id="toMorse">↓ モールスに変換</button><button class="btn primary" id="toText">↑ 文字に戻す</button></div>
+    <div class="row"><label>モールス信号<span class="copied" id="copied">コピーしました</span></label><textarea id="morse" class="in" style="min-height:80px;font-size:20px;letter-spacing:2px;" placeholder="・・・ ーーー ・・・"></textarea></div>
+    <div class="bar"><button class="btn primary" id="play">▶ 音で再生</button><button class="btn ghost" id="stop">■ 停止</button><button class="btn ghost" id="copy">モールスをコピー</button></div>
+    <p class="note">「文字→モールス」は上の欄に入力して変換。「モールス→文字」はモールス欄（・ー、語間は / ）を入力して変換。音はブラウザ内で生成します。</p>
+  </div>
+
+  <h2>豆知識</h2>
+  <dl class="faq">
+    <dt>区切りのルール</dt><dd>文字内は詰めて、文字間はスペース、単語間は「 / 」で区切ります。</dd>
+    <dt>対応文字</dt><dd>A〜Z、0〜9、一部の記号（. , ? / - ( )）。和文モールスには未対応です。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var MAP={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','.':'.-.-.-',',':'--..--','?':'..--..','/':'-..-.','-':'-....-','(':'-.--.',')':'-.--.-'};
+  var REV={}; for(var k in MAP) REV[MAP[k]]=k;
+  var text=document.getElementById('text'), morse=document.getElementById('morse');
+  function disp(m){ return m.replace(/\./g,'・').replace(/-/g,'ー'); }
+  function undisp(m){ return m.replace(/[・･]/g,'.').replace(/[ー－—–-]/g,'-'); }
+  function encode(){
+    var words=text.value.toUpperCase().trim().split(/\s+/);
+    var out=words.map(function(w){ return w.split('').map(function(ch){ return MAP[ch]||''; }).filter(function(x){return x;}).join(' '); }).filter(function(x){return x;}).join(' / ');
+    morse.value=disp(out);
+  }
+  function decode(){
+    var raw=undisp(morse.value).trim();
+    var words=raw.split(/\s*\/\s*/);
+    var out=words.map(function(w){ return w.split(/\s+/).map(function(code){ return REV[code]||''; }).join(''); }).join(' ');
+    text.value=out;
+  }
+  document.getElementById('toMorse').addEventListener('click',encode);
+  document.getElementById('toText').addEventListener('click',decode);
+  document.getElementById('copy').addEventListener('click',function(){ var c=document.getElementById('copied'); function fin(){c.classList.add('show');setTimeout(function(){c.classList.remove('show');},1500);} if(navigator.clipboard){navigator.clipboard.writeText(morse.value).then(fin).catch(fin);} });
+
+  // --- audio playback ---
+  var actx=null, stopFlag=false, timeouts=[];
+  function clearTimers(){ timeouts.forEach(clearTimeout); timeouts=[]; }
+  document.getElementById('stop').addEventListener('click',function(){ stopFlag=true; clearTimers(); });
+  document.getElementById('play').addEventListener('click',function(){
+    stopFlag=false; clearTimers();
+    try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
+    var u=80; var seq=undisp(morse.value); var t=actx.currentTime+0.05;
+    function beep(start,dur){ var o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=620; o.type='sine'; o.connect(g); g.connect(actx.destination); g.gain.setValueAtTime(0.0001,start); g.gain.exponentialRampToValueAtTime(0.3,start+0.005); g.gain.setValueAtTime(0.3,start+dur-0.005); g.gain.exponentialRampToValueAtTime(0.0001,start+dur); o.start(start); o.stop(start+dur); }
+    for(var i=0;i<seq.length;i++){ var ch=seq[i];
+      if(ch==='.'){ beep(t,u/1000); t+=2*u/1000; }
+      else if(ch==='-'){ beep(t,3*u/1000); t+=4*u/1000; }
+      else if(ch===' '){ t+=2*u/1000; }
+      else if(ch==='/'){ t+=4*u/1000; }
+    }
+  });
+})();
+</script>
+</body>
+</html>

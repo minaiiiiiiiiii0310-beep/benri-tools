@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あみだくじ メーカー｜人数・あたりを決めて自動生成（無料）</title>
+<meta name="description" content="人数とアタリ（下の項目）を決めると、ランダムなあみだくじを自動生成。名前をクリックすると線をたどってアニメで結果表示。飲み会・席決め・順番決めに。無料・登録不要。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>🪜 あみだくじメーカー</h1>
+  <p class="lead">人数と「下の項目（あたり/順番など）」を決めて生成。上の番号をクリックすると、線をたどってアニメで結果を表示します。飲み会の席決め・順番決め・くじ引きに。</p>
+
+  <div class="tool">
+    <div class="row" style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;">
+      <div><label>人数（2〜8）</label><input type="number" id="n" class="in" style="max-width:120px" min="2" max="8" value="4"></div>
+      <div style="flex:1;min-width:220px;"><label>下の項目（カンマ区切り・空欄なら自動）</label><input type="text" id="goals" class="in" placeholder="例：あたり,はずれ,はずれ,はずれ"></div>
+    </div>
+    <div class="bar"><button class="btn primary" id="gen">あみだくじを作る</button><button class="btn ghost" id="reveal">全員ぶんを表示</button></div>
+    <div style="overflow-x:auto;"><canvas id="cv" width="640" height="380" style="width:100%;max-width:640px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;"></canvas></div>
+    <div class="result" id="resbox" style="display:none;"><span id="res" class="lbl" style="font-size:17px;font-weight:700;"></span></div>
+    <p class="note">線の引き方はクリックのたびにランダム。結果はブラウザ内で生成され送信されません。</p>
+  </div>
+
+  <h2>使い方</h2>
+  <dl class="faq">
+    <dt>席決め・順番決めに</dt><dd>下の項目に「1番,2番,3番…」や「あたり,はずれ…」を入れて生成。各自が上の番号をクリック。</dd>
+    <dt>もう一度引き直す</dt><dd>「あみだくじを作る」を押すたびに新しい線になります。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var N=4, levels=12, rungs=[], goals=[], topLabels=[], padX=40, padY=46, anim=null;
+  function xOf(c){ return padX + c*((cv.width-padX*2)/(N-1||1)); }
+  function yTop(){ return padY; } function yBot(){ return cv.height-padY; }
+  function yOf(l){ return padY + (l+1)*((cv.height-padY*2)/(levels+1)); }
+  function gen(){
+    if(anim){cancelAnimationFrame(anim);anim=null;}
+    N=Math.max(2,Math.min(8,parseInt(document.getElementById('n').value)||4));
+    var g=document.getElementById('goals').value.split(/[,、]/).map(function(s){return s.trim();}).filter(function(s){return s;});
+    if(g.length<N){ g=[]; g.push('あたり'); for(var i=1;i<N;i++)g.push('はずれ'); }
+    goals=g.slice(0,N);
+    topLabels=[]; for(var i=0;i<N;i++) topLabels.push(String(i+1));
+    rungs=[];
+    for(var l=0;l<levels;l++){ var row=[]; for(var j=0;j<N-1;j++){ if(j>0&&row[j-1]){row.push(false);continue;} row.push(Math.random()<0.42); } rungs.push(row); }
+    draw([]); document.getElementById('resbox').style.display='none';
+  }
+  function trace(start){
+    var pts=[[xOf(start),yTop()]], c=start;
+    for(var l=0;l<levels;l++){ pts.push([xOf(c),yOf(l)]); if(c>0&&rungs[l][c-1]){c--;pts.push([xOf(c),yOf(l)]);} else if(c<N-1&&rungs[l][c]){c++;pts.push([xOf(c),yOf(l)]);} }
+    pts.push([xOf(c),yBot()]); return {pts:pts,end:c};
+  }
+  function draw(paths){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.strokeStyle='#cbd5e1'; ctx.lineWidth=3; ctx.lineCap='round';
+    for(var c=0;c<N;c++){ ctx.beginPath(); ctx.moveTo(xOf(c),yTop()); ctx.lineTo(xOf(c),yBot()); ctx.stroke(); }
+    for(var l=0;l<levels;l++) for(var j=0;j<N-1;j++) if(rungs[l][j]){ ctx.beginPath(); ctx.moveTo(xOf(j),yOf(l)); ctx.lineTo(xOf(j+1),yOf(l)); ctx.stroke(); }
+    ctx.fillStyle='#111827'; ctx.font='bold 16px sans-serif'; ctx.textAlign='center';
+    for(var c2=0;c2<N;c2++){ ctx.fillText(topLabels[c2], xOf(c2), yTop()-14); }
+    ctx.font='13px sans-serif'; ctx.fillStyle='#374151';
+    for(var c3=0;c3<N;c3++){ ctx.fillText(goals[c3]||'', xOf(c3), yBot()+22); }
+    var colors=['#2563eb','#dc2626','#16a34a','#ea580c','#7c3aed','#0891b2','#db2777','#65a30d'];
+    (paths||[]).forEach(function(p){ ctx.strokeStyle=colors[p.idx%colors.length]; ctx.lineWidth=5; ctx.beginPath(); for(var i=0;i<p.n;i++){ var pt=p.pts[i]; if(i===0)ctx.moveTo(pt[0],pt[1]); else ctx.lineTo(pt[0],pt[1]); } ctx.stroke(); });
+  }
+  function animateOne(start, cb){
+    var t=trace(start); var n=1;
+    function step(){ draw([{pts:t.pts,n:n,idx:start}]); if(n<t.pts.length){ n++; anim=requestAnimationFrame(step); } else { anim=null; if(cb)cb(t); } }
+    step();
+  }
+  cv.addEventListener('click', function(e){
+    var rect=cv.getBoundingClientRect(); var x=(e.clientX-rect.left)*(cv.width/rect.width);
+    var best=0,bd=1e9; for(var c=0;c<N;c++){ var d=Math.abs(x-xOf(c)); if(d<bd){bd=d;best=c;} }
+    if(bd>40) return;
+    animateOne(best, function(t){ document.getElementById('res').textContent=topLabels[best]+' → 「'+(goals[t.end]||'')+'」'; document.getElementById('resbox').style.display=''; });
+  });
+  document.getElementById('gen').addEventListener('click',gen);
+  document.getElementById('reveal').addEventListener('click',function(){ var all=[]; for(var c=0;c<N;c++){ var t=trace(c); all.push({pts:t.pts,n:t.pts.length,idx:c}); } draw(all); var lines=[]; for(var c2=0;c2<N;c2++){ lines.push(topLabels[c2]+'→'+(goals[trace(c2).end]||'')); } document.getElementById('res').textContent=lines.join(' ／ '); document.getElementById('resbox').style.display=''; });
+  function fit(){ cv.width=Math.min(640, (cv.parentElement.clientWidth||640)); gen(); }
+  fit(); window.addEventListener('resize',function(){ /* keep simple: no auto-redraw on resize */ });
+})();
+</script>
+</body>
+</html>

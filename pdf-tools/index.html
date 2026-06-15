@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF ツールキット (結合・分割・画像変換) ｜ 無料・登録不要</title>
+<meta name="description" content="PDFの結合・分割・画像変換 (PDF↔JPG) が全てブラウザ内で完結。ファイルはサーバーに送信されません。Adobe等の有料代替に。">
+<link rel="canonical" href="https://patto-tool.com/pdf-tools/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PDF ツールキット ｜ 結合・分割・画像変換 全部入り">
+<meta property="og:description" content="ファイル送信なし・ブラウザ内完結。有料サービスの代替に。">
+<meta property="og:image" content="https://patto-tool.com/og.svg">
+<link rel="stylesheet" href="../style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+
+<!-- PDF-lib for merging/splitting -->
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<!-- PDF.js for rendering (PDF → image) -->
+<script type="module">
+  import * as pdfjs from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.min.mjs";
+  pdfjs.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs";
+  window.pdfjsLib = pdfjs;
+</script>
+
+<style>
+.pdf-tabs{display:flex;gap:4px;margin:16px 0;flex-wrap:wrap;border-bottom:2px solid var(--line);}
+.pdf-tab{flex:1;min-width:120px;padding:12px 8px;background:#fff;border:none;border-bottom:3px solid transparent;cursor:pointer;font-size:15px;font-weight:600;color:#64748b;transition:.15s;}
+.pdf-tab.active{color:var(--accent);border-bottom-color:var(--accent);background:#f1f7ff;}
+.pdf-tab:hover{background:#f8fafc;}
+.pdf-panel{display:none;padding:8px 0;}
+.pdf-panel.active{display:block;}
+.dropzone{border:2px dashed #cbd5e1;border-radius:12px;padding:32px 16px;text-align:center;background:#fafbfc;cursor:pointer;transition:.15s;}
+.dropzone:hover, .dropzone.dragover{border-color:var(--accent);background:#f1f7ff;}
+.dropzone .icon{font-size:48px;margin-bottom:8px;}
+.file-list{margin:16px 0;}
+.file-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:8px;margin:4px 0;font-size:14px;}
+.file-item .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-item button{background:#fee;color:#c00;border:none;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:13px;}
+.progress{background:#f1f5f9;border-radius:8px;overflow:hidden;height:8px;margin:12px 0;}
+.progress-bar{background:var(--accent);height:100%;width:0%;transition:width .3s;}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>📄 PDF ツールキット</h1>
+  <p class="lead">PDFの 結合・分割・画像変換が 全部 ブラウザ内で 完結。<strong>ファイルは サーバーに 送信されません</strong>。Adobe等の 有料サービスの 代替に。</p>
+
+  <div class="pdf-tabs">
+    <button class="pdf-tab active" data-tab="merge">📚 結合</button>
+    <button class="pdf-tab" data-tab="split">✂️ 分割</button>
+    <button class="pdf-tab" data-tab="pdf2img">🖼 PDF→画像</button>
+    <button class="pdf-tab" data-tab="img2pdf">📥 画像→PDF</button>
+  </div>
+
+  <!-- ========== Tab: Merge ========== -->
+  <div class="pdf-panel active" id="panel-merge">
+    <h2>複数のPDFを1つに 結合</h2>
+    <div class="dropzone" id="merge-drop">
+      <div class="icon">📄+📄</div>
+      <div><strong>PDFファイルを 選択 or ドロップ</strong></div>
+      <div class="cap" style="margin-top:8px;">複数選択 OK · 順番は ドラッグで 変更</div>
+      <input type="file" id="merge-files" accept="application/pdf" multiple style="display:none;">
+    </div>
+    <div class="file-list" id="merge-list"></div>
+    <div class="bar">
+      <button type="button" class="btn primary" id="merge-go" disabled>結合して ダウンロード</button>
+      <button type="button" class="btn ghost" id="merge-clear">クリア</button>
+    </div>
+    <div class="progress" id="merge-progress" style="display:none;"><div class="progress-bar"></div></div>
+  </div>
+
+  <!-- ========== Tab: Split ========== -->
+  <div class="pdf-panel" id="panel-split">
+    <h2>PDFを ページ範囲で 分割</h2>
+    <div class="dropzone" id="split-drop">
+      <div class="icon">📄→📄📄</div>
+      <div><strong>PDF を 1つ 選択</strong></div>
+      <input type="file" id="split-file" accept="application/pdf" style="display:none;">
+    </div>
+    <div id="split-info" style="margin:12px 0;font-weight:600;"></div>
+    <label>ページ範囲 (例: <code>1-3,5,7-9</code> / 空欄=全て個別):</label>
+    <input id="split-ranges" class="in" type="text" placeholder="1-3,5,7-9">
+    <div class="bar">
+      <button type="button" class="btn primary" id="split-go" disabled>分割して ダウンロード</button>
+    </div>
+    <div class="progress" id="split-progress" style="display:none;"><div class="progress-bar"></div></div>
+    <p class="cap" style="font-size:13px;">※ 「1-3」 = 1〜3ページ を 1つの PDFに / 「5」 = 5ページ目 単独 / 範囲 ごとに 別ファイルとして 出力</p>
+  </div>
+
+  <!-- ========== Tab: PDF → Image ========== -->
+  <div class="pdf-panel" id="panel-pdf2img">
+    <h2>PDF を 画像 (PNG/JPG) に</h2>
+    <div class="dropzone" id="p2i-drop">
+      <div class="icon">📄→🖼</div>
+      <div><strong>PDF を 1つ 選択</strong></div>
+      <input type="file" id="p2i-file" accept="application/pdf" style="display:none;">
+    </div>
+    <div id="p2i-info" style="margin:12px 0;font-weight:600;"></div>
+    <label>解像度 (DPI):</label>
+    <select id="p2i-dpi" class="in">
+      <option value="72">72 DPI (低・軽量)</option>
+      <option value="150" selected>150 DPI (標準)</option>
+      <option value="300">300 DPI (印刷品質)</option>
+    </select>
+    <label>形式:</label>
+    <select id="p2i-format" class="in">
+      <option value="png" selected>PNG (透過・高品質)</option>
+      <option value="jpeg">JPEG (軽量)</option>
+    </select>
+    <div class="bar">
+      <button type="button" class="btn primary" id="p2i-go" disabled>画像化して ダウンロード (ZIP)</button>
+    </div>
+    <div class="progress" id="p2i-progress" style="display:none;"><div class="progress-bar"></div></div>
+  </div>
+
+  <!-- ========== Tab: Image → PDF ========== -->
+  <div class="pdf-panel" id="panel-img2pdf">
+    <h2>画像 (JPG/PNG) を PDF に</h2>
+    <div class="dropzone" id="i2p-drop">
+      <div class="icon">🖼→📄</div>
+      <div><strong>画像ファイルを 選択 or ドロップ</strong></div>
+      <div class="cap" style="margin-top:8px;">複数選択 OK · 順番に 結合</div>
+      <input type="file" id="i2p-files" accept="image/*" multiple style="display:none;">
+    </div>
+    <div class="file-list" id="i2p-list"></div>
+    <label>ページサイズ:</label>
+    <select id="i2p-size" class="in">
+      <option value="A4" selected>A4 (210x297mm)</option>
+      <option value="Letter">Letter (US)</option>
+      <option value="auto">画像サイズに合わせる</option>
+    </select>
+    <div class="bar">
+      <button type="button" class="btn primary" id="i2p-go" disabled>PDF化して ダウンロード</button>
+      <button type="button" class="btn ghost" id="i2p-clear">クリア</button>
+    </div>
+    <div class="progress" id="i2p-progress" style="display:none;"><div class="progress-bar"></div></div>
+  </div>
+
+  <p class="note" style="margin-top:24px;">🔒 すべて ブラウザ内 処理。ファイルは サーバーに 送信されません。社外秘・個人情報の PDF も 安心して 使えます。</p>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>使い方のコツ</h2>
+  <dl class="faq">
+    <dt>📚 結合</dt>
+    <dd>複数のPDFを 1つに まとめる。ファイル一覧の <strong>×</strong> ボタンで 除外、ドラッグで 並び替え 可能。会議資料・領収書 まとめに。</dd>
+    <dt>✂️ 分割</dt>
+    <dd>大きなPDFを ページ範囲で 切り出し。範囲は カンマ区切りで 複数指定 可能 (例: <code>1-3,5,7-9</code> → 3ファイルに 分割)。</dd>
+    <dt>🖼 PDF→画像</dt>
+    <dd>PDFの各ページを 個別の 画像ファイルに。ZIP で 一括 ダウンロード。スライド・図面の SNS共有 等に。</dd>
+    <dt>📥 画像→PDF</dt>
+    <dd>スマホで 撮った 書類写真などを 1つのPDFに まとめ。提出書類・スキャン代わりに。</dd>
+  </dl>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>ファイルは どこに 送られますか?</dt>
+    <dd><strong>どこにも 送られません</strong>。PDFの 処理は すべて あなたの ブラウザ内で 完結。サイトの サーバーには 一切 アップロード されません。</dd>
+    <dt>ファイル サイズの 制限は?</dt>
+    <dd>ブラウザの メモリ次第。一般的に 100MB までは 問題なく 動作します。それ以上の 巨大ファイルは メモリ不足で 失敗する 可能性 (PCのメモリに 依存)。</dd>
+    <dt>パスワード付き PDF は?</dt>
+    <dd>本ツールは パスワード保護された PDF の 処理は サポートしていません。事前に Adobe 等で ロック解除 してから ご利用 ください。</dd>
+    <dt>結合した PDF の 順番を 変えたい</dt>
+    <dd>ファイル一覧で 各項目を ドラッグして 順序変更 できます。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a> ｜ <a href="../contact/">お問い合わせ</a></div></footer>
+
+<script>
+// ========== タブ切替 ==========
+document.querySelectorAll('.pdf-tab').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.pdf-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pdf-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  };
+});
+
+// ========== 共通ユーティリティ ==========
+function downloadBlob(blob, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function setProgress(id, pct) {
+  const el = document.querySelector(`#${id} .progress-bar`);
+  if (el) el.style.width = pct + '%';
+}
+function showProgress(id, show) {
+  document.getElementById(id).style.display = show ? 'block' : 'none';
+}
+function setupDropzone(dropId, inputId, onChange) {
+  const drop = document.getElementById(dropId);
+  const input = document.getElementById(inputId);
+  drop.onclick = () => input.click();
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('dragover'); };
+  drop.ondragleave = () => drop.classList.remove('dragover');
+  drop.ondrop = e => {
+    e.preventDefault();
+    drop.classList.remove('dragover');
+    input.files = e.dataTransfer.files;
+    onChange(e.dataTransfer.files);
+  };
+  input.onchange = () => onChange(input.files);
+}
+
+// ========== 1. 結合 ==========
+let mergeFiles = [];
+function renderMergeList() {
+  const ul = document.getElementById('merge-list');
+  ul.innerHTML = '';
+  mergeFiles.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'file-item';
+    div.draggable = true;
+    div.innerHTML = `<span>≡</span><span class="name">${i+1}. ${f.name}</span><span class="cap">${(f.size/1024).toFixed(0)} KB</span><button data-i="${i}">×</button>`;
+    div.querySelector('button').onclick = () => { mergeFiles.splice(i, 1); renderMergeList(); };
+    div.ondragstart = e => e.dataTransfer.setData('idx', i);
+    div.ondragover = e => e.preventDefault();
+    div.ondrop = e => {
+      e.preventDefault();
+      const from = parseInt(e.dataTransfer.getData('idx'));
+      const item = mergeFiles.splice(from, 1)[0];
+      mergeFiles.splice(i, 0, item);
+      renderMergeList();
+    };
+    ul.appendChild(div);
+  });
+  document.getElementById('merge-go').disabled = mergeFiles.length < 2;
+}
+setupDropzone('merge-drop', 'merge-files', files => {
+  mergeFiles = mergeFiles.concat(Array.from(files));
+  renderMergeList();
+});
+document.getElementById('merge-clear').onclick = () => { mergeFiles = []; renderMergeList(); };
+document.getElementById('merge-go').onclick = async () => {
+  if (mergeFiles.length < 2) return;
+  showProgress('merge-progress', true);
+  setProgress('merge-progress', 5);
+  try {
+    const { PDFDocument } = PDFLib;
+    const merged = await PDFDocument.create();
+    for (let i = 0; i < mergeFiles.length; i++) {
+      const bytes = await mergeFiles[i].arrayBuffer();
+      const doc = await PDFDocument.load(bytes);
+      const pages = await merged.copyPages(doc, doc.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+      setProgress('merge-progress', 5 + (i+1) / mergeFiles.length * 90);
+    }
+    const out = await merged.save();
+    setProgress('merge-progress', 100);
+    downloadBlob(new Blob([out], { type: 'application/pdf' }), 'merged.pdf');
+  } catch (e) {
+    alert('結合エラー: ' + e.message);
+  } finally {
+    setTimeout(() => showProgress('merge-progress', false), 1500);
+  }
+};
+
+// ========== 2. 分割 ==========
+let splitFile = null;
+let splitPageCount = 0;
+setupDropzone('split-drop', 'split-file', async files => {
+  if (!files[0]) return;
+  splitFile = files[0];
+  const { PDFDocument } = PDFLib;
+  const bytes = await splitFile.arrayBuffer();
+  const doc = await PDFDocument.load(bytes);
+  splitPageCount = doc.getPageCount();
+  document.getElementById('split-info').textContent = `${splitFile.name} — ${splitPageCount} ページ`;
+  document.getElementById('split-go').disabled = false;
+});
+function parseRanges(text, max) {
+  if (!text.trim()) return Array.from({length: max}, (_, i) => [i+1, i+1]);
+  return text.split(',').map(part => {
+    const m = part.trim().match(/^(\d+)(?:-(\d+))?$/);
+    if (!m) return null;
+    const a = parseInt(m[1]);
+    const b = m[2] ? parseInt(m[2]) : a;
+    return a <= b && a >= 1 && b <= max ? [a, b] : null;
+  }).filter(Boolean);
+}
+document.getElementById('split-go').onclick = async () => {
+  if (!splitFile) return;
+  showProgress('split-progress', true);
+  setProgress('split-progress', 5);
+  try {
+    const { PDFDocument } = PDFLib;
+    const bytes = await splitFile.arrayBuffer();
+    const src = await PDFDocument.load(bytes);
+    const ranges = parseRanges(document.getElementById('split-ranges').value, splitPageCount);
+    if (!ranges.length) { alert('範囲指定が 不正です'); return; }
+    const baseName = splitFile.name.replace(/\.pdf$/i, '');
+    for (let i = 0; i < ranges.length; i++) {
+      const [a, b] = ranges[i];
+      const out = await PDFDocument.create();
+      const pages = await out.copyPages(src, Array.from({length: b-a+1}, (_, k) => a-1+k));
+      pages.forEach(p => out.addPage(p));
+      const blob = new Blob([await out.save()], { type: 'application/pdf' });
+      const name = a === b ? `${baseName}_p${a}.pdf` : `${baseName}_p${a}-${b}.pdf`;
+      downloadBlob(blob, name);
+      setProgress('split-progress', 5 + (i+1) / ranges.length * 95);
+      await new Promise(r => setTimeout(r, 200)); // ダウンロードの 連続発火 を 緩和
+    }
+  } catch (e) {
+    alert('分割エラー: ' + e.message);
+  } finally {
+    setTimeout(() => showProgress('split-progress', false), 1500);
+  }
+};
+
+// ========== 3. PDF → 画像 ==========
+let p2iFile = null;
+let p2iPageCount = 0;
+setupDropzone('p2i-drop', 'p2i-file', async files => {
+  if (!files[0]) return;
+  p2iFile = files[0];
+  const { PDFDocument } = PDFLib;
+  const bytes = await p2iFile.arrayBuffer();
+  const doc = await PDFDocument.load(bytes);
+  p2iPageCount = doc.getPageCount();
+  document.getElementById('p2i-info').textContent = `${p2iFile.name} — ${p2iPageCount} ページ`;
+  document.getElementById('p2i-go').disabled = false;
+});
+document.getElementById('p2i-go').onclick = async () => {
+  if (!p2iFile || !window.pdfjsLib) {
+    alert('PDFライブラリ 読込中。少し 待ってから 再試行してください');
+    return;
+  }
+  showProgress('p2i-progress', true);
+  setProgress('p2i-progress', 5);
+  try {
+    const dpi = parseInt(document.getElementById('p2i-dpi').value);
+    const format = document.getElementById('p2i-format').value;
+    const scale = dpi / 72;
+    const bytes = await p2iFile.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    const images = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      if (format === 'jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); }
+      await page.render({canvasContext: ctx, viewport}).promise;
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/'+format, 0.92));
+      images.push({name: `page_${String(i).padStart(3,'0')}.${format === 'jpeg' ? 'jpg' : 'png'}`, blob});
+      setProgress('p2i-progress', 5 + i / pdf.numPages * 90);
+    }
+    // 単一画像なら 直接 DL、複数なら 順次 DL
+    if (images.length === 1) {
+      downloadBlob(images[0].blob, images[0].name);
+    } else {
+      // ZIP 化せず 順次 ダウンロード (ZIPライブラリ追加せずに動作)
+      for (const img of images) {
+        downloadBlob(img.blob, img.name);
+        await new Promise(r => setTimeout(r, 200));
+      }
+    }
+    setProgress('p2i-progress', 100);
+  } catch (e) {
+    alert('画像化エラー: ' + e.message);
+  } finally {
+    setTimeout(() => showProgress('p2i-progress', false), 1500);
+  }
+};
+
+// ========== 4. 画像 → PDF ==========
+let i2pFiles = [];
+function renderI2pList() {
+  const ul = document.getElementById('i2p-list');
+  ul.innerHTML = '';
+  i2pFiles.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'file-item';
+    div.draggable = true;
+    div.innerHTML = `<span>≡</span><span class="name">${i+1}. ${f.name}</span><span class="cap">${(f.size/1024).toFixed(0)} KB</span><button>×</button>`;
+    div.querySelector('button').onclick = () => { i2pFiles.splice(i, 1); renderI2pList(); };
+    div.ondragstart = e => e.dataTransfer.setData('idx', i);
+    div.ondragover = e => e.preventDefault();
+    div.ondrop = e => {
+      e.preventDefault();
+      const from = parseInt(e.dataTransfer.getData('idx'));
+      const item = i2pFiles.splice(from, 1)[0];
+      i2pFiles.splice(i, 0, item);
+      renderI2pList();
+    };
+    ul.appendChild(div);
+  });
+  document.getElementById('i2p-go').disabled = i2pFiles.length === 0;
+}
+setupDropzone('i2p-drop', 'i2p-files', files => {
+  i2pFiles = i2pFiles.concat(Array.from(files));
+  renderI2pList();
+});
+document.getElementById('i2p-clear').onclick = () => { i2pFiles = []; renderI2pList(); };
+document.getElementById('i2p-go').onclick = async () => {
+  if (!i2pFiles.length) return;
+  showProgress('i2p-progress', true);
+  setProgress('i2p-progress', 5);
+  try {
+    const { PDFDocument, PageSizes } = PDFLib;
+    const sizeMode = document.getElementById('i2p-size').value;
+    const out = await PDFDocument.create();
+    for (let i = 0; i < i2pFiles.length; i++) {
+      const f = i2pFiles[i];
+      const bytes = await f.arrayBuffer();
+      let img;
+      if (f.type === 'image/png') img = await out.embedPng(bytes);
+      else img = await out.embedJpg(bytes);
+      let pw, ph;
+      if (sizeMode === 'A4') { [pw, ph] = PageSizes.A4; }
+      else if (sizeMode === 'Letter') { [pw, ph] = PageSizes.Letter; }
+      else { pw = img.width; ph = img.height; }
+      const page = out.addPage([pw, ph]);
+      // 画像を ページに 収まるように 縮小
+      const scale = Math.min(pw / img.width, ph / img.height, 1);
+      const w = img.width * scale; const h = img.height * scale;
+      page.drawImage(img, { x: (pw-w)/2, y: (ph-h)/2, width: w, height: h });
+      setProgress('i2p-progress', 5 + (i+1) / i2pFiles.length * 90);
+    }
+    const blob = new Blob([await out.save()], { type: 'application/pdf' });
+    downloadBlob(blob, 'images.pdf');
+    setProgress('i2p-progress', 100);
+  } catch (e) {
+    alert('PDF化エラー: ' + e.message);
+  } finally {
+    setTimeout(() => showProgress('i2p-progress', false), 1500);
+  }
+};
+</script>
+</body>
+</html>

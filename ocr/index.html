@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像から文字を抽出 (OCR) ｜ 日本語対応・無料・登録不要</title>
+<meta name="description" content="画像から文字を抽出 (OCR)。スクリーンショット・領収書・名刺・スキャン書類など、日本語・英語 完全対応。すべてブラウザ内で完結、ファイル送信なし。">
+<link rel="canonical" href="https://patto-tool.com/ocr/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="画像から文字を抽出 (OCR) ｜ 日本語対応">
+<meta property="og:description" content="ブラウザ内 完結。領収書・名刺・スクリーンショットの 文字起こしに。">
+<meta property="og:image" content="https://patto-tool.com/og.svg">
+<link rel="stylesheet" href="../style.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+
+<!-- Tesseract.js for OCR -->
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<style>
+.dropzone{border:2px dashed #cbd5e1;border-radius:12px;padding:32px 16px;text-align:center;background:#fafbfc;cursor:pointer;transition:.15s;}
+.dropzone:hover, .dropzone.dragover{border-color:var(--accent);background:#f1f7ff;}
+.dropzone .icon{font-size:48px;margin-bottom:8px;}
+.preview{margin:16px 0;text-align:center;}
+.preview img{max-width:100%;max-height:400px;border-radius:8px;border:1px solid var(--line);}
+.progress{background:#f1f5f9;border-radius:8px;overflow:hidden;height:8px;margin:12px 0;}
+.progress-bar{background:var(--accent);height:100%;width:0%;transition:width .3s;}
+.status{margin:8px 0;color:#475569;font-size:14px;}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>🔍 画像から 文字を 抽出 (OCR)</h1>
+  <p class="lead">画像内の 文字を 自動 認識して テキスト 化。<strong>日本語・英語 対応</strong>。スクリーンショット・領収書・名刺・看板の 写真 から 文字を 即時 起こし。<strong>ファイル送信なし</strong>・ブラウザ内 完結。</p>
+
+  <div class="dropzone" id="drop">
+    <div class="icon">🖼→📝</div>
+    <div><strong>画像を 選択 or ドロップ</strong></div>
+    <div class="cap" style="margin-top:8px;">JPG / PNG / WEBP / BMP / GIF</div>
+    <input type="file" id="file" accept="image/*" style="display:none;">
+  </div>
+
+  <div class="preview" id="preview"></div>
+
+  <label>言語:</label>
+  <select id="lang" class="in">
+    <option value="jpn" selected>日本語のみ</option>
+    <option value="eng">英語のみ</option>
+    <option value="jpn+eng">日本語 + 英語 (混在)</option>
+    <option value="chi_sim">中国語 (簡体字)</option>
+    <option value="kor">韓国語</option>
+  </select>
+
+  <div class="bar">
+    <button type="button" class="btn primary" id="go" disabled>文字起こし 開始</button>
+    <button type="button" class="btn ghost" id="copy" disabled>📋 コピー</button>
+    <button type="button" class="btn ghost" id="download" disabled>💾 .txt 保存</button>
+  </div>
+
+  <div class="status" id="status"></div>
+  <div class="progress" id="progress" style="display:none;"><div class="progress-bar"></div></div>
+
+  <h2>抽出 結果</h2>
+  <textarea id="output" class="in" readonly style="min-height:240px;" placeholder="画像を 選択して 「文字起こし 開始」 を 押すと ここに 結果が 表示されます。"></textarea>
+
+  <p class="note">🔒 すべて ブラウザ内 処理。画像も 抽出された テキストも サーバーに 送信されません。機密文書・領収書 でも 安心。</p>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>こんな時に 便利</h2>
+  <ul>
+    <li>📸 <strong>領収書・レシート の 内容を 入力</strong> — 経費精算で 何度も タイピングしてた アレ</li>
+    <li>📑 <strong>紙の 書類を 検索可能 テキストに</strong> — Excel貼付・Word化</li>
+    <li>📛 <strong>名刺の 連絡先 を 一気に</strong> — 連絡先 入力の 省力化</li>
+    <li>🖥 <strong>スクリーンショットの テキスト抽出</strong> — 動画字幕・スライドの 文字を コピー</li>
+    <li>🌏 <strong>外国語 看板・メニュー の 文字起こし</strong> → 翻訳サイトへ</li>
+  </ul>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>初回 読み込みが 遅いのは?</dt>
+    <dd>日本語 認識 モデル (約20MB) を 初回 ダウンロード するため。2回目以降は キャッシュから 高速読込。</dd>
+    <dt>認識精度を 上げる コツ</dt>
+    <dd>① 明るく 鮮明な 画像 ② 文字が 大きく 写っている ③ 傾き・歪み が少ない ④ コントラストが はっきり。
+    手書きは 印刷文字より 精度が 下がります。</dd>
+    <dt>商用利用は?</dt>
+    <dd>OK です。本ツール は ブラウザ内 で 動く Tesseract.js (Apache-2.0 ライセンス) を 使用。</dd>
+    <dt>大量の 画像を 一括処理 したい</dt>
+    <dd>1枚ずつ 処理する 仕様。将来 アップデートで バッチ処理 対応 予定。</dd>
+  </dl>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a> ｜ <a href="../contact/">お問い合わせ</a></div></footer>
+
+<script>
+let currentFile = null;
+const $drop = document.getElementById('drop');
+const $file = document.getElementById('file');
+const $preview = document.getElementById('preview');
+const $go = document.getElementById('go');
+const $copy = document.getElementById('copy');
+const $download = document.getElementById('download');
+const $out = document.getElementById('output');
+const $status = document.getElementById('status');
+const $progress = document.getElementById('progress');
+const $bar = $progress.querySelector('.progress-bar');
+
+$drop.onclick = () => $file.click();
+$drop.ondragover = e => { e.preventDefault(); $drop.classList.add('dragover'); };
+$drop.ondragleave = () => $drop.classList.remove('dragover');
+$drop.ondrop = e => {
+  e.preventDefault();
+  $drop.classList.remove('dragover');
+  setFile(e.dataTransfer.files[0]);
+};
+$file.onchange = () => setFile($file.files[0]);
+function setFile(f) {
+  if (!f || !f.type.startsWith('image/')) { alert('画像 ファイルを 選択 してください'); return; }
+  currentFile = f;
+  const url = URL.createObjectURL(f);
+  $preview.innerHTML = `<img src="${url}" alt="preview">`;
+  $go.disabled = false;
+  $out.value = '';
+  $copy.disabled = true;
+  $download.disabled = true;
+}
+
+$go.onclick = async () => {
+  if (!currentFile) return;
+  $go.disabled = true;
+  $progress.style.display = 'block';
+  $bar.style.width = '0%';
+  $status.textContent = '⏳ OCR エンジン 準備中... (初回は 20MB の 日本語モデル DL があります)';
+  const lang = document.getElementById('lang').value;
+  try {
+    const result = await Tesseract.recognize(currentFile, lang, {
+      logger: m => {
+        if (m.status) $status.textContent = `⏳ ${m.status}${m.progress ? ` (${Math.round(m.progress*100)}%)` : ''}`;
+        if (typeof m.progress === 'number') $bar.style.width = (m.progress * 100) + '%';
+      },
+    });
+    $out.value = result.data.text;
+    $status.textContent = `✅ 完了 (信頼度 平均 ${result.data.confidence.toFixed(1)}%)`;
+    $copy.disabled = false;
+    $download.disabled = false;
+  } catch (e) {
+    $status.textContent = '❌ エラー: ' + e.message;
+  } finally {
+    $go.disabled = false;
+    setTimeout(() => { $progress.style.display = 'none'; }, 1500);
+  }
+};
+
+$copy.onclick = () => {
+  if (!$out.value) return;
+  navigator.clipboard.writeText($out.value);
+  const orig = $copy.textContent;
+  $copy.textContent = '✅ コピー しました';
+  setTimeout(() => $copy.textContent = orig, 1500);
+};
+
+$download.onclick = () => {
+  if (!$out.value) return;
+  const blob = new Blob([$out.value], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (currentFile?.name || 'ocr_result').replace(/\.[^.]+$/, '') + '.txt';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+</script>
+</body>
+</html>

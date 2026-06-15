@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>退職後の 健康保険 どっち得? シミュレーター (国保 / 任意継続 / 扶養)｜無料・登録不要</title>
+<meta name="description" content="退職後 すぐ 直面する 「健康保険 どれ?」 を 即時 シミュレーション。国民健康保険 / 任意継続 / 家族の扶養 の 年間 保険料を 比較し、お得な 選択肢と 注意点を 提示。">
+<link rel="canonical" href="https://patto-tool.com/retirement-insurance/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patto-tool.com/retirement-insurance/">
+<meta property="og:title" content="退職後の 健康保険 どっち得? シミュレーター (国保 / 任意継続 / 扶養)">
+<meta property="og:description" content="退職後の 健康保険 3択 (国保 / 任意継続 / 扶養) を 年間 保険料 比較で 即時 判定。退職前に 必ず 確認。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="退職後の 健康保険 どっち得? シミュレーター">
+<meta name="twitter:description" content="国保 / 任意継続 / 扶養 を 年間 保険料 比較で 即時 判定。">
+<meta name="twitter:image" content="https://patto-tool.com/og.png">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"退職後の 健康保険 シミュレーター","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"退職後の 健康保険 3択 (国保 / 任意継続 / 扶養) を 年間 保険料 比較で 即時 判定。"}
+</script>
+
+<link rel="stylesheet" href="../style.css">
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <h1>🏥 退職後の 健康保険 どっち得? シミュレーター</h1>
+  <p class="lead">退職後 14日以内に 決めなきゃいけない 「健康保険 3択」 を、年間 保険料 で 比較。<strong>国民健康保険 / 任意継続 / 家族の扶養</strong> どれが お得かを 即時 判定。</p>
+
+  <div class="tool">
+    <p class="cap">退職前の 月給・退職後の 見込み収入・家族構成 だけで OK。マイナンバー も 個人情報も 不要。</p>
+
+    <h2>1. 退職前の 状況</h2>
+    <label>退職前の 標準報酬月額 (or 直近の 月給) 円</label>
+    <input id="m_salary" class="in" type="number" placeholder="例: 350000" />
+    <p class="note" style="font-size:13px;color:#666;">給与明細の 「健康保険料」 が 約 4.92% なので、月の 健康保険料 × 20.3 で 逆算 可能。</p>
+
+    <label>退職前の 月額 健康保険料 (自己負担分・任意) 円</label>
+    <input id="m_premium" class="in" type="number" placeholder="例: 17220 (空欄でも 推計可能)" />
+
+    <label>加入していた 健康保険</label>
+    <select id="m_kenpo" class="in">
+      <option value="kyokai">協会けんぽ (中小企業の 多くが これ)</option>
+      <option value="kumiai">健康保険組合 (大企業)</option>
+      <option value="kyosai">共済組合 (公務員)</option>
+    </select>
+
+    <label>居住地 (都道府県)</label>
+    <select id="m_pref" class="in">
+      <option value="tokyo">東京都</option>
+      <option value="osaka">大阪府</option>
+      <option value="aichi">愛知県</option>
+      <option value="kanagawa">神奈川県</option>
+      <option value="other">その他</option>
+    </select>
+
+    <h2>2. 退職後の 見込み</h2>
+    <label>退職後 12ヶ月の 見込み 給与・事業所得 円 (失業中なら 0)</label>
+    <input id="m_future_income" class="in" type="number" placeholder="例: 1000000" />
+
+    <label>前年 (退職年の 前年) の 課税対象 所得 円</label>
+    <input id="m_prev_income" class="in" type="number" placeholder="例: 4000000" />
+    <p class="note" style="font-size:13px;color:#666;">国保の 計算に 使用。源泉徴収票の 「給与所得控除後の 金額」。</p>
+
+    <label>あなたの 年齢</label>
+    <input id="m_age" class="in" type="number" placeholder="例: 45" />
+
+    <h2>3. 家族構成 (扶養に 入れるか)</h2>
+    <label>配偶者 (or 家族) が 会社の 社会保険に 加入していますか?</label>
+    <select id="m_family_shaho" class="in">
+      <option value="yes">はい (会社員・公務員)</option>
+      <option value="no">いいえ (自営 or なし)</option>
+    </select>
+
+    <label>扶養に 入れる 家族の 人数 (あなた以外)</label>
+    <input id="m_dependents" class="in" type="number" placeholder="例: 1 (配偶者のみ)" value="0" />
+
+    <label>世帯の 加入者 合計 (あなた + 同世帯の 国保 加入者) — 国保 計算用</label>
+    <input id="m_household" class="in" type="number" placeholder="例: 2" value="1" />
+
+    <div class="bar"><button type="button" class="btn primary" id="calc">3択 比較する</button></div>
+
+    <div id="result"></div>
+
+    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  </div>
+
+  <!-- 記事内 広告 -->
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>退職後の 健康保険 3択 とは</h2>
+  <p>会社員 が 退職すると、健康保険証 は <strong>退職日 で 失効</strong> します。空白期間を 作らないために、次の 3つから 14日以内 (国保) / 20日以内 (任意継続) に 選ぶ必要が あります。</p>
+
+  <h3>① 国民健康保険 (国保)</h3>
+  <ul>
+    <li>市区町村が 運営。前年所得・世帯人数 で 保険料が 決まる</li>
+    <li>退職翌日から 14日以内に 市役所で 加入手続き</li>
+    <li><strong>前年 所得が 高いと 高額に</strong> (退職1年目は 特に 高い)</li>
+    <li>所得が 急減した 場合は 「軽減・減免」 申請が 可能 (自治体差あり)</li>
+  </ul>
+
+  <h3>② 任意継続 (退職前の 健保を 2年 継続)</h3>
+  <ul>
+    <li>退職前の 健康保険組合 を 最大 2年 継続。家族も 引き続き 扶養に 入れられる</li>
+    <li>退職翌日から 20日以内 に 健保組合へ 申請 (期限 厳守)</li>
+    <li><strong>会社負担分も 自己負担 になるので 保険料は 約2倍</strong></li>
+    <li>標準報酬月額の 上限が 30万円 (協会けんぽの場合) なので、高収入者は 国保より 安いケース 多い</li>
+    <li>2024年 法改正で 任意 脱退 (国保へ 切替) が 可能に</li>
+  </ul>
+
+  <h3>③ 家族の 扶養 (被扶養者)</h3>
+  <ul>
+    <li>配偶者・親 等の 社会保険に 「被扶養者」 として 入る</li>
+    <li><strong>保険料は ゼロ</strong> (圧倒的に お得)</li>
+    <li>収入 要件: 年収 130万円未満 (60歳以上 or 障害者は 180万円未満)</li>
+    <li>失業手当の 日額 3,612円 (60歳以上は 5,000円) を 超えると <strong>受給期間は 扶養から 外れる</strong></li>
+    <li>同居・別居の 要件あり (続柄に より 異なる)</li>
+  </ul>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>本当に この 3つ しか ない?</dt>
+    <dd>はい。会社員の 健康保険から 外れる場合、国保 / 任意継続 / 被扶養者 の どれかに 必ず 加入する 義務が あります (国民皆保険)。再就職する なら 新しい 会社の 健保に 移ります。</dd>
+    <dt>失業保険を もらう間は どう する?</dt>
+    <dd>失業手当の 日額が 3,612円 (年換算 130万円) を 超える場合、扶養から 外れ ます。「給付制限中 + 受給中 だけ 国保 → 受給終了後 扶養」 という 切替が 可能 です。</dd>
+    <dt>退職前に やっておく べき ことは?</dt>
+    <dd>① 健保組合に 任意継続の 月額を 確認 (退職前 月額の 約2倍 が 目安) ② 配偶者の 会社に 扶養 加入の 条件を 確認 ③ 自治体の 国保 計算 シミュレーター (本ツール) で 概算 ④ 退職前に 健康診断・歯科治療を 済ます (退職後の 保険切替 期間に 医療費 全額負担に なるリスクを 避ける)</dd>
+    <dt>計算の 精度は?</dt>
+    <dd>国保は 自治体差が 大きく ±20% 程度 の 誤差が 出ます。任意継続は 健保組合の 料率に より 変動。最終的な 額は 自治体 / 健保組合 に 必ず 確認してください。</dd>
+  </dl>
+
+  <h2>🔗 関連 ツール</h2>
+  <div class="grid" id="relatedTools"></div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<!-- 関連 ツール -->
+<script>
+(function(){
+  const related = [
+    {slug:"unemployment", icon:"🏃", title:"失業保険 受給額", desc:"離職前6ヶ月の 給与から 基本手当 を 算出。"},
+    {slug:"pension", icon:"👴", title:"年金 受給額 概算", desc:"加入 状況・平均年収から 受給額を 概算。"},
+    {slug:"retirement-pay", icon:"🛡", title:"退職金 概算 (税引後 手取り)", desc:"勤続年数・基本給から 退職金と 手取りを 算出。"},
+    {slug:"take-home", icon:"💴", title:"手取り計算", desc:"年収から 社会保険料・税金 差引後の 手取りを 算出。"},
+  ];
+  const html = related.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
+  const el = document.getElementById('relatedTools');
+  if (el) el.innerHTML = html;
+})();
+</script>
+
+<script>
+// ===== 健康保険 3択 計算 =====
+// 全て 概算。最終的な 額は 自治体・健保組合に 要確認。
+
+// 国保 計算 (簡易・東京都 23区 / 大阪市の 平均的な 料率)
+// 所得割 + 均等割 + 平等割 = 年保険料
+// 上限 約 106 万円 (令和 6年度)
+function calcKokuho(prevIncome, household, age, pref) {
+  // 自治体別 料率 (年率, 軽い丸め)
+  const RATE = {
+    tokyo:    {iryou: 7.16, sien: 2.43, kaigo: 2.18, kintou_iryou: 49100, kintou_sien: 16500, kintou_kaigo: 16500},
+    osaka:    {iryou: 8.65, sien: 2.96, kaigo: 2.50, kintou_iryou: 30000, kintou_sien: 11000, kintou_kaigo: 17000},
+    aichi:    {iryou: 7.50, sien: 2.50, kaigo: 2.20, kintou_iryou: 40000, kintou_sien: 13000, kintou_kaigo: 15000},
+    kanagawa: {iryou: 7.40, sien: 2.50, kaigo: 2.20, kintou_iryou: 42000, kintou_sien: 14000, kintou_kaigo: 15500},
+    other:    {iryou: 7.50, sien: 2.50, kaigo: 2.20, kintou_iryou: 40000, kintou_sien: 13000, kintou_kaigo: 15000},
+  }[pref] || {iryou: 7.50, sien: 2.50, kaigo: 2.20, kintou_iryou: 40000, kintou_sien: 13000, kintou_kaigo: 15000};
+
+  // 所得割: (前年所得 - 基礎控除43万) × 料率
+  const incomeBase = Math.max(0, prevIncome - 430000);
+  const isKaigo = age >= 40 && age < 65;  // 介護分 対象
+
+  let iryouShotoku = incomeBase * RATE.iryou / 100;
+  let sienShotoku  = incomeBase * RATE.sien / 100;
+  let kaigoShotoku = isKaigo ? (incomeBase * RATE.kaigo / 100) : 0;
+
+  // 均等割: 加入者1人 あたり × 人数
+  const kintouIryou = RATE.kintou_iryou * household;
+  const kintouSien  = RATE.kintou_sien * household;
+  const kintouKaigo = isKaigo ? (RATE.kintou_kaigo * household) : 0;
+
+  let total = iryouShotoku + sienShotoku + kaigoShotoku +
+              kintouIryou + kintouSien + kintouKaigo;
+  // 上限 (令和6年度 ベース)
+  total = Math.min(total, 1060000);
+  // 軽減 (簡易: 所得 0 で 7割軽減 が 大体)
+  if (prevIncome < 430000) {
+    total = total * 0.3 + (kintouIryou + kintouSien + kintouKaigo) * 0.0;
+  } else if (prevIncome < 730000) {
+    total = total * 0.5;
+  } else if (prevIncome < 1000000) {
+    total = total * 0.8;
+  }
+  return Math.round(total);
+}
+
+// 任意継続 (退職前の 健保を 継続, 会社負担分も 自己負担)
+// 協会けんぽ: 標準報酬月額 × 9.81% (東京 / 介護対象は + 1.6%)
+// 上限: 標準報酬月額 30万円 (協会けんぽ・組合により差)
+function calcNiniKeizoku(salary, premium, kenpo, age, pref, dependents) {
+  // 介護保険分
+  const isKaigo = age >= 40 && age < 65;
+  const RATE_HEALTH = {
+    tokyo: 9.81, osaka: 10.34, aichi: 9.95, kanagawa: 9.93, other: 10.0,
+  }[pref] || 10.0;
+  const RATE_KAIGO = 1.60;
+
+  let monthlyPremium;
+  if (premium && premium > 0) {
+    // 退職前 月額 × 2 (会社負担分も 自己負担)
+    monthlyPremium = premium * 2;
+  } else {
+    // 標準報酬月額 × 料率
+    let stdSalary = salary;
+    // 任意継続は 上限 30万円 (協会けんぽ)
+    if (kenpo === "kyokai") stdSalary = Math.min(stdSalary, 300000);
+    // 健保組合は 上限 高い (~98万円) が組合差
+    if (kenpo === "kumiai") stdSalary = Math.min(stdSalary, 980000);
+    let rate = RATE_HEALTH;
+    if (isKaigo) rate += RATE_KAIGO;
+    monthlyPremium = stdSalary * rate / 100;
+  }
+  return Math.round(monthlyPremium * 12);
+}
+
+// 家族の 扶養 (年収 130万円未満 で 0円)
+function calcFuyou(futureIncome, age, familyShaho) {
+  if (familyShaho !== "yes") return { available: false, premium: 0,
+    reason: "家族が 会社の 社会保険に 加入していない ため 扶養に は 入れません。" };
+  const limit = age >= 60 ? 1800000 : 1300000;
+  if (futureIncome >= limit) {
+    return { available: false, premium: 0,
+      reason: `退職後の 見込み収入 ${(futureIncome/10000).toFixed(0)} 万円 が 扶養 上限 (${limit/10000} 万円) を 超えるため 不可。`};
+  }
+  return { available: true, premium: 0,
+    reason: `年収 ${(futureIncome/10000).toFixed(0)} 万円 < 上限 ${limit/10000} 万円 のため 加入可能。` };
+}
+
+function fmt(n) { return n.toLocaleString('ja-JP') + ' 円'; }
+
+document.getElementById('calc').onclick = () => {
+  const m_salary  = parseFloat(document.getElementById('m_salary').value) || 0;
+  const m_premium = parseFloat(document.getElementById('m_premium').value) || 0;
+  const m_kenpo   = document.getElementById('m_kenpo').value;
+  const m_pref    = document.getElementById('m_pref').value;
+  const m_future  = parseFloat(document.getElementById('m_future_income').value) || 0;
+  const m_prev    = parseFloat(document.getElementById('m_prev_income').value) || 0;
+  const m_age     = parseInt(document.getElementById('m_age').value) || 40;
+  const m_family  = document.getElementById('m_family_shaho').value;
+  const m_dep     = parseInt(document.getElementById('m_dependents').value) || 0;
+  const m_house   = parseInt(document.getElementById('m_household').value) || 1;
+
+  if (m_salary <= 0 && m_premium <= 0) {
+    document.getElementById('result').innerHTML =
+      '<p class="note" style="color:#c00;">⚠️ 月給 または 月額 保険料 を 入力してください。</p>';
+    return;
+  }
+
+  // 計算
+  const kokuho  = calcKokuho(m_prev, m_house, m_age, m_pref);
+  const ninkei  = calcNiniKeizoku(m_salary, m_premium, m_kenpo, m_age, m_pref, m_dep);
+  const fuyou   = calcFuyou(m_future, m_age, m_family);
+
+  // 比較 + おすすめ判定
+  const options = [
+    { name: "🏠 国民健康保険", short: "国保", premium: kokuho, available: true,
+      detail: "前年所得 ベース。退職1年目は 高額に なりがち。" },
+    { name: "🏢 任意継続 (退職前 健保 を 2年)", short: "任継", premium: ninkei, available: true,
+      detail: "退職翌日 から 20日以内 に 申請。最大2年。" },
+    { name: "👨‍👩‍👧 家族の 扶養 (被扶養者)", short: "扶養", premium: fuyou.available ? 0 : null,
+      available: fuyou.available, detail: fuyou.reason },
+  ];
+
+  // 推奨: 扶養 可能なら 扶養. それ以外 安い 方
+  const available = options.filter(o => o.available && o.premium !== null);
+  available.sort((a, b) => a.premium - b.premium);
+  const best = available[0];
+
+  let html = '<h2>💡 シミュレーション 結果</h2>';
+
+  // カード 3枚
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0;">';
+  for (const o of options) {
+    const isBest = best && o.short === best.short;
+    const bg = isBest ? '#dcfce7' : (o.available ? '#f9fafb' : '#fee2e2');
+    const border = isBest ? '3px solid #16a34a' : '1px solid #e5e7eb';
+    html += `<div style="background:${bg};border:${border};border-radius:12px;padding:16px;">`;
+    html += `<div style="font-weight:bold;font-size:15px;">${o.name}</div>`;
+    if (o.available && o.premium !== null) {
+      html += `<div style="font-size:24px;font-weight:bold;color:#1d4ed8;margin:8px 0;">${fmt(o.premium)}</div>`;
+      html += `<div style="font-size:13px;color:#475569;">年間 概算 (月 約 ${fmt(Math.round(o.premium/12))})</div>`;
+    } else {
+      html += `<div style="font-size:18px;color:#dc2626;margin:8px 0;">加入 不可</div>`;
+    }
+    html += `<div style="font-size:13px;color:#6b7280;margin-top:8px;">${o.detail}</div>`;
+    if (isBest) html += `<div style="margin-top:10px;font-weight:bold;color:#16a34a;">⭐ 最安 (おすすめ)</div>`;
+    html += `</div>`;
+  }
+  html += '</div>';
+
+  // 差額
+  if (available.length >= 2) {
+    const diff = available[1].premium - available[0].premium;
+    html += `<p style="font-size:15px;"><strong>${available[0].short}</strong> と <strong>${available[1].short}</strong> の 差額: <strong style="color:#16a34a;">${fmt(diff)}/年</strong> (${fmt(Math.round(diff/12))}/月)</p>`;
+  }
+
+  // 注意点
+  html += '<h3>⚠️ 注意点</h3>';
+  html += '<ul style="font-size:14px;line-height:1.7;">';
+  if (best && best.short === "扶養") {
+    html += '<li><strong>扶養 加入の 手続き</strong> は 配偶者の 会社の 担当部署 (人事 or 健保組合) に 連絡。1〜2週間 かかる場合あり。</li>';
+    html += '<li>失業保険を 受給する 場合、日額 3,612円 (60歳以上は 5,000円) を 超えると 受給期間中 だけ 扶養から 外れます。給付制限中・受給中・受給後 で 健保 切替が 必要 になることが あります。</li>';
+  }
+  if (best && best.short === "任継") {
+    html += '<li><strong>退職翌日 から 20日以内</strong> に 健保組合へ 申請。1日でも 遅れると 任意継続できません (例外なし)。</li>';
+    html += '<li>保険料は 2年間 固定 (給与下がっても 減らない)。途中で 国保へ 切替も 可能 (令和4年改正)。</li>';
+  }
+  if (best && best.short === "国保") {
+    html += '<li>市区町村 役場で <strong>退職翌日 から 14日以内</strong> に 手続き。退職証明書 か 健保資格喪失証明書 が 必要。</li>';
+    html += '<li>退職1年目は 前年 (会社員時代) の 所得で 計算されるため 高額に。<strong>「離職票 提示で 軽減」</strong> 制度が ある 自治体も (要確認)。</li>';
+  }
+  html += '<li>本ツールは <strong>概算</strong> です。正確な 金額は 自治体・健保組合に お問い合わせください。</li>';
+  html += '</ul>';
+
+  // 計算 内訳
+  html += '<details style="margin-top:24px;"><summary style="cursor:pointer;font-weight:bold;">📐 計算 内訳 (専門家向け)</summary>';
+  html += `<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;">
+    <tr style="background:#f3f4f6;"><th style="padding:8px;text-align:left;">項目</th><th style="padding:8px;text-align:right;">金額</th></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">国保 年額</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(kokuho)}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">任意継続 年額</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(ninkei)}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">扶養</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fuyou.available ? '0 円' : '加入不可'}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">対象 (前年所得)</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${fmt(m_prev)}</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">世帯 加入者数</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${m_house} 人</td></tr>
+    <tr><td style="padding:8px;border-top:1px solid #e5e7eb;">介護保険 対象 (40〜64歳)</td><td style="padding:8px;border-top:1px solid #e5e7eb;text-align:right;">${m_age >= 40 && m_age < 65 ? 'はい' : 'いいえ'}</td></tr>
+  </table>`;
+  html += '</details>';
+
+  document.getElementById('result').innerHTML = html;
+  // GA イベント (任意)
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'simulate', {
+      tool: 'retirement-insurance',
+      best: best ? best.short : 'none',
+    });
+  }
+};
+</script>
+</body>
+</html>

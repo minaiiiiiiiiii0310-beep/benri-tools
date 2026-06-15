@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>詐欺・フィッシングURLチェッカー｜怪しいSMS・メールを貼るだけ診断（無料）</title>
+<meta name="description" content="「料金未払い」「荷物の不在通知」などの怪しいSMS・メール本文やURLを貼り付けるだけで、フィッシング詐欺の危険サインを自動チェック。判定理由も解説。無料・登録不要・ブラウザ内処理で内容は送信されません。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>🛡 詐欺・フィッシング チェッカー</h1>
+  <p class="lead">「料金が未払いです」「荷物をお預かりしています」——そんな<strong>怪しいSMS・メールの本文やURL</strong>を貼り付けてください。詐欺によくある危険サインを自動でチェックし、理由つきで判定します。</p>
+
+  <div class="tool">
+    <div class="row"><label>SMS・メール本文 または URL を貼り付け</label><textarea id="src" class="in" style="font-family:inherit;" placeholder="例：お客様の荷物を持ち帰りました。ご確認ください http://xxxx.duckdns.org/jp"></textarea></div>
+    <div class="bar"><button class="btn primary" id="check">チェックする</button><button class="btn ghost" id="clear">クリア</button></div>
+
+    <div class="result" id="resbox" style="display:none;text-align:left;">
+      <div style="text-align:center;"><span class="big" id="verdict">--</span><div class="lbl" id="score"></div></div>
+      <ul id="flags" style="margin-top:14px;"></ul>
+      <div id="advice" class="note" style="font-size:13.5px;"></div>
+    </div>
+    <p class="note">🔒 入力内容はブラウザ内でのみ解析され、どこにも送信されません。<br>⚠️ 本ツールは簡易チェックです。「低リスク」でも安全を保証するものではありません。<strong>心当たりのない連絡のリンクは開かない</strong>のが原則です。</p>
+  </div>
+
+  <h2>困ったときの相談先</h2>
+  <dl class="faq">
+    <dt>消費者ホットライン</dt><dd><strong>188</strong>（いやや）：最寄りの消費生活センターにつながります。</dd>
+    <dt>警察相談専用電話</dt><dd><strong>#9110</strong>：詐欺かも？と思ったら。緊急時は110。</dd>
+    <dt>フィッシング報告</dt><dd>フィッシング対策協議会（antiphishing.jp）に情報提供できます。</dd>
+  </dl>
+
+  <h2>よくある詐欺の手口</h2>
+  <dl class="faq">
+    <dt>宅配便の不在通知SMS</dt><dd>佐川急便・ヤマト運輸・日本郵便をかたるSMS。公式はSMSでURLを送りません（基本は不在票・公式アプリ）。</dd>
+    <dt>料金未払い・利用停止</dt><dd>「本日中に支払わないと法的措置」など期限で焦らせるのが典型。公式アプリやブックマークから自分でログインして確認を。</dd>
+    <dt>還付金・キャンペーン当選</dt><dd>「お金がもらえる」系でURLを踏ませる手口。ATMで還付金は受け取れません。</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var OFFICIAL={
+    'amazon':['amazon.co.jp','amazon.jp','amazon.com'],
+    'rakuten':['rakuten.co.jp','rakuten.com'],
+    'apple':['apple.com','icloud.com'],
+    'yamato|kuroneko':['kuronekoyamato.co.jp','yamato-hd.co.jp'],
+    'sagawa':['sagawa-exp.co.jp'],
+    'japanpost|yuubin':['japanpost.jp'],
+    'paypay':['paypay.ne.jp','paypay-corp.co.jp'],
+    'mercari':['mercari.com','jp.mercari.com'],
+    'smbc':['smbc.co.jp','smbc-card.com'],
+    'mufg':['mufg.jp','bk.mufg.jp'],
+    'mizuho':['mizuhobank.co.jp','mizuho-fg.co.jp'],
+    'docomo':['docomo.ne.jp','nttdocomo.co.jp'],
+    'softbank':['softbank.jp'],
+    'aeon':['aeon.co.jp','aeon.com'],
+    'epos':['eposcard.co.jp'],
+    'jcb':['jcb.co.jp'],
+    'visa':['visa.co.jp'],
+    'etc|nexco':['nexco.ne.jp','c-nexco.co.jp','w-nexco.co.jp','e-nexco.co.jp'],
+    'jr|smart-ex|expy':['jr-central.co.jp','jreast.co.jp','westjr.co.jp','smart-ex.jp']
+  };
+  var BAD_TLD=['.top','.xyz','.icu','.tk','.cf','.gq','.ml','.work','.rest','.fit','.cn','.ru','.shop','.club','.online','.site','.live','.lat','.sbs','.cfd'];
+  var SHORTENERS=['bit.ly','t.co','tinyurl.com','is.gd','ow.ly','cutt.ly','x.gd','urx.red','00m.in','onl.la','onl.sc'];
+  var DDNS=['duckdns.org','no-ip.com','ddns.net','hopto.org','myftp.org'];
+  var KEYWORDS=[
+    [/未払い|未納|滞納/,'「未払い・未納」で不安をあおるのは詐欺SMSの定番です'],
+    [/法的措置|訴訟|裁判|差し押さえ/,'「法的措置・訴訟」で脅すのは典型的な手口です'],
+    [/本日中|今すぐ|至急|24時間以内|期限/,'時間制限で焦らせるのは判断力を奪う常套手段です'],
+    [/還付金|給付金.{0,6}(受け取|申請)|当選|プレゼント/,'「お金がもらえる」系の誘導は要注意です'],
+    [/荷物|不在|再配達|配達できません/,'宅配各社は基本的にSMSでURL付き不在通知を送りません'],
+    [/アカウント.{0,6}(停止|凍結|ロック)|利用(停止|制限)/,'「アカウント停止」で慌てさせてログインさせる手口です'],
+    [/認証|確認.{0,4}(コード|してください)|本人確認/,'正規を装って認証情報を抜き取ろうとする可能性があります'],
+    [/暗証番号|パスワード.{0,6}(入力|送信|教えて)|クレジットカード番号/,'暗証番号やカード番号を求める連絡はほぼ詐欺です']
+  ];
+  function extractUrls(t){
+    var m=t.match(/(https?:\/\/[^\s"'<>、。）)\]]+)/gi)||[];
+    var bare=t.match(/(?:^|[\s、。])((?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s"'<>、。]*)?)/gi)||[];
+    bare.forEach(function(b){ b=b.trim().replace(/^[、。\s]+/,''); if(b && !/^https?:/i.test(b) && m.indexOf('http://'+b)<0) m.push('http://'+b+'///BARE'); });
+    return m;
+  }
+  function hostOf(u){ try{ return new URL(u.replace('///BARE','')).hostname.toLowerCase(); }catch(e){ return ''; } }
+  function endsWithDomain(host,dom){ return host===dom || host.slice(-(dom.length+1))==='.'+dom; }
+  function check(){
+    var t=document.getElementById('src').value;
+    if(!t.trim()){ return; }
+    var flags=[], score=0;
+    var urls=extractUrls(t);
+    urls.forEach(function(u){
+      var bare=u.indexOf('///BARE')>-1; var clean=u.replace('///BARE','');
+      var h=hostOf(clean); if(!h) return;
+      if(/^\d{1,3}(\.\d{1,3}){3}$/.test(h)){ flags.push(['危険','URLのドメインが「IPアドレス」です（'+h+'）。正規サービスではまず使われません']); score+=40; }
+      if(h.indexOf('xn--')>-1){ flags.push(['危険','国際化ドメイン（xn--）で本物そっくりの偽ドメインの可能性（'+h+'）']); score+=35; }
+      DDNS.forEach(function(d){ if(endsWithDomain(h,d)){ flags.push(['危険','無料の動的DNS「'+d+'」上のサイトです。詐欺サイトで多用されます']); score+=40; } });
+      BAD_TLD.forEach(function(tld){ if(h.slice(-tld.length)===tld){ flags.push(['注意','「'+tld+'」ドメインは詐欺サイトでの使用率が高い傾向があります（'+h+'）']); score+=20; } });
+      SHORTENERS.forEach(function(s){ if(endsWithDomain(h,s)){ flags.push(['注意','短縮URL（'+s+'）で本当のリンク先が隠されています']); score+=15; } });
+      if(/^http:\/\//i.test(clean) && !bare){ flags.push(['注意','暗号化されていない http:// のリンクです']); score+=10; }
+      if(clean.indexOf('@')>-1 && clean.indexOf('@')<clean.indexOf(h)){ flags.push(['危険','URL内に「@」があり、偽の接続先に飛ばされる形式です']); score+=30; }
+      for(var brand in OFFICIAL){
+        var re=new RegExp('('+brand+')','i');
+        if(re.test(h)){
+          var ok=OFFICIAL[brand].some(function(d){ return endsWithDomain(h,d); });
+          if(!ok){ flags.push(['危険','「'+h+'」は '+OFFICIAL[brand][0]+' 等の公式ドメインではないのにブランド名を含んでいます（なりすましの典型）']); score+=45; }
+        }
+      }
+      if((h.match(/-/g)||[]).length>=3){ flags.push(['注意','ハイフンを多用した不自然なドメインです（'+h+'）']); score+=10; }
+      if(h.split('.').length>=5){ flags.push(['注意','サブドメインが異常に深いURLです（'+h+'）']); score+=10; }
+    });
+    KEYWORDS.forEach(function(kw){ if(kw[0].test(t)){ flags.push(['注意',kw[1]]); score+=12; } });
+    if(urls.length===0 && flags.length===0){ flags.push(['情報','URLは見つかりませんでした。文面のみの簡易判定です']); }
+    var verdict,color;
+    if(score>=45){ verdict='危険度：高 🚨'; color='#dc2626'; }
+    else if(score>=20){ verdict='危険度：中 ⚠️'; color='#ea580c'; }
+    else { verdict='危険度：低 ✅'; color='#16a34a'; }
+    document.getElementById('verdict').textContent=verdict;
+    document.getElementById('verdict').style.color=color;
+    document.getElementById('score').textContent='検出サイン：'+flags.filter(function(f){return f[0]!=='情報';}).length+'件（スコア '+score+'）';
+    var ul=document.getElementById('flags'); ul.innerHTML='';
+    flags.forEach(function(f){
+      var li=document.createElement('li');
+      var badge=f[0]==='危険'?'🔴':(f[0]==='注意'?'🟠':'ℹ️');
+      li.textContent=badge+' '+f[1];
+      ul.appendChild(li);
+    });
+    document.getElementById('advice').innerHTML= score>=20
+      ? '<strong>このリンクは開かないでください。</strong>確認したい場合は、リンクではなく<strong>公式アプリやブックマークから自分でログイン</strong>して確認を。不安なら 188（消費者ホットライン）/ #9110（警察相談）へ。'
+      : '大きな危険サインは見つかりませんでしたが、安全の保証ではありません。心当たりのない連絡のリンクは開かないのが原則です。';
+    document.getElementById('resbox').style.display='';
+  }
+  document.getElementById('check').addEventListener('click',check);
+  document.getElementById('clear').addEventListener('click',function(){ document.getElementById('src').value=''; document.getElementById('resbox').style.display='none'; });
+})();
+</script>
+</body>
+</html>

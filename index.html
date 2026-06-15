@@ -3,185 +3,552 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>無料便利ツール80選｜面倒・分かりにくいを即答</title>
-<meta name="description" content="MBTI診断・人生残り時間・同年代年収偏差値・画像圧縮・動物占い・FIRE達成年数・ブラック企業度・キラキラネーム判定など、バイラル系15種+面倒な手続き解消系を含む80ツール。すべて無料・登録不要・ブラウザ完結。">
-<link rel="canonical" href="https://benri-tools.example.com/">
+<title>無料便利ツール 90選 ｜ PDF・OCR・診断・計算 が ブラウザ完結</title>
+<meta name="description" content="PDF結合/分割/画像変換・画像から文字起こし(OCR)・MBTI診断・年収偏差値・ふるさと納税上限・残業代計算・住宅vs賃貸・健康診断判定など、90個の便利ツール。すべて無料・登録不要・ブラウザ完結 (ファイル送信なし)。">
+<link rel="canonical" href="https://patto-tool.com/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
-<!-- OGP -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://benri-tools.example.com/">
-<meta property="og:title" content="無料便利ツール80選｜面倒・分かりにくいを即答">
-<meta property="og:description" content="MBTI診断・人生残り時間・同年代年収偏差値・画像圧縮など、80個の無料便利ツール。営業電話なし・登録不要・ブラウザ完結。">
-<meta property="og:image" content="https://benri-tools.example.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/">
+<meta property="og:title" content="無料便利ツール 90選 ｜ PDF・OCR・診断 すべてブラウザ内">
+<meta property="og:description" content="PDF結合・OCR・MBTI・年収偏差値・残業代 等 82個。送信なし・登録不要。">
+<meta property="og:image" content="https://patto-tool.com/og.svg">
 <meta property="og:site_name" content="便利ツール">
 <meta property="og:locale" content="ja_JP">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="無料便利ツール80選｜面倒・分かりにくいを即答">
-<meta name="twitter:description" content="MBTI・人生残り時間・年収偏差値・画像圧縮など、80ツール無料公開。">
-<meta name="twitter:image" content="https://benri-tools.example.com/og.png">
-
-<!-- 構造化データ -->
+<meta name="twitter:title" content="無料便利ツール 90選 ｜ PDF・OCR・診断">
+<meta name="twitter:description" content="90個 ブラウザ完結。送信なし・登録不要。">
+<meta name="twitter:image" content="https://patto-tool.com/og.svg">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"便利ツール","url":"https://benri-tools.example.com/","potentialAction":{"@type":"SearchAction","target":"https://benri-tools.example.com/?q={search_term_string}","query-input":"required name=search_term_string"}}
+{"@context":"https://schema.org","@type":"WebSite","name":"便利ツール","url":"https://patto-tool.com/","potentialAction":{"@type":"SearchAction","target":"https://patto-tool.com/?q={search_term_string}","query-input":"required name=search_term_string"}}
 </script>
-
+<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 <link rel="stylesheet" href="style.css">
-
-<!-- Google Analytics 4 (デプロイ時に GA4_ID を 自分の 計測IDへ) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
-
-<!-- AdSense (審査通過後 有効化) -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<style>
+.recent-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px;}
+.recent-row .recent-label{font-size:13px;font-weight:700;color:#6b7280;}
+.chip{display:inline-block;padding:6px 14px;font-size:13px;font-weight:600;background:#fff;border:1px solid #e5e7eb;border-radius:999px;color:#111827;}
+.chip:hover{border-color:#2563eb;color:#2563eb;text-decoration:none;}
+.search-count{font-size:13px;color:#6b7280;margin:-8px 0 12px;}
+.empty-state{background:#fff;border:1px dashed #d1d5db;border-radius:14px;padding:24px;text-align:center;color:#6b7280;margin:0 0 24px;}
+.hero-prompt{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fcd34d;border-radius:14px;padding:14px 18px;margin:14px 0 18px;font-size:14.5px;color:#78350f;line-height:1.7;}
+.hero-prompt b{color:#92400e;}
+.tag-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px;}
+.tag-row .tag-label{font-size:13px;font-weight:700;color:#6b7280;margin-right:4px;}
+.tag{display:inline-block;padding:6px 12px;font-size:13px;font-weight:600;background:#eff6ff;border:1px solid #bfdbfe;border-radius:999px;color:#1d4ed8;cursor:pointer;transition:.15s;}
+.tag:hover{background:#dbeafe;border-color:#3b82f6;text-decoration:none;}
+.footer-sitemap{background:#f9fafb;border-top:1px solid #e5e7eb;margin-top:48px;padding:32px 0 24px;}
+.footer-sitemap h3{font-size:14px;margin:0 0 10px;color:#374151;}
+.footer-sitemap .col{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;}
+.footer-sitemap ul{list-style:none;padding:0;margin:0;}
+.footer-sitemap li{padding:3px 0;font-size:13px;}
+.footer-sitemap a{color:#4b5563;text-decoration:none;}
+.footer-sitemap a:hover{color:#2563eb;text-decoration:underline;}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
 </head>
 <body>
-<header class="site"><div class="wrap"><a class="logo" href="./">便利<span>ツール</span></a><nav><a href="./">ツール一覧</a></nav></div></header>
+<header class="site"><div class="wrap"><a class="logo" href="./">便利<span>ツール</span></a><nav><a href="./">ツール一覧</a><a href="about/">使い方</a></nav></div></header>
 
 <main class="wrap">
   <section class="hero">
-    <h1>本当に使える 便利ツール80選</h1>
-    <p class="lead">「面倒・わかりにくい・聞きにくい」 を 即答に 変える 独自ツール 40種+ 含む 厳選 集。すべて 無料・登録不要・ブラウザ完結。</p>
+    <h1>登録不要・ブラウザ完結の 便利ツール 90選</h1>
+    <p class="lead">PDF結合・OCR・診断系・計算系… ファイル送信なし、 全て あなたの ブラウザ内で 完結。 完全 無料・登録不要・広告 最小限。</p>
+    <div class="hero-prompt" role="note">
+      💡 <b>あなたが 今 探しているもの は…?</b><br>
+      「<a href="furusato-limit/">ふるさと納税 上限</a>」「<a href="take-home/">手取り 計算</a>」「<a href="kogaku-iryohi/">高額療養費</a>」「<a href="pdf-tools/">PDF 結合・分割</a>」「<a href="ocr/">画像から 文字起こし</a>」「<a href="phone-check/">電話番号の 危険度</a>」 — 検索ボックスに ひらがなで 入れても OK。
+    </div>
   </section>
 
-  <h2>🔥 バイラル・診断 シリーズ <span style="font-size:14px;color:#c00;">NEW・15種</span></h2>
-  <p class="lead" style="font-size:15px;">SNS シェア前提の 設計。診断結果は ワンタップ コピーで X / Instagram に そのまま 投稿可能。</p>
-  <div class="grid">
-    <a class="card" href="mbti/"><div class="ico">🧠</div><div class="ttl">MBTI 16タイプ 診断</div><div class="dsc">8問で INTJ・ENFP 等 即判定 + 相性</div></a>
-    <a class="card" href="life-time/"><div class="ico">⏳</div><div class="ttl">人生 残り時間</div><div class="dsc">リアルタイム秒カウント・衝撃の数字</div></a>
-    <a class="card" href="income-rank/"><div class="ico">📊</div><div class="ttl">同年代 年収 偏差値</div><div class="dsc">「あなたは 上位 ◯%」 が 出る</div></a>
-    <a class="card" href="savings-rank/"><div class="ico">💰</div><div class="ttl">同年代 貯金 偏差値</div><div class="dsc">金融資産で 順位・偏差値</div></a>
-    <a class="card" href="days-alive/"><div class="ico">🎂</div><div class="ttl">生まれてから 何日?</div><div class="dsc">キリ番 (10000日 等) 記念日も</div></a>
-    <a class="card" href="lifetime-income/"><div class="ico">💵</div><div class="ttl">生涯年収 シミュ</div><div class="dsc">残りキャリアで 稼ぐ 総額</div></a>
-    <a class="card" href="animal-uranai/"><div class="ico">🐾</div><div class="ttl">動物占い (12タイプ)</div><div class="dsc">生年月日から 動物に 分類</div></a>
-    <a class="card" href="name-match/"><div class="ico">💕</div><div class="ttl">名前 相性 診断</div><div class="dsc">2人の 名前で 相性%</div></a>
-    <a class="card" href="image-compress/"><div class="ico">🖼</div><div class="ttl">画像 圧縮 (送信なし)</div><div class="dsc">JPEG・PNG を 品質指定で 軽量化</div></a>
-    <a class="card" href="image-resize/"><div class="ico">📐</div><div class="ttl">画像 リサイズ</div><div class="dsc">SNS用 プリセット (Instagram・X 等)</div></a>
-    <a class="card" href="kirakira-name/"><div class="ico">✨</div><div class="ttl">キラキラネーム度</div><div class="dsc">難読度・当て字度で スコア</div></a>
-    <a class="card" href="career-test/"><div class="ico">🧭</div><div class="ttl">適職診断 (10問)</div><div class="dsc">5タイプの 仕事 適性</div></a>
-    <a class="card" href="black-company/"><div class="ico">🏴</div><div class="ttl">ブラック企業度</div><div class="dsc">10項目で 100点満点 判定</div></a>
-    <a class="card" href="fire-years/"><div class="ico">🔥</div><div class="ttl">FIRE 達成 年数</div><div class="dsc">4%ルール で 経済的自立まで</div></a>
-    <a class="card" href="taxi-fare/"><div class="ico">🚕</div><div class="ttl">タクシー料金 概算</div><div class="dsc">主要都市・深夜割増 対応</div></a>
+  <!-- 人気タグ -->
+  <div class="tag-row" aria-label="人気タグ">
+    <span class="tag-label">🏷 人気タグ:</span>
+    <a class="tag" href="?q=ふるさと納税">#ふるさと納税</a>
+    <a class="tag" href="?q=手取り">#手取り</a>
+    <a class="tag" href="?q=相続税">#相続税</a>
+    <a class="tag" href="?q=育休">#育休</a>
+    <a class="tag" href="?q=医療費">#医療費</a>
+    <a class="tag" href="?q=年収">#年収の壁</a>
+    <a class="tag" href="?q=PDF">#PDF</a>
+    <a class="tag" href="?q=ocr">#OCR</a>
+    <a class="tag" href="?q=mbti">#MBTI</a>
+    <a class="tag" href="?q=詐欺">#詐欺対策</a>
   </div>
 
-  <h2>🧾 公的手続き・税金 (面倒・わかりにくい を 即答) <span style="font-size:14px;color:#c00;">8種</span></h2>
-  <p class="lead" style="font-size:15px;">「ふるさと納税 上限」 「年収の壁」 「手取り」 「副業の税」 など、シミュレーター 各社が 個人情報 ほしがる 計算を、ブラウザ内で 即答。</p>
-  <div class="grid">
-    <a class="card" href="furusato-limit/"><div class="ico">🎁</div><div class="ttl">ふるさと納税 上限</div><div class="dsc">年収・家族構成から 寄付 上限額</div></a>
-    <a class="card" href="income-wall/"><div class="ico">🚧</div><div class="ttl">年収の壁 判定</div><div class="dsc">103/106/130/150万を 突破すると 何が？</div></a>
-    <a class="card" href="take-home/"><div class="ico">💴</div><div class="ttl">手取り計算</div><div class="dsc">額面 → 社保・税 差し引きで 実額</div></a>
-    <a class="card" href="side-tax/"><div class="ico">🧾</div><div class="ttl">副業 確定申告 判定</div><div class="dsc">20万円ルール + 追加 納税額</div></a>
-    <a class="card" href="ideco-tax/"><div class="ico">🏦</div><div class="ttl">iDeCo 節税額</div><div class="dsc">所得控除 で いくら 戻る？</div></a>
-    <a class="card" href="unemployment/"><div class="ico">🏃</div><div class="ttl">失業保険 受給額</div><div class="dsc">基本手当 日額 + 給付日数 + 総額</div></a>
-    <a class="card" href="pension/"><div class="ico">👴</div><div class="ttl">年金 受給額 概算</div><div class="dsc">65歳以降の 月額・年額・累計</div></a>
-    <a class="card" href="child-allowance/"><div class="ico">👶</div><div class="ttl">児童手当</div><div class="dsc">2024年 拡充版 対応・累計まで</div></a>
+  <!-- 検索ボックス -->
+  <div class="search-wrap">
+    <input type="text" id="search" class="search" placeholder="ひらがなでもOK！「ぱすわーど」「ねんしゅう」「PDF」… (／キーで検索)" autocomplete="off">
+  </div>
+  <div id="search-count" class="search-count"></div>
+  <div id="recent-row" class="recent-row" style="display:none;"></div>
+  <div id="search-empty" class="empty-state" style="display:none;">😢 見つかりませんでした。「計算」「診断」「変換」など別の言葉で試すか、下のカテゴリから探してみてください。</div>
+
+  <!-- カテゴリ ピル ナビ -->
+  <nav class="cat-nav">
+    <a href="#new">🆕 新着</a>
+    <a href="#no-call">📞 営業電話なし</a>
+    <a href="#tax">🧾 税金・公的</a>
+    <a href="#law">⚖️ 法律・労務</a>
+    <a href="#viral">🔥 診断系</a>
+    <a href="#money">💰 お金</a>
+    <a href="#career">💼 仕事</a>
+    <a href="#date">📅 日付</a>
+    <a href="#health">🩺 健康</a>
+    <a href="#dev">🛠 開発者</a>
+    <a href="#safety">🛡 安全</a>
+    <a href="#fun">🎮 おもしろ</a>
+  </nav>
+
+  <!-- ===== 新着 (PDF / OCR がスターツール) ===== -->
+  <h2 id="new">🆕 新着 ・ スター ツール</h2>
+  <p class="lead" style="font-size:14.5px;">最も検索される・最も需要のあるツールを ブラウザ内 完結で 実装。</p>
+  <div class="grid" data-cat="new">
+    <a class="card is-new" href="pdf-tools/"><div class="ico">📄</div><div class="ttl">PDF ツールキット</div><div class="dsc">結合・分割・PDF↔画像 全部入り</div></a>
+    <a class="card is-new" href="ocr/"><div class="ico">🔍</div><div class="ttl">画像から文字 (OCR)</div><div class="dsc">日本語対応・領収書/名刺/SS</div></a>
+    <a class="card" href="mbti/"><div class="ico">🧠</div><div class="ttl">MBTI 16タイプ 診断</div><div class="dsc">8問・INTJ/ENFP 等を判定</div></a>
+    <a class="card" href="furusato-limit/"><div class="ico">🎁</div><div class="ttl">ふるさと納税 上限</div><div class="dsc">年収・家族構成で 寄付上限</div></a>
+    <a class="card" href="take-home/"><div class="ico">💴</div><div class="ttl">手取り計算</div><div class="dsc">額面→社保・税 差引で 実額</div></a>
+    <a class="card" href="image-compress/"><div class="ico">🖼</div><div class="ttl">画像 圧縮</div><div class="dsc">送信なし・品質指定</div></a>
   </div>
 
-  <h2>⚖️ 法律・労務 (聞きにくい を 自分で) <span style="font-size:14px;color:#c00;">NEW・4種</span></h2>
-  <div class="grid">
-    <a class="card" href="overtime-pay/"><div class="ico">⏰</div><div class="ttl">残業代 未払い 計算</div><div class="dsc">時間外 1.25 / 深夜 0.25 / 休日 1.35</div></a>
-    <a class="card" href="paid-leave/"><div class="ico">🏖</div><div class="ttl">有給休暇 残日数</div><div class="dsc">入社日から 自動計算・上限40日</div></a>
-    <a class="card" href="dismissal-pay/"><div class="ico">📋</div><div class="ttl">解雇予告手当</div><div class="dsc">予告日数 不足分の 30日 ルール</div></a>
-    <a class="card" href="child-support/"><div class="ico">👨‍👩‍👧</div><div class="ttl">養育費 相場</div><div class="dsc">家裁 算定表ベース・月額 即時</div></a>
+  <h2 id="safety" class="cat-no-call">🛡 安全・プライバシー (6種)</h2>
+  <p class="lead" style="font-size:14.5px;">詐欺被害・自宅バレ・個人情報流出——本当に起きている問題から身を守るツール。</p>
+  <div class="grid" data-cat="safety">
+    <a class="card is-new" href="phone-check/"><div class="ico">📞</div><div class="ttl">電話番号 危険度チェック</div><div class="dsc">知らない着信を折り返す前に</div></a>
+    <a class="card is-new" href="scam-site-check/"><div class="ico">🛒</div><div class="ttl">詐欺通販サイト判定</div><div class="dsc">URL解析＋10項目チェック</div></a>
+    <a class="card is-new" href="phishing-check/"><div class="ico">🛡</div><div class="ttl">詐欺・フィッシング判定</div><div class="dsc">怪しいSMS・URLを貼るだけ診断</div></a>
+    <a class="card is-new" href="exif-remove/"><div class="ico">📍</div><div class="ttl">写真の位置情報 削除</div><div class="dsc">GPS検出→除去。自宅バレ防止</div></a>
+    <a class="card is-new" href="image-mask/"><div class="ico">⬛</div><div class="ttl">スクショ黒塗り</div><div class="dsc">ドラッグで黒塗り・モザイク</div></a>
+    <a class="card is-new" href="school-years/"><div class="ico">🎓</div><div class="ttl">入学・卒業年 計算</div><div class="dsc">履歴書の学歴欄・早生まれ対応</div></a>
   </div>
 
-  <h2>🏘 ライフプラン (将来の不安を 数字で) <span style="font-size:14px;color:#c00;">NEW・3種</span></h2>
-  <div class="grid">
-    <a class="card" href="buy-vs-rent/"><div class="ico">🏘</div><div class="ttl">持ち家 vs 賃貸</div><div class="dsc">30年シミュ・損益分岐の 答え</div></a>
-    <a class="card" href="education-cost/"><div class="ico">🎓</div><div class="ttl">教育費 総額</div><div class="dsc">保育〜大学・公立私立 別 シナリオ</div></a>
-    <a class="card" href="retirement-fund/"><div class="ico">🌅</div><div class="ttl">老後資金 必要額</div><div class="dsc">2000万円問題を 自分の 数字で</div></a>
+  <h2 id="no-call" class="cat-no-call">📞 営業電話なし・即答 (10種)</h2>
+  <p class="lead" style="font-size:14.5px;">一括査定サイトの「個人情報入力→電話地獄」を 解消。ブラウザ計算のみ。</p>
+  <div class="grid" data-cat="no-call">
+    <a class="card" href="car-buyback/"><div class="ico">🚗</div><div class="ttl">車 買取 概算</div><div class="dsc">年式・走行距離から</div></a>
+    <a class="card" href="realestate-value/"><div class="ico">🏠</div><div class="ttl">不動産 売却 概算</div><div class="dsc">マンション/戸建/土地</div></a>
+    <a class="card" href="moving-cost/"><div class="ico">🚚</div><div class="ttl">引越し 費用 概算</div><div class="dsc">距離×人数×時期</div></a>
+    <a class="card" href="wedding-cost/"><div class="ico">💍</div><div class="ttl">結婚式 費用 概算</div><div class="dsc">ご祝儀差引で 自己負担</div></a>
+    <a class="card" href="renovation-cost/"><div class="ico">🏚</div><div class="ttl">リフォーム 概算</div><div class="dsc">部位別 単価</div></a>
+    <a class="card" href="career-value/"><div class="ico">💼</div><div class="ttl">転職 市場価値</div><div class="dsc">業界×役職×スキル</div></a>
+    <a class="card" href="retirement-pay/"><div class="ico">🛡</div><div class="ttl">退職金 概算</div><div class="dsc">勤続×基本給</div></a>
+    <a class="card" href="lawyer-fee/"><div class="ico">⚖️</div><div class="ttl">弁護士 費用 相場</div><div class="dsc">案件別 着手金</div></a>
+    <a class="card" href="compensation/"><div class="ico">📜</div><div class="ttl">慰謝料 相場</div><div class="dsc">判例ベース</div></a>
+    <a class="card" href="gold-buyback/"><div class="ico">🪙</div><div class="ttl">金・プラチナ 買取</div><div class="dsc">純度×重量×相場</div></a>
   </div>
 
-  <h2>🩺 健康・暮らし (面倒な計算を 即答) <span style="font-size:14px;color:#c00;">NEW・5種</span></h2>
-  <div class="grid">
-    <a class="card" href="metabolism/"><div class="ico">🔥</div><div class="ttl">基礎代謝 + PFC</div><div class="dsc">Harris-Benedict・ダイエット 目標値</div></a>
-    <a class="card" href="health-check/"><div class="ico">🩺</div><div class="ttl">健康診断 数値判定</div><div class="dsc">血圧・血糖・脂質・肝機能 を 信号 で</div></a>
-    <a class="card" href="daycare-cost/"><div class="ico">🧒</div><div class="ttl">保育料 概算</div><div class="dsc">世帯年収・年齢別 (認可保育所)</div></a>
-    <a class="card" href="car-cost/"><div class="ico">🚙</div><div class="ttl">車 維持費 年間</div><div class="dsc">税・保険・車検・ガソリン 全部</div></a>
-    <a class="card" href="mobile-plan/"><div class="ico">📱</div><div class="ttl">携帯 月額 最適化</div><div class="dsc">使用量から 格安SIM レコメンド</div></a>
+  <h2 id="tax" class="cat-money">🧾 公的手続き・税金 (18種)</h2>
+  <div class="grid" data-cat="tax">
+    <a class="card" href="furusato-limit/"><div class="ico">🎁</div><div class="ttl">ふるさと納税 上限</div><div class="dsc">年収・家族構成で 寄付上限</div></a>
+    <a class="card" href="income-wall/"><div class="ico">🚧</div><div class="ttl">年収の壁 判定</div><div class="dsc">103/106/130/150万</div></a>
+    <a class="card" href="take-home/"><div class="ico">💴</div><div class="ttl">手取り計算</div><div class="dsc">額面→実額</div></a>
+    <a class="card" href="side-tax/"><div class="ico">🧾</div><div class="ttl">副業 確定申告 判定</div><div class="dsc">20万円ルール + 税額</div></a>
+    <a class="card" href="expense-check/"><div class="ico">🧾</div><div class="ttl">個人事業主 経費 判定</div><div class="dsc">70項目 + 家事按分%</div></a>
+    <a class="card" href="ideco-tax/"><div class="ico">🏦</div><div class="ttl">iDeCo 節税額</div><div class="dsc">所得控除 で いくら 戻る</div></a>
+    <a class="card" href="unemployment/"><div class="ico">🏃</div><div class="ttl">失業保険 受給額</div><div class="dsc">基本手当 日額</div></a>
+    <a class="card" href="pension/"><div class="ico">👴</div><div class="ttl">年金 受給額 概算</div><div class="dsc">65歳以降の月額</div></a>
+    <a class="card" href="retirement-insurance/"><div class="ico">🏥</div><div class="ttl">退職後の 健康保険 3択</div><div class="dsc">国保/任継/扶養 比較</div></a>
+    <a class="card" href="child-allowance/"><div class="ico">👶</div><div class="ttl">児童手当</div><div class="dsc">2024年 拡充版</div></a>
+    <a class="card is-new" href="kogaku-iryohi/"><div class="ico">🏥</div><div class="ttl">高額療養費 計算</div><div class="dsc">入院・手術の 自己負担上限 ⭐NEW</div></a>
+    <a class="card is-new" href="medical-deduction/"><div class="ico">💊</div><div class="ttl">医療費控除 計算</div><div class="dsc">確定申告 還付額 ⭐NEW</div></a>
+    <a class="card is-new" href="inheritance-tax/"><div class="ico">👨‍👩‍👧</div><div class="ttl">相続税 ざっくり計算</div><div class="dsc">遺産・相続人数 から ⭐NEW</div></a>
+    <a class="card is-new" href="gift-tax/"><div class="ico">🎁</div><div class="ttl">贈与税 計算</div><div class="dsc">暦年/相続時精算 課税 ⭐NEW</div></a>
+    <a class="card is-new" href="ikukyu-pay/"><div class="ico">🍼</div><div class="ttl">育休手当 計算</div><div class="dsc">67%/50%・上限対応 ⭐NEW</div></a>
+    <a class="card is-new" href="housing-loan-deduction/"><div class="ico">🏠</div><div class="ttl">住宅ローン控除</div><div class="dsc">13年間の 還付額 ⭐NEW</div></a>
+    <a class="card is-new" href="spouse-deduction/"><div class="ico">💑</div><div class="ttl">配偶者控除 判定</div><div class="dsc">103万・150万の 壁 ⭐NEW</div></a>
+    <a class="card is-new" href="mens-ikukyu/"><div class="ico">👨‍🍼</div><div class="ttl">男性育休 シミュレータ</div><div class="dsc">産後パパ育休 対応 ⭐NEW</div></a>
   </div>
 
-  <h2>📞 営業電話なし・即答 シリーズ <span style="font-size:14px;color:#c00;">10種</span></h2>
-  <p class="lead" style="font-size:15px;">一括査定サイトの「個人情報入力 → 電話地獄」を 解消。ブラウザ内 計算 だけで 即座に 概算が 出ます。</p>
-  <div class="grid">
-    <a class="card" href="car-buyback/"><div class="ico">🚗</div><div class="ttl">車 買取 概算</div><div class="dsc">年式・走行距離から 買取相場を 即時表示</div></a>
-    <a class="card" href="realestate-value/"><div class="ico">🏠</div><div class="ttl">不動産 売却 概算</div><div class="dsc">マンション/戸建/土地の 売却額を 査定登録なし で</div></a>
-    <a class="card" href="moving-cost/"><div class="ico">🚚</div><div class="ttl">引越し 費用 概算</div><div class="dsc">人数・距離・時期から 最安〜大手の レンジ</div></a>
-    <a class="card" href="wedding-cost/"><div class="ico">💍</div><div class="ttl">結婚式 費用 概算</div><div class="dsc">人数・スタイルから 自己負担 (ご祝儀差引)</div></a>
-    <a class="card" href="renovation-cost/"><div class="ico">🏚</div><div class="ttl">リフォーム 概算</div><div class="dsc">キッチン・浴室・外壁など 部位別 単価で</div></a>
-    <a class="card" href="career-value/"><div class="ico">💼</div><div class="ttl">転職 市場価値</div><div class="dsc">業界・役職・スキルから 適正年収を 算出</div></a>
-    <a class="card" href="retirement-pay/"><div class="ico">🛡</div><div class="ttl">退職金 概算</div><div class="dsc">勤続・基本給から 額面・税引後手取り</div></a>
-    <a class="card" href="lawyer-fee/"><div class="ico">⚖️</div><div class="ttl">弁護士 費用 相場</div><div class="dsc">案件別の 着手金・報酬金を 旧基準で</div></a>
-    <a class="card" href="compensation/"><div class="ico">📜</div><div class="ttl">慰謝料 相場</div><div class="dsc">離婚・不倫・交通事故 等 判例 平均</div></a>
-    <a class="card" href="gold-buyback/"><div class="ico">🪙</div><div class="ttl">金・プラチナ 買取</div><div class="dsc">純度・重量・当日相場から 業者買取額</div></a>
+  <h2 id="law" class="cat-law">⚖️ 法律・労務 (4種)</h2>
+  <div class="grid" data-cat="law">
+    <a class="card" href="overtime-pay/"><div class="ico">⏰</div><div class="ttl">残業代 未払い</div><div class="dsc">×1.25/深夜/休日</div></a>
+    <a class="card" href="paid-leave/"><div class="ico">🏖</div><div class="ttl">有給休暇 残日数</div><div class="dsc">入社日 から 自動</div></a>
+    <a class="card" href="dismissal-pay/"><div class="ico">📋</div><div class="ttl">解雇予告手当</div><div class="dsc">30日ルール 不足分</div></a>
+    <a class="card" href="child-support/"><div class="ico">👨‍👩‍👧</div><div class="ttl">養育費 相場</div><div class="dsc">家裁 算定表</div></a>
   </div>
 
-  <h2>💰 お金・暮らし (高需要)</h2>
-  <div class="grid">
-    <a class="card" href="warikan/"><div class="ico">🍻</div><div class="ttl">割り勘 (幹事補助)</div><div class="dsc">幹事 多め・端数切上 など 柔軟設定</div></a>
-    <a class="card" href="electricity-cost/"><div class="ico">💡</div><div class="ttl">電気代 シミュレータ</div><div class="dsc">W数 × 使用時間 で 月額・年額</div></a>
-    <a class="card" href="loan/"><div class="ico">🏠</div><div class="ttl">住宅ローン</div><div class="dsc">月返済額・総支払額・利息を試算</div></a>
-    <a class="card" href="nisa-sim/"><div class="ico">📈</div><div class="ttl">つみたてNISA</div><div class="dsc">複利計算で 将来 評価額を シミュレート</div></a>
-    <a class="card" href="rule-72/"><div class="ico">⏫</div><div class="ttl">72の法則</div><div class="dsc">資産が 倍に なる 年数を 一発計算</div></a>
-    <a class="card" href="gas-cost/"><div class="ico">⛽</div><div class="ttl">ガソリン代</div><div class="dsc">距離・燃費・単価から 旅費試算</div></a>
-    <a class="card" href="tax-calculator/"><div class="ico">🧾</div><div class="ttl">消費税</div><div class="dsc">税込・税抜を一瞬で計算 (10%/8%)</div></a>
-    <a class="card" href="percentage/"><div class="ico">％</div><div class="ttl">パーセント</div><div class="dsc">割合・割引・増減率を まとめて</div></a>
+  <h2 id="viral" class="cat-viral">🔥 診断・占い系 (15種)</h2>
+  <div class="grid" data-cat="viral">
+    <a class="card" href="mbti/"><div class="ico">🧠</div><div class="ttl">MBTI 16タイプ</div><div class="dsc">INTJ/ENFP 等</div></a>
+    <a class="card" href="life-time/"><div class="ico">⏳</div><div class="ttl">人生 残り時間</div><div class="dsc">リアルタイム秒</div></a>
+    <a class="card" href="income-rank/"><div class="ico">📊</div><div class="ttl">同年代 年収 偏差値</div><div class="dsc">上位◯%</div></a>
+    <a class="card" href="savings-rank/"><div class="ico">💰</div><div class="ttl">同年代 貯金 偏差値</div><div class="dsc">金融資産 順位</div></a>
+    <a class="card" href="days-alive/"><div class="ico">🎂</div><div class="ttl">生まれてから何日</div><div class="dsc">キリ番記念日も</div></a>
+    <a class="card" href="lifetime-income/"><div class="ico">💵</div><div class="ttl">生涯年収</div><div class="dsc">残りキャリアで</div></a>
+    <a class="card" href="animal-uranai/"><div class="ico">🐾</div><div class="ttl">動物占い</div><div class="dsc">12タイプ</div></a>
+    <a class="card" href="name-match/"><div class="ico">💕</div><div class="ttl">名前 相性 診断</div><div class="dsc">2人の名前で</div></a>
+    <a class="card" href="image-compress/"><div class="ico">🖼</div><div class="ttl">画像 圧縮</div><div class="dsc">JPEG/PNG 軽量化</div></a>
+    <a class="card" href="image-resize/"><div class="ico">📐</div><div class="ttl">画像 リサイズ</div><div class="dsc">SNS用 プリセット</div></a>
+    <a class="card" href="kirakira-name/"><div class="ico">✨</div><div class="ttl">キラキラネーム度</div><div class="dsc">難読・当て字 判定</div></a>
+    <a class="card" href="career-test/"><div class="ico">🧭</div><div class="ttl">適職診断</div><div class="dsc">10問・5タイプ</div></a>
+    <a class="card" href="black-company/"><div class="ico">🏴</div><div class="ttl">ブラック企業度</div><div class="dsc">110点満点</div></a>
+    <a class="card" href="fire-years/"><div class="ico">🔥</div><div class="ttl">FIRE 達成 年数</div><div class="dsc">4%ルール</div></a>
+    <a class="card" href="taxi-fare/"><div class="ico">🚕</div><div class="ttl">タクシー料金</div><div class="dsc">深夜・休日対応</div></a>
   </div>
 
-  <h2>💼 仕事・キャリア</h2>
-  <div class="grid">
-    <a class="card" href="hourly-yearly/"><div class="ico">💴</div><div class="ttl">時給→月収・年収</div><div class="dsc">時給と労働時間から自動換算</div></a>
-    <a class="card" href="side-job-wage/"><div class="ico">🏷</div><div class="ttl">副業 実時給 💡独自</div><div class="dsc">経費・税引き後の「本当の時給」</div></a>
-    <a class="card" href="work-hours/"><div class="ico">🕐</div><div class="ttl">労働時間 集計</div><div class="dsc">始業・終業・休憩から 賃金 計算</div></a>
-    <a class="card" href="meeting-cost/"><div class="ico">💰</div><div class="ttl">この会議いくら？ 💡独自</div><div class="dsc">参加人数×時給×時間 で 可視化</div></a>
-    <a class="card" href="goal-tracker/"><div class="ico">🎯</div><div class="ttl">目標達成日 逆算 💡独自</div><div class="dsc">ダイエット・貯金・学習 全般に</div></a>
-    <a class="card" href="pomodoro/"><div class="ico">🍅</div><div class="ttl">ポモドーロ</div><div class="dsc">25分集中＋5分休憩 サイクル</div></a>
-    <a class="card" href="deviation/"><div class="ico">📊</div><div class="ttl">偏差値</div><div class="dsc">得点・平均・標準偏差から算出</div></a>
+  <h2 id="money" class="cat-money">💰 お金・暮らし (8種)</h2>
+  <div class="grid" data-cat="money">
+    <a class="card" href="warikan/"><div class="ico">🍻</div><div class="ttl">割り勘</div><div class="dsc">幹事多め・端数</div></a>
+    <a class="card" href="electricity-cost/"><div class="ico">💡</div><div class="ttl">電気代 シミュレータ</div><div class="dsc">W数×時間</div></a>
+    <a class="card" href="loan/"><div class="ico">🏠</div><div class="ttl">住宅ローン</div><div class="dsc">月返済・総額</div></a>
+    <a class="card" href="nisa-sim/"><div class="ico">📈</div><div class="ttl">つみたて NISA</div><div class="dsc">複利 将来評価</div></a>
+    <a class="card" href="rule-72/"><div class="ico">⏫</div><div class="ttl">72の法則</div><div class="dsc">資産倍化 年数</div></a>
+    <a class="card" href="gas-cost/"><div class="ico">⛽</div><div class="ttl">ガソリン代</div><div class="dsc">距離×燃費</div></a>
+    <a class="card" href="tax-calculator/"><div class="ico">🧾</div><div class="ttl">消費税</div><div class="dsc">税込・税抜</div></a>
+    <a class="card" href="percentage/"><div class="ico">％</div><div class="ttl">パーセント</div><div class="dsc">割合・割引</div></a>
   </div>
 
-  <h2>📝 文章・SNS</h2>
-  <div class="grid">
-    <a class="card" href="moji-count/"><div class="ico">📝</div><div class="ttl">文字数カウント</div><div class="dsc">文字数・行数・原稿用紙 換算</div></a>
-    <a class="card" href="tweet-count/"><div class="ico">🐦</div><div class="ttl">X (Twitter) 文字数</div><div class="dsc">X / Bluesky / Threads を 一括チェック</div></a>
-    <a class="card" href="read-time/"><div class="ico">📖</div><div class="ttl">読了時間 予測</div><div class="dsc">ブログ "○分で 読めます" 表示用</div></a>
+  <h2 id="career">💼 仕事・キャリア (7種)</h2>
+  <div class="grid" data-cat="career">
+    <a class="card" href="hourly-yearly/"><div class="ico">💴</div><div class="ttl">時給→月収・年収</div><div class="dsc">時給×労働時間</div></a>
+    <a class="card" href="side-job-wage/"><div class="ico">🏷</div><div class="ttl">副業 実時給 💡</div><div class="dsc">経費・税引き後</div></a>
+    <a class="card" href="work-hours/"><div class="ico">🕐</div><div class="ttl">労働時間 集計</div><div class="dsc">始業・終業・休憩</div></a>
+    <a class="card" href="meeting-cost/"><div class="ico">💰</div><div class="ttl">この会議いくら 💡</div><div class="dsc">人数×時給×時間</div></a>
+    <a class="card" href="goal-tracker/"><div class="ico">🎯</div><div class="ttl">目標達成日 逆算 💡</div><div class="dsc">ダイエット・貯金</div></a>
+    <a class="card" href="pomodoro/"><div class="ico">🍅</div><div class="ttl">ポモドーロ</div><div class="dsc">25+5 サイクル</div></a>
+    <a class="card" href="deviation/"><div class="ico">📊</div><div class="ttl">偏差値</div><div class="dsc">得点・平均・SD</div></a>
   </div>
 
-  <h2>📅 日付・時間</h2>
-  <div class="grid">
-    <a class="card" href="age-calculator/"><div class="ico">🎂</div><div class="ttl">年齢計算</div><div class="dsc">生年月日から満年齢・誕生日まで</div></a>
-    <a class="card" href="date-diff/"><div class="ico">📆</div><div class="ttl">日数計算</div><div class="dsc">2つの日付の間の日数を計算</div></a>
-    <a class="card" href="date-shift/"><div class="ico">⏩</div><div class="ttl">○日後・前</div><div class="dsc">基準日からN日後/前を 曜日付で</div></a>
-    <a class="card" href="wareki/"><div class="ico">📅</div><div class="ttl">西暦・和暦</div><div class="dsc">令和・平成・昭和を一発変換</div></a>
-    <a class="card" href="stopwatch/"><div class="ico">⏱️</div><div class="ttl">ストップウォッチ</div><div class="dsc">ミリ秒単位・ラップ対応</div></a>
-    <a class="card" href="timer/"><div class="ico">⏲️</div><div class="ttl">カウントダウン</div><div class="dsc">時間設定でアラーム通知</div></a>
+  <h2 id="text">📝 文章・SNS (3種)</h2>
+  <div class="grid" data-cat="text">
+    <a class="card" href="moji-count/"><div class="ico">📝</div><div class="ttl">文字数 カウント</div><div class="dsc">原稿用紙 換算</div></a>
+    <a class="card" href="tweet-count/"><div class="ico">🐦</div><div class="ttl">X (Twitter) 文字数</div><div class="dsc">280字 + URL換算</div></a>
+    <a class="card" href="read-time/"><div class="ico">📖</div><div class="ttl">読了時間 予測</div><div class="dsc">ブログ ○分で読了</div></a>
   </div>
 
-  <h2>🩺 健康・暮らし</h2>
-  <div class="grid">
-    <a class="card" href="bmi/"><div class="ico">⚖️</div><div class="ttl">BMI計算</div><div class="dsc">身長と体重から肥満度を判定</div></a>
-    <a class="card" href="random/"><div class="ico">🎲</div><div class="ttl">ランダム / くじ引き</div><div class="dsc">選択肢から抽選・サイコロ・コイン</div></a>
+  <h2 id="date">📅 日付・時間 (6種)</h2>
+  <div class="grid" data-cat="date">
+    <a class="card" href="age-calculator/"><div class="ico">🎂</div><div class="ttl">年齢計算</div><div class="dsc">満年齢・誕生日</div></a>
+    <a class="card" href="date-diff/"><div class="ico">📆</div><div class="ttl">日数計算</div><div class="dsc">2日付の間</div></a>
+    <a class="card" href="date-shift/"><div class="ico">⏩</div><div class="ttl">○日後・前</div><div class="dsc">曜日付</div></a>
+    <a class="card" href="wareki/"><div class="ico">📅</div><div class="ttl">西暦・和暦</div><div class="dsc">令和/平成/昭和</div></a>
+    <a class="card" href="unixtime/"><div class="ico">⌛</div><div class="ttl">Unixタイム変換</div><div class="dsc">秒⇔日時 JST</div></a>
+    <a class="card" href="stopwatch/"><div class="ico">⏱️</div><div class="ttl">ストップウォッチ</div><div class="dsc">ミリ秒 ラップ</div></a>
   </div>
 
-  <h2>🛠️ 開発者向け</h2>
-  <div class="grid">
-    <a class="card" href="json-format/"><div class="ico">🧩</div><div class="ttl">JSON 整形</div><div class="dsc">インデントを揃えて見やすく</div></a>
-    <a class="card" href="url-encode/"><div class="ico">🔗</div><div class="ttl">URL エンコード</div><div class="dsc">URL用にエンコード／デコード</div></a>
-    <a class="card" href="base64/"><div class="ico">🔣</div><div class="ttl">Base64 変換</div><div class="dsc">エンコード／デコード (日本語対応)</div></a>
-    <a class="card" href="unixtime/"><div class="ico">⌛</div><div class="ttl">Unixタイム変換</div><div class="dsc">タイムスタンプ⇔日時 (JST)</div></a>
-    <a class="card" href="hash/"><div class="ico">#️⃣</div><div class="ttl">SHA-256 ハッシュ</div><div class="dsc">文字列のハッシュ値を計算</div></a>
-    <a class="card" href="uuid/"><div class="ico">🆔</div><div class="ttl">UUID v4 生成</div><div class="dsc">ワンクリックで生成・10件まとめも</div></a>
-    <a class="card" href="qr-code/"><div class="ico">📱</div><div class="ttl">QRコード生成</div><div class="dsc">URLや文字列から QR コード</div></a>
-    <a class="card" href="password-generator/"><div class="ico">🔑</div><div class="ttl">パスワード生成</div><div class="dsc">安全なランダムパスワード</div></a>
-    <a class="card" href="color-converter/"><div class="ico">🎨</div><div class="ttl">カラーコード変換</div><div class="dsc">HEX⇔RGBを相互変換・ピッカー付</div></a>
+  <h2 id="timer">⏲️ タイマー (3種)</h2>
+  <div class="grid" data-cat="timer">
+    <a class="card" href="timer/"><div class="ico">⏲️</div><div class="ttl">カウントダウン</div><div class="dsc">アラーム通知</div></a>
+    <a class="card" href="pomodoro/"><div class="ico">🍅</div><div class="ttl">ポモドーロ</div><div class="dsc">25+5</div></a>
+    <a class="card" href="stopwatch/"><div class="ico">⏱️</div><div class="ttl">ストップウォッチ</div><div class="dsc">ラップ対応</div></a>
   </div>
+
+  <h2 id="health" class="cat-health">🩺 健康・生活 (7種)</h2>
+  <div class="grid" data-cat="health">
+    <a class="card" href="bmi/"><div class="ico">⚖️</div><div class="ttl">BMI</div><div class="dsc">肥満度 判定</div></a>
+    <a class="card" href="metabolism/"><div class="ico">🔥</div><div class="ttl">基礎代謝 + PFC</div><div class="dsc">Harris-Benedict</div></a>
+    <a class="card" href="health-check/"><div class="ico">🩺</div><div class="ttl">健康診断 判定</div><div class="dsc">血圧/血糖/脂質</div></a>
+    <a class="card" href="daycare-cost/"><div class="ico">🧒</div><div class="ttl">保育料</div><div class="dsc">世帯年収 別</div></a>
+    <a class="card" href="car-cost/"><div class="ico">🚙</div><div class="ttl">車 維持費 年間</div><div class="dsc">税・保険・車検</div></a>
+    <a class="card" href="mobile-plan/"><div class="ico">📱</div><div class="ttl">携帯 月額 最適化</div><div class="dsc">格安SIM 比較</div></a>
+    <a class="card" href="random/"><div class="ico">🎲</div><div class="ttl">ランダム選択</div><div class="dsc">くじ引き・サイコロ</div></a>
+  </div>
+
+  <h2 id="life">🏘 ライフプラン (3種)</h2>
+  <div class="grid" data-cat="life">
+    <a class="card" href="buy-vs-rent/"><div class="ico">🏘</div><div class="ttl">持ち家 vs 賃貸</div><div class="dsc">30年比較</div></a>
+    <a class="card" href="education-cost/"><div class="ico">🎓</div><div class="ttl">教育費 総額</div><div class="dsc">幼〜大 公私別</div></a>
+    <a class="card" href="retirement-fund/"><div class="ico">🌅</div><div class="ttl">老後資金</div><div class="dsc">2000万円問題</div></a>
+  </div>
+
+  <h2 id="dev" class="cat-dev">🛠 開発者向け (9種)</h2>
+  <div class="grid" data-cat="dev">
+    <a class="card" href="json-format/"><div class="ico">🧩</div><div class="ttl">JSON 整形</div><div class="dsc">インデント</div></a>
+    <a class="card" href="url-encode/"><div class="ico">🔗</div><div class="ttl">URL エンコード</div><div class="dsc">エンコ/デコード</div></a>
+    <a class="card" href="base64/"><div class="ico">🔣</div><div class="ttl">Base64</div><div class="dsc">日本語対応</div></a>
+    <a class="card" href="unixtime/"><div class="ico">⌛</div><div class="ttl">Unixタイム</div><div class="dsc">⇔日時 JST</div></a>
+    <a class="card" href="hash/"><div class="ico">#️⃣</div><div class="ttl">SHA-256</div><div class="dsc">ハッシュ値</div></a>
+    <a class="card" href="uuid/"><div class="ico">🆔</div><div class="ttl">UUID v4</div><div class="dsc">10件まとめ可</div></a>
+    <a class="card" href="qr-code/"><div class="ico">📱</div><div class="ttl">QRコード生成</div><div class="dsc">URLから</div></a>
+    <a class="card" href="password-generator/"><div class="ico">🔑</div><div class="ttl">パスワード生成</div><div class="dsc">安全ランダム</div></a>
+    <a class="card" href="color-converter/"><div class="ico">🎨</div><div class="ttl">カラーコード</div><div class="dsc">HEX⇔RGB</div></a>
+  </div>
+
+  <h2 id="fun" class="cat-viral">🎮 おもしろ・実験 (4種)</h2>
+  <p class="lead" style="font-size:14.5px;">遊べる・つい試したくなる インタラクティブ系。スコアはシェアできます。</p>
+  <div class="grid" data-cat="fun">
+    <a class="card is-new" href="reaction-time/"><div class="ico">⚡</div><div class="ttl">反応速度テスト</div><div class="dsc">緑でクリック・反射神経ランク</div></a>
+    <a class="card is-new" href="typing-speed/"><div class="ico">⌨️</div><div class="ttl">タイピング速度</div><div class="dsc">文字/分・正確率を計測</div></a>
+    <a class="card is-new" href="amidakuji/"><div class="ico">🪜</div><div class="ttl">あみだくじ</div><div class="dsc">人数・あたり設定→アニメ表示</div></a>
+    <a class="card is-new" href="morse/"><div class="ico">📡</div><div class="ttl">モールス信号</div><div class="dsc">文⇔モールス・音で再生</div></a>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 
   <h2>このサイトについて</h2>
-  <p class="lead">「あったら 便利かも」 ではなく 「実際に 検索される / 仕事や 暮らしで 必要に なる」 ツールだけを 厳選しています。<strong>💡独自</strong> マークは 他サイトに 無い / 独自の 切り口で 作った ツールです。すべての 処理は あなたの ブラウザ内で 完結し、入力内容が 外部に 送られることは ありません。</p>
-  <p class="lead"><strong>📞 営業電話なし・即答 シリーズ</strong> は、車買取・不動産査定のように 「結果が 知りたいだけなのに 個人情報を 取られて 電話地獄」 という 問題を 解消する 独自シリーズです (現在 10種)。すべて 内蔵 計算式 + 公開データ で 動き、外部 API を 一切 呼びません。</p>
+  <p class="lead">「ググって 出てくる 計算サイト」 が 個人情報を 求めたり 広告だらけ だったり するのを 嫌って 作った、本当に 使える ツールだけ の 厳選 集。すべて あなたの ブラウザ内で 完結し、データは 外部に 送信されません。<strong>💡</strong> マークは 他サイトに無い 独自ツール。</p>
 </main>
 
-<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<section class="footer-sitemap" aria-label="サイトマップ">
+  <div class="wrap">
+    <h2 style="font-size:18px;margin:0 0 16px;">🗺 サイトマップ — 主要 ツール</h2>
+    <div class="col">
+      <div>
+        <h3>🧾 税金・公的</h3>
+        <ul>
+          <li><a href="furusato-limit/">ふるさと納税 上限</a></li>
+          <li><a href="take-home/">手取り 計算</a></li>
+          <li><a href="income-wall/">年収の壁 判定</a></li>
+          <li><a href="ideco-tax/">iDeCo 節税額</a></li>
+          <li><a href="side-tax/">副業 確定申告</a></li>
+          <li><a href="medical-deduction/">医療費控除</a></li>
+          <li><a href="kogaku-iryohi/">高額療養費</a></li>
+          <li><a href="housing-loan-deduction/">住宅ローン控除</a></li>
+          <li><a href="spouse-deduction/">配偶者控除</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>👨‍👩‍👧 相続・家族・育児</h3>
+        <ul>
+          <li><a href="inheritance-tax/">相続税 計算</a></li>
+          <li><a href="gift-tax/">贈与税 計算</a></li>
+          <li><a href="ikukyu-pay/">育休手当</a></li>
+          <li><a href="mens-ikukyu/">男性育休</a></li>
+          <li><a href="child-allowance/">児童手当</a></li>
+          <li><a href="daycare-cost/">保育料</a></li>
+          <li><a href="education-cost/">教育費 総額</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>💼 仕事・労務・退職</h3>
+        <ul>
+          <li><a href="overtime-pay/">残業代 計算</a></li>
+          <li><a href="paid-leave/">有給 残日数</a></li>
+          <li><a href="dismissal-pay/">解雇予告手当</a></li>
+          <li><a href="retirement-pay/">退職金 概算</a></li>
+          <li><a href="retirement-insurance/">退職後 健康保険</a></li>
+          <li><a href="unemployment/">失業保険</a></li>
+          <li><a href="pension/">年金 受給額</a></li>
+          <li><a href="hourly-yearly/">時給→月収・年収</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>💰 お金・住まい</h3>
+        <ul>
+          <li><a href="loan/">住宅ローン</a></li>
+          <li><a href="buy-vs-rent/">持ち家 vs 賃貸</a></li>
+          <li><a href="nisa-sim/">つみたて NISA</a></li>
+          <li><a href="fire-years/">FIRE 達成 年数</a></li>
+          <li><a href="retirement-fund/">老後資金</a></li>
+          <li><a href="lawyer-fee/">弁護士費用 相場</a></li>
+          <li><a href="compensation/">慰謝料 相場</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>🛠 開発者・PDF・画像</h3>
+        <ul>
+          <li><a href="pdf-tools/">PDF ツールキット</a></li>
+          <li><a href="ocr/">画像から 文字 (OCR)</a></li>
+          <li><a href="image-compress/">画像 圧縮</a></li>
+          <li><a href="json-format/">JSON 整形</a></li>
+          <li><a href="base64/">Base64 変換</a></li>
+          <li><a href="qr-code/">QR コード生成</a></li>
+          <li><a href="password-generator/">パスワード 生成</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>🔥 診断・健康・安全</h3>
+        <ul>
+          <li><a href="mbti/">MBTI 16タイプ</a></li>
+          <li><a href="income-rank/">同年代 年収 偏差値</a></li>
+          <li><a href="bmi/">BMI 判定</a></li>
+          <li><a href="health-check/">健康診断 判定</a></li>
+          <li><a href="phone-check/">電話番号 危険度</a></li>
+          <li><a href="scam-site-check/">詐欺通販 判定</a></li>
+          <li><a href="phishing-check/">フィッシング 判定</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin:20px 0 0;font-size:12px;color:#9ca3af;">全 105 ツールを 見る → <a href="./" style="color:#2563eb;">トップに 戻る</a></p>
+  </div>
+</section>
+
+<footer class="site"><div class="wrap">© 便利ツール <a href="about/">サイトについて</a> · <a href="privacy/">プライバシー</a> · <a href="contact/">お問い合わせ</a></div></footer>
+
+<script>
+// ===== ツール検索（ひらがな・カタカナ・同義語 対応） =====
+const KW = {
+'pdf-tools':'ぴーでぃーえふ けつごう ぶんかつ 結合 分割 まとめる 変換',
+'ocr':'もじおこし よみとり 文字起こし 読み取り てきすと化 領収書 スキャン',
+'mbti':'えむびーてぃーあい せいかく 性格 16タイプ 診断',
+'furusato-limit':'ふるさとのうぜい じょうげん きふ 寄付 節税 控除',
+'take-home':'てどり きゅうりょう がくめん 手取り 給料 額面 社会保険',
+'image-compress':'がぞう あっしゅく けいりょう 画像 圧縮 軽く 写真 容量',
+'image-resize':'がぞう りさいず 画像 サイズ変更 縮小 写真',
+'phishing-check':'さぎ ふぃっしんぐ 詐欺 迷惑 sms めーる 怪しい あんぜん 判定',
+'phone-check':'でんわ ばんごう 電話番号 着信 知らない 怪しい 詐欺 折り返し 050 ワン切り 国際電話',
+'scam-site-check':'さぎさいと つうはん 詐欺サイト 通販 偽 ショッピング 偽物 安すぎ 振込 判定',
+'exif-remove':'いちじょうほう えぐじふ 位置情報 gps 写真 削除 ぷらいばしー 自宅',
+'image-mask':'くろぬり もざいく 黒塗り 隠す すくしょ 個人情報 ますく',
+'school-years':'にゅうがく そつぎょう がくれき りれきしょ 入学 卒業 学歴 履歴書 早生まれ',
+'car-buyback':'くるま かいとり さてい 車 査定 売る',
+'realestate-value':'ふどうさん さてい 不動産 まんしょん 査定 売却',
+'moving-cost':'ひっこし 引越し 引っ越し 費用',
+'wedding-cost':'けっこんしき 結婚式 費用 ご祝儀',
+'renovation-cost':'りふぉーむ 費用',
+'career-value':'てんしょく しじょうかち 転職 市場価値 年収',
+'retirement-pay':'たいしょくきん 退職金',
+'retirement-insurance':'たいしょくご けんこうほけん こくほ 国保 にんいけいぞく 任意継続 ふよう 扶養 退職 健康保険 はけん',
+'expense-check':'けいひ 経費 こじんじぎょうしゅ 個人事業主 ふりーらんす フリーランス かくていしんこく 確定申告 かじあんぶん 家事按分 きゃくひ 客費 けいひかんじょう',
+'lawyer-fee':'べんごし 弁護士 費用 相場',
+'compensation':'いしゃりょう 慰謝料 相場',
+'gold-buyback':'きん ぷらちな 金 買取 貴金属',
+'income-wall':'ねんしゅうのかべ ふよう 103万 130万 106万 150万 扶養 ぱーと',
+'side-tax':'ふくぎょう かくていしんこく 副業 確定申告 20万 税金',
+'ideco-tax':'いでこ せつぜい 節税 年金 控除',
+'unemployment':'しつぎょうほけん 失業 手当 給付',
+'pension':'ねんきん 年金 老後 受給',
+'child-allowance':'じどうてあて 児童手当 こども 給付',
+'overtime-pay':'ざんぎょうだい 残業 未払い 労働 深夜',
+'paid-leave':'ゆうきゅう 有給 休暇 日数',
+'dismissal-pay':'かいこ 解雇 予告手当',
+'child-support':'よういくひ 養育費 離婚',
+'life-time':'じんせい のこりじかん 人生 残り 寿命',
+'income-rank':'ねんしゅう へんさち 年収 偏差値 同年代 順位',
+'savings-rank':'ちょきん へんさち 貯金 偏差値 資産 同年代',
+'days-alive':'うまれてなんにち 生まれて 日数 記念日',
+'lifetime-income':'しょうがいねんしゅう 生涯年収',
+'animal-uranai':'どうぶつうらない 占い 性格',
+'name-match':'なまえ あいしょう 名前 相性 恋愛 診断',
+'kirakira-name':'きらきらねーむ 名前 判定',
+'career-test':'てきしょく 適職 診断 仕事',
+'black-company':'ぶらっく 会社 労働 診断',
+'fire-years':'ふぁいあ そうきりたいあ 早期リタイア 投資 資産',
+'taxi-fare':'たくしー 料金 運賃',
+'warikan':'わりかん 割り勘 飲み会 精算 幹事',
+'electricity-cost':'でんきだい 電気代 電力 節約',
+'loan':'じゅうたくろーん 住宅ローン 返済 家 借入',
+'nisa-sim':'にーさ つみたて 投資 複利 積立',
+'rule-72':'ななじゅうに 72 複利 倍 投資',
+'gas-cost':'がそりん ガソリン 燃費 車',
+'tax-calculator':'しょうひぜい 消費税 税込 税抜',
+'percentage':'ぱーせんと わりあい 割合 割引 増減率',
+'hourly-yearly':'じきゅう 時給 月収 年収 給料 換算',
+'side-job-wage':'ふくぎょう じきゅう 副業 時給 実質',
+'work-hours':'ろうどうじかん 労働時間 集計 勤怠 残業',
+'meeting-cost':'かいぎ 会議 こすと 無駄 人件費',
+'goal-tracker':'もくひょう 目標 だいえっと 貯金 逆算',
+'pomodoro':'ぽもどーろ 集中 たいまー 25分 作業',
+'deviation':'へんさち 偏差値 成績 テスト',
+'moji-count':'もじすう 文字数 かうんと 原稿用紙 字数',
+'tweet-count':'ついった twitter x 文字数 ついーと 投稿',
+'read-time':'どくりょう 読了 読む時間 ぶろぐ',
+'age-calculator':'ねんれい 年齢 まんねんれい 誕生日 何歳',
+'date-diff':'にっすう 日数 日付 期間 あいだ',
+'date-shift':'なんにちご 日後 日前 曜日 営業日',
+'wareki':'せいれき われき 西暦 和暦 令和 平成 昭和 元号 変換',
+'unixtime':'ゆにっくす unix epoch 時間 変換 たいむすたんぷ',
+'stopwatch':'すとっぷうぉっち 計測 らっぷ 時間',
+'timer':'たいまー かうんとだうん あらーむ 時間',
+'bmi':'びーえむあい 体重 肥満 けんこう だいえっと 標準体重',
+'metabolism':'きそたいしゃ 基礎代謝 かろりー pfc だいえっと',
+'health-check':'けんこうしんだん 健康診断 血圧 血糖 これすてろーる',
+'daycare-cost':'ほいくりょう 保育料 保育園 こども',
+'car-cost':'くるま いじひ 車 維持費 年間',
+'mobile-plan':'けいたい すまほ 携帯 格安sim 料金 乗り換え',
+'random':'らんだむ 抽選 くじ さいころ るーれっと 選ぶ',
+'buy-vs-rent':'もちいえ ちんたい 持ち家 賃貸 比較 家',
+'education-cost':'きょういくひ 教育費 学費 こども 大学',
+'retirement-fund':'ろうご 老後 資金 2000万 年金',
+'json-format':'じぇいそん json 整形 ふぉーまっと 開発',
+'url-encode':'ゆーあーるえる url えんこーど 変換 開発',
+'base64':'べーす64 base64 えんこーど でこーど 変換',
+'hash':'はっしゅ sha256 ハッシュ 暗号 開発',
+'uuid':'ゆーゆーあいでぃ uuid 生成 開発 id',
+'qr-code':'きゅーあーる qr こーど 作成 生成 ばーこーど',
+'password-generator':'ぱすわーど 生成 安全 らんだむ 強力',
+'color-converter':'からー 色 hex rgb かラーこーど 変換',
+'reaction-time':'はんのうそくど 反応 反射神経 げーむ テスト',
+'typing-speed':'たいぴんぐ 速度 きーぼーど 練習 測定',
+'amidakuji':'あみだくじ くじ 席決め 順番 抽選',
+'morse':'もーるす 信号 暗号 sos 変換',
+'kogaku-iryohi':'こうがくりょうようひ 高額療養費 医療費 自己負担 上限 入院 手術 限度額 げんどがく にゅういん しゅじゅつ 健康保険 還付',
+'medical-deduction':'いりょうひこうじょ 医療費控除 かくていしんこく 確定申告 還付 セルフメディケーション otc 薬 領収書 10万円',
+'inheritance-tax':'そうぞくぜい 相続税 遺産 いさん 基礎控除 法定相続 配偶者控除 速算表 そうぞく',
+'gift-tax':'ぞうよぜい 贈与税 暦年贈与 相続時精算 110万 2500万 贈与 そうよ',
+'ikukyu-pay':'いくきゅう 育休 育児休業 給付金 67% 50% 手当 産休 育児 きゅうふきん',
+'housing-loan-deduction':'じゅうたくろーんこうじょ 住宅ローン控除 借入金 特別控除 確定申告 還付 13年 0.7%',
+'spouse-deduction':'はいぐうしゃこうじょ 配偶者控除 配偶者特別控除 103万 150万 壁 共働き ぱーと',
+'mens-ikukyu':'だんせいいくきゅう 男性育休 産後パパ育休 出生時育児休業 父親 父 育休 取得率 80%'
+};
+const $search = document.getElementById('search');
+const $count = document.getElementById('search-count');
+const $empty = document.getElementById('search-empty');
+const allCards = Array.from(document.querySelectorAll('.card'));
+const kata2hira = s => s.replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+const norm = s => kata2hira((s || '').toLowerCase());
+const slugOf = c => (c.getAttribute('href') || '').replace(/\/$/, '');
+function applySearch() {
+  const q = norm($search.value.trim());
+  let shown = 0;
+  allCards.forEach(c => {
+    if (!q) { c.style.display = ''; shown++; return; }
+    const hay = norm(c.textContent || '') + ' ' + norm(KW[slugOf(c)] || '') + ' ' + slugOf(c);
+    if (hay.includes(q)) { c.style.display = ''; shown++; }
+    else { c.style.display = 'none'; }
+  });
+  document.querySelectorAll('.grid').forEach(grid => {
+    const visible = Array.from(grid.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+    const heading = grid.previousElementSibling;
+    const lead = heading && heading.tagName === 'P' ? heading.previousElementSibling : null;
+    if (heading && heading.tagName === 'H2') {
+      heading.style.display = visible ? '' : 'none';
+      if (lead && lead.classList.contains('lead')) lead.style.display = visible ? '' : 'none';
+    } else if (heading && heading.tagName === 'P' && heading.classList.contains('lead')) {
+      heading.style.display = visible ? '' : 'none';
+      const h2 = heading.previousElementSibling;
+      if (h2 && h2.tagName === 'H2') h2.style.display = visible ? '' : 'none';
+    }
+  });
+  if ($count) $count.textContent = q ? '🔎 ' + shown + ' 個のツールが見つかりました' : '';
+  if ($empty) $empty.style.display = (q && shown === 0) ? '' : 'none';
+}
+$search.addEventListener('input', applySearch);
+// 「/」キーで検索へ、Escでクリア
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== $search) { e.preventDefault(); $search.focus(); }
+  if (e.key === 'Escape' && document.activeElement === $search) { $search.value = ''; applySearch(); }
+});
+// URL ?q=foo で 自動検索
+const params = new URLSearchParams(location.search);
+if (params.has('q')) { $search.value = params.get('q'); applySearch(); }
+// 人気タグ クリックで 検索 (リロード なし)
+document.querySelectorAll('.tag').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const url = new URL(a.href);
+    const q = url.searchParams.get('q') || '';
+    $search.value = q;
+    applySearch();
+    history.replaceState(null, '', q ? '?q=' + encodeURIComponent(q) : location.pathname);
+    window.scrollTo({ top: $search.offsetTop - 80, behavior: 'smooth' });
+    if (typeof gtag !== 'undefined') gtag('event', 'tag_click', { tag: q });
+  });
+});
+// ===== 最近使ったツール（localStorage） =====
+const RKEY = 'pt_recent';
+function renderRecent() {
+  let arr = []; try { arr = JSON.parse(localStorage.getItem(RKEY) || '[]'); } catch (e) {}
+  const box = document.getElementById('recent-row'); if (!box) return;
+  if (!arr.length) { box.style.display = 'none'; return; }
+  box.style.display = '';
+  box.innerHTML = '<span class="recent-label">🕘 最近使った:</span>' + arr.map(t => '<a class="chip" href="' + t.s + '/">' + t.i + ' ' + t.t + '</a>').join('');
+}
+allCards.forEach(c => {
+  c.addEventListener('click', () => {
+    const s = slugOf(c); if (!s || s === 'about' || s === 'privacy' || s === 'contact') return;
+    const t = (c.querySelector('.ttl') || {}).textContent || s;
+    const i = (c.querySelector('.ico') || {}).textContent || '🔧';
+    let arr = []; try { arr = JSON.parse(localStorage.getItem(RKEY) || '[]'); } catch (e) {}
+    arr = arr.filter(x => x.s !== s); arr.unshift({ s: s, t: t, i: i }); arr = arr.slice(0, 6);
+    try { localStorage.setItem(RKEY, JSON.stringify(arr)); } catch (e) {}
+  });
+});
+renderRecent();
+</script>
 </body>
 </html>

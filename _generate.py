@@ -12,7 +12,7 @@ from pathlib import Path
 
 BASE = Path(__file__).parent
 
-SITE_URL = "https://benri-tools.example.com"  # デプロイ先に 後で 差し替え
+SITE_URL = "https://patto-tool.com"  # 独自ドメイン (Xserverで取得済)
 GA4_ID = "G-XXXXXXXXXX"  # Google Analytics 4 計測ID (デプロイ時に 設定)
 ADSENSE_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX"  # AdSense クライアントID (審査通過後に 設定)
 

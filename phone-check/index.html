@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電話番号 危険度チェッカー｜知らない番号からの着信を判定（無料）</title>
+<meta name="description" content="知らない電話番号を入れるだけで、番号の種類（携帯・IP電話・国際電話・フリーダイヤル・固定電話の地域）と詐欺の危険サインを判定。評判の検索リンクも自動生成。折り返す前にチェック。無料・登録不要。">
+<link rel="stylesheet" href="../style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<main class="wrap">
+  <h1>📞 電話番号 危険度チェッカー</h1>
+  <p class="lead">知らない番号から着信…折り返して大丈夫？ 番号を入れるだけで<strong>番号の種類・発信元の地域・詐欺の危険サイン</strong>を判定し、<strong>その番号の評判を調べる検索リンク</strong>も作ります。</p>
+
+  <div class="tool">
+    <div class="row"><label>電話番号（ハイフンあり/なし、+81や+1などの国際表記もOK）</label><input type="tel" id="num" class="in" placeholder="例：05012345678 ／ +675 1234 5678 ／ 0312345678"></div>
+    <div class="bar"><button class="btn primary" id="check">チェックする</button><button class="btn ghost" id="clear">クリア</button></div>
+
+    <div class="result" id="resbox" style="display:none;text-align:left;">
+      <div style="text-align:center;"><span class="big" id="verdict">--</span><div class="lbl" id="kind"></div></div>
+      <ul id="flags" style="margin-top:14px;"></ul>
+      <div class="bar" id="links" style="justify-content:center;"></div>
+      <div id="advice" class="note" style="font-size:13.5px;"></div>
+    </div>
+    <p class="note">🔒 番号はブラウザ内でのみ解析され、送信されません。<br>⚠️ 番号は偽装（スプーフィング）できるため、<strong>実在企業の番号に見えても本人とは限りません</strong>。「銀行・警察・役所がお金やカードを取りに行く」ことは絶対にありません。</p>
+  </div>
+
+  <h2>折り返す前の3つの鉄則</h2>
+  <dl class="faq">
+    <dt>① 国際電話（+から始まる）は折り返さない</dt><dd>「ワン切り→折り返させて高額通話料」が定番の手口。心当たりのない国際番号は無視が正解です。</dd>
+    <dt>② 評判を検索してから</dt><dd>営業・詐欺電話は同じ番号で大量発信するため、検索すれば口コミが見つかることが多いです（上のボタンで検索できます）。</dd>
+    <dt>③ 「本人確認」「暗証番号」は教えない</dt><dd>電話で暗証番号・口座・マイナンバーを聞く正規機関はありません。不安なら一度切って、公式サイトの番号にかけ直しを。</dd>
+  </dl>
+
+  <h2>困ったときの相談先</h2>
+  <dl class="faq">
+    <dt>警察相談専用電話</dt><dd><strong>#9110</strong>（詐欺かも？と思ったら。緊急時は110）</dd>
+    <dt>消費者ホットライン</dt><dd><strong>188</strong>（しつこい勧誘・契約トラブル）</dd>
+  </dl>
+</main>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<script>
+(function(){
+  var AREA={'011':'札幌','0123':'千歳','017':'青森','019':'盛岡','018':'秋田','022':'仙台','023':'山形','024':'福島','025':'新潟','026':'長野','027':'前橋','028':'宇都宮','029':'水戸','043':'千葉','047':'船橋・市川','048':'さいたま','042':'多摩・立川','044':'川崎','045':'横浜','046':'厚木・横須賀','03':'東京23区','04':'柏・所沢など','052':'名古屋','053':'浜松','054':'静岡','055':'甲府・沼津','058':'岐阜','059':'津・四日市','06':'大阪','072':'大阪府下（堺など）','073':'和歌山','075':'京都','076':'金沢・富山','077':'大津','078':'神戸','079':'姫路など','082':'広島','083':'下関・山口','084':'福山','086':'岡山','087':'高松','088':'徳島・高知','089':'松山','092':'福岡','093':'北九州','095':'長崎','096':'熊本','097':'大分','098':'沖縄','099':'鹿児島','0985':'宮崎'};
+  var CC={'1':'アメリカ/カナダ','44':'イギリス','86':'中国','852':'香港','853':'マカオ','886':'台湾','82':'韓国','63':'フィリピン','84':'ベトナム','66':'タイ','60':'マレーシア','62':'インドネシア','91':'インド','7':'ロシア','234':'ナイジェリア','675':'パプアニューギニア','678':'バヌアツ','679':'フィジー','252':'ソマリア','881':'衛星電話','882':'国際ネットワーク','883':'国際ネットワーク','870':'衛星電話(インマルサット)','966':'サウジアラビア','971':'UAE','972':'イスラエル','20':'エジプト','27':'南アフリカ','33':'フランス','39':'イタリア','49':'ドイツ','55':'ブラジル','81':'日本'};
+  var HIGH_RISK_CC=['675','678','679','252','881','882','883','870','234'];
+  function clean(s){ return s.replace(/[^\d+]/g,''); }
+  function check(){
+    var raw=document.getElementById('num').value.trim();
+    if(!raw) return;
+    var n=clean(raw);
+    var flags=[], kind='', risk=0; // 0低 1中 2高
+    var intl=false;
+    if(n.slice(0,1)==='+'||n.slice(0,3)==='010'){
+      intl=true;
+      var body=n.slice(0,1)==='+'? n.slice(1) : n.slice(3);
+      var cc=null, ccName='';
+      for(var len=3;len>=1;len--){ var c=body.slice(0,len); if(CC[c]){ cc=c; ccName=CC[c]; break; } }
+      if(cc==='81'){
+        kind='国際表記の日本番号（+81）';
+        flags.push(['注意','日本の番号を国際表記(+81)で表示する着信は、海外発信や偽装アプリ経由の可能性があります']);
+        risk=Math.max(risk,1);
+        n='0'+body.slice(2);
+      } else if(cc){
+        kind='国際電話：'+ccName+'（+'+cc+'）';
+        flags.push(['危険','海外（'+ccName+'）からの着信です。心当たりがなければ絶対に折り返さないでください']);
+        risk=2;
+        if(HIGH_RISK_CC.indexOf(cc)>-1){ flags.push(['危険','この国・回線（+'+cc+'）は「国際ワン切り詐欺」での悪用報告が特に多い番号帯です。折り返すと高額な通話料が発生します']); }
+      } else {
+        kind='国際電話（国番号不明）';
+        flags.push(['危険','不明な国番号の国際電話です。折り返さないでください']); risk=2;
+      }
+    }
+    if(!intl||kind.indexOf('+81')>-1){
+      if(n.slice(0,4)==='0120'||n.slice(0,4)==='0800'){ kind='フリーダイヤル（企業の発信）'; flags.push(['注意','企業の営業・勧誘電話で多く使われる番号帯です。必要なければ出なくて問題ありません']); risk=Math.max(risk,1); }
+      else if(n.slice(0,4)==='0570'){ kind='ナビダイヤル（企業窓口）'; flags.push(['情報','通話料は発信者負担（高め）です。かける場合は公式サイトで番号を確認しましょう']); }
+      else if(n.slice(0,3)==='050'){ kind='IP電話（050）'; flags.push(['注意','050番号は誰でも簡単・匿名性高く取得できるため、営業や詐欺でも多用されます。発信元の実在確認を']); risk=Math.max(risk,1); }
+      else if(['070','080','090'].indexOf(n.slice(0,3))>-1){ kind='携帯電話番号'; flags.push(['注意','「銀行」「役所」「大手企業」を名乗るのに携帯番号からの着信は不自然です（正規は固定/0120が基本）']); }
+      else if(n.slice(0,2)==='0'+'1'||n.slice(0,1)==='0'){
+        var area=''; for(var L=4;L>=2;L--){ var p=n.slice(0,L); if(AREA[p]){ area=AREA[p]; break; } }
+        if(area){ kind='固定電話（'+area+'）'; flags.push(['情報','発信元地域の目安：'+area+'。ただし番号偽装の可能性はあります']); }
+        else if(n.length>=10){ kind='固定電話（地域特定できず）'; }
+      }
+      if(n.slice(-4)==='0110'){ flags.push(['危険','末尾0110は警察署の代表番号に似せた「警察なりすまし」で多用されます。本物の警察はお金・カード・暗証番号を要求しません']); risk=2; }
+      if(!intl && (n.length<10||n.length>11)){ flags.push(['注意','桁数が日本の電話番号として不自然です（通常10〜11桁）']); risk=Math.max(risk,1); }
+    }
+    if(!kind) kind='形式を判定できませんでした';
+    var verdict, color;
+    if(risk===2){ verdict='危険度：高 🚨'; color='#dc2626'; }
+    else if(risk===1){ verdict='危険度：中 ⚠️'; color='#ea580c'; }
+    else { verdict='危険度：低〜情報 ℹ️'; color='#16a34a'; }
+    document.getElementById('verdict').textContent=verdict;
+    document.getElementById('verdict').style.color=color;
+    document.getElementById('kind').textContent='判定：'+kind;
+    var ul=document.getElementById('flags'); ul.innerHTML='';
+    if(!flags.length) flags.push(['情報','大きな危険サインは見つかりませんでした。下のボタンで評判も確認しましょう']);
+    flags.forEach(function(f){ var li=document.createElement('li'); li.textContent=(f[0]==='危険'?'🔴':(f[0]==='注意'?'🟠':'ℹ️'))+' '+f[1]; ul.appendChild(li); });
+    var digits=n.replace(/\D/g,'');
+    var links=document.getElementById('links'); links.innerHTML='';
+    [['🔎 Googleで評判を検索','https://www.google.com/search?q=%22'+encodeURIComponent(raw.replace(/\s/g,''))+'%22 OR %22'+digits+'%22'],
+     ['📒 jpnumberで口コミを見る','https://www.jpnumber.com/searchnumber.do?number='+digits],
+     ['📗 telnaviで口コミを見る','https://www.telnavi.jp/phone/'+digits]].forEach(function(l){
+      var a=document.createElement('a'); a.className='btn ghost'; a.style.textDecoration='none'; a.target='_blank'; a.rel='noopener'; a.href=l[1]; a.textContent=l[0]; links.appendChild(a);
+    });
+    document.getElementById('advice').innerHTML = risk>=2
+      ? '<strong>折り返さないでください。</strong>不安な場合は #9110（警察相談）へ。重要な用件なら必ず留守電やSMS、書面など別の手段でも連絡が来ます。'
+      : '折り返す前に、上のボタンで評判を確認するのがおすすめです。重要な用件なら留守電が残るはずです。';
+    document.getElementById('resbox').style.display='';
+  }
+  document.getElementById('check').addEventListener('click',check);
+  document.getElementById('num').addEventListener('keydown',function(e){ if(e.key==='Enter') check(); });
+  document.getElementById('clear').addEventListener('click',function(){ document.getElementById('num').value=''; document.getElementById('resbox').style.display='none'; });
+})();
+</script>
+</body>
+</html>
