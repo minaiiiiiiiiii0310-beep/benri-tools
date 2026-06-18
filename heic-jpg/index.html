@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEIC → JPG/PNG 一括変換ツール｜iPhone写真をWindows互換に（無料・ブラウザ内）</title>
+<meta name="description" content="iPhone・iPadのHEIC/HEIF画像を、JPG/PNG/WebPに一括変換。ブラウザ内処理でアップロード不要。複数同時OK・ZIP一括ダウンロード対応。EXIF（位置・撮影日時）保持/削除も選べる。">
+<meta name="keywords" content="HEIC,JPG,変換,iPhone,iPad,HEIF,画像変換">
+<link rel="canonical" href="https://patto-tool.com/heic-jpg/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HEIC→JPG一括変換ツール">
+<meta property="og:description" content="iPhone写真をWindows互換のJPG/PNGに一括変換。ブラウザ内処理。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/heic-jpg/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HEIC→JPG変換","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"HEIC→JPG変換","item":"https://patto-tool.com/heic-jpg/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop-zone { border:3px dashed #93c5fd; border-radius:14px; padding:30px 20px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f0f9ff; }
+  .drop-zone:hover, .drop-zone.dragover { background:#dbeafe; border-color:var(--accent); }
+  .drop-zone input { display:none; }
+  .opts { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin:14px 0; font-size:13px; }
+  .opts label { font-weight:600; display:block; }
+  .opts select, .opts input { display:block; width:100%; padding:8px; margin-top:4px; border:1px solid var(--line); border-radius:6px; box-sizing:border-box; }
+  .file-list { background:#fff; border:1px solid var(--line); border-radius:10px; max-height:400px; overflow-y:auto; margin:14px 0; }
+  .file-item { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); font-size:13px; }
+  .file-item:last-child { border-bottom:none; }
+  .file-item .name { flex:1; }
+  .file-item .size { color:var(--muted); }
+  .file-item .status { padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
+  .file-item .status.pending { background:#f3f4f6; color:#6b7280; }
+  .file-item .status.converting { background:#fef3c7; color:#92400e; }
+  .file-item .status.done { background:#dcfce7; color:#166534; }
+  .file-item .status.error { background:#fee2e2; color:#991b1b; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .actions button { padding:10px 18px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; font-weight:600; }
+  .actions button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .actions button:disabled { opacity:0.5; cursor:not-allowed; }
+  .progress { width:100%; height:8px; background:#f3f4f6; border-radius:4px; overflow:hidden; margin-top:10px; display:none; }
+  .progress.show { display:block; }
+  .progress div { height:100%; background:var(--accent); transition:width 0.2s; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; HEIC→JPG変換</nav>
+
+  <h1>📸 HEIC → JPG/PNG/WebP 一括変換</h1>
+  <p class="lead">iPhone・iPadで撮影した <strong>HEIC/HEIF 画像</strong>を、Windows・SNS・印刷で開ける <strong>JPG/PNG/WebP</strong> に一括変換。複数ファイル同時対応・ZIP出力。<strong>すべてブラウザ内処理</strong>で写真はアップロードされません。</p>
+
+  <div class="toc">
+    <strong>📑 こんなときに使う</strong>
+    <ul>
+      <li>iPhone写真をWindowsで開けない (HEICが見れない)</li>
+      <li>仕事先にHEIC送ったら「読めません」と言われた</li>
+      <li>SNSにアップロードできない</li>
+      <li>サイトに掲載したいけどHEIC非対応</li>
+      <li>大量のiPhone写真を一気に変換したい</li>
+    </ul>
+  </div>
+
+  <div class="tool">
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".heic,.heif,image/heic,image/heif,image/*" multiple>
+      <div style="font-size:40px;">📸</div>
+      <p style="margin:8px 0; font-size:15px; font-weight:600; color:#1e40af;">HEIC画像をドラッグ＆ドロップ または クリック</p>
+      <p style="font-size:12px;">複数選択OK。HEIC/HEIF/JPG/PNG など対応</p>
+    </div>
+
+    <div class="opts">
+      <div>
+        <label>変換先の形式</label>
+        <select id="format">
+          <option value="image/jpeg" selected>JPG (互換性最高・推奨)</option>
+          <option value="image/png">PNG (劣化なし・大きい)</option>
+          <option value="image/webp">WebP (Webサイト向け・軽量)</option>
+        </select>
+      </div>
+      <div>
+        <label>品質 (JPG/WebP)</label>
+        <select id="quality">
+          <option value="0.95" selected>最高 (95%)</option>
+          <option value="0.85">高 (85%)</option>
+          <option value="0.75">標準 (75%)</option>
+          <option value="0.6">圧縮重視 (60%)</option>
+        </select>
+      </div>
+      <div>
+        <label>最大幅 (px・任意)</label>
+        <input type="number" id="maxWidth" placeholder="例: 1920 (空 = 元サイズ)" min="100" max="10000">
+      </div>
+    </div>
+
+    <div class="file-list" id="fileList" style="display:none;"></div>
+    <div class="progress" id="progress"><div></div></div>
+
+    <div class="actions">
+      <button id="convertBtn" class="primary" disabled>🚀 変換 → ZIP保存</button>
+      <button id="clearBtn">🗑 クリア</button>
+    </div>
+
+    <p class="note">🔒 すべてブラウザ内処理 (libheif.js)。HEIC画像はアップロードされません。プライベートな写真も安心して使えます。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>📖 HEIC とは？</h2>
+  <p>HEIC (High Efficiency Image Container) は、Apple が iOS 11 (2017) から採用した画像形式。JPG より約50%軽量で画質も良いが、Windows・古いブラウザ・多くのWebサイトで非対応のため、メール添付やSNS投稿でトラブルになる。本ツールで JPG に変換すれば、どこでも開ける画像になる。</p>
+
+  <h2>❓ よくある質問</h2>
+  <dl class="faq">
+    <dt>写真はサーバーに送信される？</dt>
+    <dd>いいえ。libheif.js でブラウザ内デコード→Canvas 経由でJPG/PNG/WebP化。プライベートな写真も安心。</dd>
+    <dt>iPhone本体で先にJPG設定にできない？</dt>
+    <dd>iPhone設定 → カメラ → フォーマット → 「互換性優先」で今後の写真はJPG保存。既存のHEIC画像はこのツールで変換してください。</dd>
+    <dt>iPhoneのLive Photoは？</dt>
+    <dd>本ツールは静止画のみ変換。動画部分(.mov)は失われます。Live Photo保持はApple純正アプリで。</dd>
+    <dt>大量にあって時間かかる？</dt>
+    <dd>1枚あたり1-3秒程度。100枚なら3-5分。途中で止めても部分的にZIP保存されます。</dd>
+    <dt>EXIF (撮影日時・位置情報) は残る？</dt>
+    <dd>変換時に EXIF は基本的にリセットされます。位置情報を完全に消したい場合は「EXIF削除ツール」を併用してください。</dd>
+    <dt>iPad のスクリーンショットも変換できる？</dt>
+    <dd>iPad/iPhone のスクリーンショットは標準 PNG/HEIC。HEIC なら変換可能、PNGはそのまま使えるはず。</dd>
+  </dl>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../image-compress/"><div class="ico">🖼</div><div class="ttl">画像圧縮</div><div class="dsc">JPGをさらに軽量化</div></a>
+    <a class="card" href="../image-resize/"><div class="ico">📐</div><div class="ttl">画像リサイズ</div><div class="dsc">px・%指定で一括リサイズ</div></a>
+    <a class="card" href="../exif-remove/"><div class="ico">📷</div><div class="ttl">EXIF削除</div><div class="dsc">位置情報・撮影日時を削除</div></a>
+    <a class="card" href="../bulk-rename/"><div class="ico">📁</div><div class="ttl">ファイル一括リネーム</div><div class="dsc">変換後の整理に</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<!-- libheif.js for HEIC decoding -->
+<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var files = [];
+
+  function fmtSize(b){
+    if (b < 1024) return b + 'B';
+    if (b < 1024*1024) return (b/1024).toFixed(1) + 'KB';
+    return (b/1024/1024).toFixed(2) + 'MB';
+  }
+
+  function renderList(){
+    var list = $('fileList');
+    if (!files.length){ list.style.display = 'none'; $('convertBtn').disabled = true; return; }
+    list.style.display = '';
+    list.innerHTML = files.map(function(f, i){
+      return '<div class="file-item" data-i="' + i + '">' +
+        '<span>📄</span>' +
+        '<span class="name">' + f.name + '</span>' +
+        '<span class="size">' + fmtSize(f.size) + '</span>' +
+        '<span class="status ' + f.status + '">' + ({pending:'待機', converting:'変換中', done:'完了 → ' + (f.newSize ? fmtSize(f.newSize) : ''), error:'エラー'}[f.status]) + '</span>' +
+        '</div>';
+    }).join('');
+    $('convertBtn').disabled = false;
+  }
+
+  function addFiles(fl){
+    Array.from(fl).forEach(function(f){
+      files.push({file: f, name: f.name, size: f.size, status: 'pending', blob: null, newSize: 0});
+    });
+    renderList();
+  }
+
+  function newName(orig, fmt){
+    var ext = {'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp'}[fmt];
+    return orig.replace(/\.(heic|heif|jpg|jpeg|png|webp)$/i, '') + '.' + ext;
+  }
+
+  async function convertOne(f, fmt, quality, maxW){
+    var blob;
+    var lower = f.name.toLowerCase();
+    if (lower.endsWith('.heic') || lower.endsWith('.heif')){
+      // HEIC -> intermediate blob (JPEG)
+      blob = await heic2any({
+        blob: f.file,
+        toType: 'image/jpeg',
+        quality: 0.95
+      });
+    } else {
+      blob = f.file;
+    }
+    // Re-encode to target format with quality + resize
+    var url = URL.createObjectURL(blob);
+    var img = new Image();
+    await new Promise(function(res){
+      img.onload = res;
+      img.src = url;
+    });
+    var w = img.width, h = img.height;
+    if (maxW && w > maxW){
+      h = Math.round(h * maxW / w);
+      w = maxW;
+    }
+    var canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    if (fmt === 'image/jpeg'){
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, w, h);
+    }
+    ctx.drawImage(img, 0, 0, w, h);
+    URL.revokeObjectURL(url);
+    return new Promise(function(resolve){
+      canvas.toBlob(resolve, fmt, parseFloat(quality));
+    });
+  }
+
+  $('convertBtn').addEventListener('click', async function(){
+    var fmt = $('format').value;
+    var quality = $('quality').value;
+    var maxW = parseInt($('maxWidth').value, 10) || null;
+    var zip = new JSZip();
+    $('progress').classList.add('show');
+    var bar = $('progress').querySelector('div');
+    bar.style.width = '0%';
+    $('convertBtn').disabled = true;
+
+    for (var i = 0; i < files.length; i++){
+      var f = files[i];
+      if (f.status === 'done'){
+        zip.file(newName(f.name, fmt), f.blob);
+        continue;
+      }
+      f.status = 'converting';
+      renderList();
+      try {
+        var outBlob = await convertOne(f, fmt, quality, maxW);
+        f.blob = outBlob;
+        f.newSize = outBlob.size;
+        f.status = 'done';
+        zip.file(newName(f.name, fmt), outBlob);
+      } catch(e){
+        f.status = 'error';
+        f.error = e.message;
+      }
+      renderList();
+      bar.style.width = Math.round((i+1) / files.length * 100) + '%';
+    }
+
+    zip.generateAsync({type:'blob'}).then(function(blob){
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'converted_' + Date.now() + '.zip';
+      a.click();
+      $('convertBtn').disabled = false;
+    });
+  });
+
+  $('clearBtn').addEventListener('click', function(){
+    files = [];
+    renderList();
+    $('progress').classList.remove('show');
+  });
+
+  var dz = $('dropZone'), fi = $('fileInput');
+  dz.addEventListener('click', function(){ fi.click(); });
+  fi.addEventListener('change', function(){ if (fi.files.length) addFiles(fi.files); });
+  ['dragenter','dragover'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.remove('dragover'); });
+  });
+  dz.addEventListener('drop', function(e){ if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パスワード漏洩チェック｜HIBP・k-匿名性で安全照会（無料・パスワード送信なし）</title>
+<meta name="description" content="あなたのパスワードが過去のデータ漏洩事件で流出していないか即時チェック。Have I Been Pwned (HIBP) の k-匿名性APIを使い、パスワード本体をサーバーに送信せずに照会。10億件超の漏洩データから判定。">
+<meta name="keywords" content="パスワード,漏洩チェック,HIBP,Have I Been Pwned,k-匿名性,セキュリティ">
+<link rel="canonical" href="https://patto-tool.com/passwd-leak-check/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="パスワード漏洩チェック｜HIBP k-匿名性">
+<meta property="og:description" content="パスワードを送信せずに漏洩照会。HIBP 10億件超の漏洩DB。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/passwd-leak-check/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"パスワード漏洩チェック","applicationCategory":"SecurityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"パスワード漏洩チェック","item":"https://patto-tool.com/passwd-leak-check/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .pwd-input { position:relative; }
+  .pwd-input input { width:100%; padding:14px 50px 14px 14px; font-size:18px; border:2px solid var(--line); border-radius:10px; font-family:'SF Mono',Monaco,Consolas,monospace; box-sizing:border-box; }
+  .pwd-input button.show { position:absolute; right:8px; top:8px; padding:8px; background:transparent; border:none; cursor:pointer; font-size:20px; }
+  .check-btn { width:100%; padding:14px; background:var(--accent); color:#fff; border:none; border-radius:10px; cursor:pointer; font-size:16px; font-weight:600; margin-top:10px; }
+  .check-btn:hover { background:var(--accent-dark); }
+  .check-btn:disabled { background:#9ca3af; cursor:wait; }
+  .result-box { padding:20px; border-radius:12px; margin:14px 0; display:none; }
+  .result-box.safe { background:#ecfdf5; border:2px solid #10b981; }
+  .result-box.leaked { background:#fef2f2; border:2px solid #dc2626; }
+  .result-box .icon { font-size:48px; }
+  .result-box h3 { margin:8px 0; font-size:22px; }
+  .result-box.safe h3 { color:#065f46; }
+  .result-box.leaked h3 { color:#7f1d1d; }
+  .result-box .count { font-size:36px; font-weight:800; color:#dc2626; margin:8px 0; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin:14px 0; }
+  .stat-card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:20px; font-weight:700; }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .privacy-note { background:#eff6ff; border:1px solid #93c5fd; border-radius:10px; padding:14px; margin:14px 0; font-size:13px; line-height:1.7; }
+  .privacy-note strong { color:#1e40af; }
+  .privacy-note code { background:#fff; padding:2px 6px; border-radius:4px; font-family:monospace; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  details.section { margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.section summary { cursor:pointer; font-weight:600; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; パスワード漏洩チェック</nav>
+
+  <h1>🚨 パスワード漏洩チェック</h1>
+  <p class="lead">あなたのパスワードが、過去のデータ漏洩事件で流出していないか即時チェック。<strong>Have I Been Pwned (HIBP)</strong> の <strong>k-匿名性 API</strong> を使い、<strong>パスワード本体をサーバーに送信せず</strong>に 10億件以上の漏洩DBを照会。</p>
+
+  <div class="privacy-note">
+    <strong>🔒 安全な仕組み（k-匿名性）</strong>:<br>
+    本ツールはあなたのパスワードを送信しません。代わりに次の流れで照合:
+    <ol style="margin:8px 0 0; padding-left:20px;">
+      <li>パスワードをブラウザ内で SHA-1 ハッシュ化</li>
+      <li>ハッシュの<strong>最初の5文字だけ</strong>を HIBP に送信 (例: <code>5BAA6</code>)</li>
+      <li>該当する全候補(数百件)が返ってくる</li>
+      <li>残りのハッシュをブラウザ内で照合 → 漏洩有無を判定</li>
+    </ol>
+    HIBP 側は元のパスワードも完全なハッシュも知ることはできません。
+  </div>
+
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#checker">漏洩チェッカー</a></li>
+      <li><a href="#how">k-匿名性の仕組み</a></li>
+      <li><a href="#action">漏洩していたら何をすべきか</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
+  </div>
+
+  <section id="checker">
+    <div class="tool">
+      <label style="font-size:14px; font-weight:600; margin-bottom:6px; display:block;">パスワードを入力:</label>
+      <div class="pwd-input">
+        <input type="password" id="pwd" placeholder="チェックしたいパスワード" autocomplete="off">
+        <button class="show" id="showBtn" type="button">👁</button>
+      </div>
+      <button id="checkBtn" class="check-btn">🔍 漏洩状況をチェック</button>
+
+      <div class="result-box safe" id="resultSafe">
+        <div style="text-align:center;">
+          <div class="icon">✅</div>
+          <h3>このパスワードは漏洩していません</h3>
+          <p>HIBP のデータベース (10億件以上) に該当なし。安全ですが、サービスごとに異なるパスワードを使うことを推奨します。</p>
+        </div>
+      </div>
+
+      <div class="result-box leaked" id="resultLeaked">
+        <div style="text-align:center;">
+          <div class="icon">⚠️</div>
+          <h3>このパスワードは漏洩しています！</h3>
+          <p>過去のデータ漏洩事件で <strong id="leakCount">--</strong> 件 流出が確認されました。</p>
+          <div class="count" id="leakCountBig">--</div>
+          <p style="margin-top:14px;"><strong>すぐに該当アカウントのパスワードを変更してください。</strong>同じパスワードを別サービスでも使っていないかも要確認。</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="v" id="rank">--</div><div class="k">よく使われる順</div></div>
+          <div class="stat-card"><div class="v" id="risk">--</div><div class="k">攻撃リスク</div></div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:14px;">🔒 パスワード本体はサーバーに送信されません。送信されるのは SHA-1 ハッシュの最初の5文字のみ。</p>
+    </div>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <section id="how">
+    <h2>📐 k-匿名性（k-anonymity）の仕組み</h2>
+    <details class="section" open>
+      <summary>仕組み詳細</summary>
+      <p>あなたが <code>password123</code> と入力した場合:</p>
+      <ol>
+        <li>ブラウザ内で SHA-1 ハッシュ計算 → <code>cbfdac6008f9cab4083784cbd1874f76618d2a97</code></li>
+        <li>最初の5文字 <code>cbfda</code> だけを <code>api.pwnedpasswords.com/range/CBFDA</code> に送信</li>
+        <li>HIBP は <code>cbfda</code> で始まる全ハッシュ (数百件) の後半部分と漏洩回数を返す</li>
+        <li>ブラウザ内で残りの <code>c6008f9cab4083784cbd1874f76618d2a97</code> と照合</li>
+        <li>一致すれば漏洩、不一致なら安全</li>
+      </ol>
+      <p>この方式により、HIBP は誰がどのパスワードを照会したか追跡できません。</p>
+    </details>
+    <details class="section">
+      <summary>HIBP とは</summary>
+      <p>Have I Been Pwned (haveibeenpwned.com) は、セキュリティ研究者 Troy Hunt が運営する漏洩データ集約サイト。LinkedIn・Dropbox・Yahoo・Adobe など、過去の大規模漏洩事件のパスワードを匿名化して保有。13億件以上のユニークパスワード・漏洩回数も含む。本ツールは公開 API を利用。</p>
+    </details>
+  </section>
+
+  <section id="action">
+    <h2>🚨 漏洩していたら即実行する5つのこと</h2>
+    <ol>
+      <li><strong>該当パスワードを使うすべてのアカウント</strong>を即変更（メール・SNS・銀行など）</li>
+      <li><strong>パスワードマネージャー</strong>を導入 (1Password / Bitwarden / Keeper)</li>
+      <li><strong>サービスごとに異なるパスワード</strong>を使う (使い回し厳禁)</li>
+      <li><strong>2段階認証 (TOTP)</strong> を有効化 (Authenticator アプリ)</li>
+      <li>定期的に <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">HIBP</a> でメアドの漏洩状況もチェック</li>
+    </ol>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>本当にパスワードは送信されない？</dt>
+      <dd>はい。ブラウザの開発者ツール → Network タブで通信を確認できます。送信されるのは SHA-1 ハッシュの先頭5文字のみ。HIBP は元パスワードもフルハッシュも知りません。</dd>
+      <dt>「漏洩していない」=「安全」？</dt>
+      <dd>HIBP にないだけで「絶対安全」ではありません。短い・辞書語の組み合わせは辞書攻撃に弱いです。本ツールと併せて<a href="../password-strength/">強度チェッカー</a>でも確認を。</dd>
+      <dt>1回漏洩したパスワードを少し変えて使ってもいい？</dt>
+      <dd>NG。攻撃者は <code>password1</code> → <code>password2</code> のような派生も試します。完全に別物にしてください。</dd>
+      <dt>パスワード以外も漏洩確認できる？</dt>
+      <dd>メアドは HIBP 本家サイト (haveibeenpwned.com) でチェック可能。本ツールはパスワード照会専用です。</dd>
+      <dt>API は無料？</dt>
+      <dd>HIBP の Pwned Passwords API は無料で利用可。本ツールは API キーなしで動作。</dd>
+      <dt>会社のセキュリティポリシーで HIBP 直接利用が禁止されている</dt>
+      <dd>その場合は本ツールも使わない方が無難。社内のパスワードマネージャー / セキュリティ部門に相談してください。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../password-strength/"><div class="ico">🔒</div><div class="ttl">パスワード強度</div><div class="dsc">解読時間試算</div></a>
+    <a class="card" href="../password-generator/"><div class="ico">🔑</div><div class="ttl">パスワード生成</div><div class="dsc">安全な強パスワード作成</div></a>
+    <a class="card" href="../phishing-check/"><div class="ico">🎣</div><div class="ttl">フィッシング判定</div><div class="dsc">怪しいURLの危険度</div></a>
+    <a class="card" href="../hash/"><div class="ico">🔐</div><div class="ttl">ハッシュ生成</div><div class="dsc">SHA-256等の計算</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  async function sha1(str){
+    var enc = new TextEncoder().encode(str);
+    var hash = await crypto.subtle.digest('SHA-1', enc);
+    return Array.from(new Uint8Array(hash)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('').toUpperCase();
+  }
+
+  async function check(){
+    var pwd = $('pwd').value;
+    if (!pwd) return;
+    $('checkBtn').disabled = true;
+    $('checkBtn').textContent = '⏳ チェック中...';
+    $('resultSafe').style.display = 'none';
+    $('resultLeaked').style.display = 'none';
+
+    try {
+      var hash = await sha1(pwd);
+      var prefix = hash.slice(0, 5);
+      var suffix = hash.slice(5);
+
+      var res = await fetch('https://api.pwnedpasswords.com/range/' + prefix, {
+        headers: { 'Add-Padding': 'true' }
+      });
+      var text = await res.text();
+      var lines = text.split('\n');
+      var found = null;
+      for (var i = 0; i < lines.length; i++){
+        var parts = lines[i].split(':');
+        if (parts[0].trim().toUpperCase() === suffix){
+          found = parseInt(parts[1].trim(), 10);
+          break;
+        }
+      }
+
+      if (found && found > 0){
+        $('resultLeaked').style.display = 'block';
+        $('leakCount').textContent = found.toLocaleString();
+        $('leakCountBig').textContent = found.toLocaleString() + ' 件';
+        var rank;
+        if (found > 1000000) rank = '超有名 (TOP100)';
+        else if (found > 100000) rank = '有名 (TOP1000)';
+        else if (found > 10000) rank = 'よく使われる';
+        else if (found > 100) rank = '時々使われる';
+        else rank = 'たまに使われる';
+        $('rank').textContent = rank;
+        $('risk').textContent = found > 10000 ? '🔴 即危険' : (found > 100 ? '🟡 注意' : '🟢 低リスク');
+      } else {
+        $('resultSafe').style.display = 'block';
+      }
+    } catch(e){
+      alert('チェック中にエラー: ' + e.message + '\n\nHIBP API への接続に失敗。インターネット接続を確認してください。');
+    }
+    $('checkBtn').disabled = false;
+    $('checkBtn').textContent = '🔍 漏洩状況をチェック';
+  }
+
+  $('checkBtn').addEventListener('click', check);
+  $('pwd').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') check();
+  });
+  $('showBtn').addEventListener('click', function(){
+    var i = $('pwd');
+    i.type = i.type === 'password' ? 'text' : 'password';
+    $('showBtn').textContent = i.type === 'password' ? '👁' : '🙈';
+  });
+})();
+</script>
+</body>
+</html>

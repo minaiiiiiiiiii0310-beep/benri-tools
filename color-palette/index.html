@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>画像から自動カラーパレット抽出ツール｜ブランドカラー・写真の色味分析（無料）</title>
+<meta name="description" content="画像をアップロードするだけで、k-means クラスタリングで主要な色を5/8/12色抽出。HEX/RGB/HSL コードコピー、CSS変数/Tailwind形式出力。Webデザイン・ブランディング・写真分析に。">
+<meta name="keywords" content="カラーパレット,色抽出,k-means,ブランドカラー,デザイン,配色">
+<link rel="canonical" href="https://patto-tool.com/color-palette/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="画像カラーパレット抽出ツール">
+<meta property="og:description" content="画像から主要色を自動抽出。HEX/RGB/HSL/CSS変数/Tailwind出力。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/color-palette/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"カラーパレット抽出","applicationCategory":"DesignApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"カラーパレット抽出","item":"https://patto-tool.com/color-palette/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop-zone { border:3px dashed #93c5fd; border-radius:14px; padding:30px 20px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f0f9ff; }
+  .drop-zone:hover, .drop-zone.dragover { background:#dbeafe; border-color:var(--accent); }
+  .drop-zone input { display:none; }
+  .img-preview { max-width:100%; max-height:300px; display:block; margin:14px auto; border-radius:10px; box-shadow:var(--shadow); }
+  .palette { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin:14px 0; }
+  .swatch { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px; cursor:pointer; transition:transform 0.2s; }
+  .swatch:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
+  .swatch .preview { width:100%; height:80px; border-radius:6px; margin-bottom:6px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06); }
+  .swatch .codes { font-family:monospace; font-size:11px; line-height:1.6; }
+  .swatch .codes div { display:flex; justify-content:space-between; }
+  .swatch .codes .lbl { color:var(--muted); }
+  .swatch .copied { position:absolute; background:#16a34a; color:#fff; padding:2px 8px; border-radius:4px; font-size:10px; }
+  .opts { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; align-items:center; font-size:13px; }
+  .opts label { background:#f3f4f6; padding:6px 12px; border-radius:14px; cursor:pointer; }
+  .opts input[type=number] { width:60px; padding:4px 6px; border:1px solid var(--line); border-radius:4px; }
+  .opts button { padding:6px 14px; background:var(--accent); color:#fff; border:none; border-radius:6px; cursor:pointer; }
+  .export-section { background:#1f2937; color:#e5e7eb; padding:14px; border-radius:10px; margin:14px 0; }
+  .export-section h4 { margin:0 0 6px; color:#fbbf24; font-size:13px; }
+  .export-section pre { margin:0; font-family:'SF Mono',Monaco,Consolas,monospace; font-size:12px; overflow-x:auto; white-space:pre-wrap; line-height:1.6; }
+  .export-tabs { display:flex; gap:4px; margin-bottom:8px; }
+  .export-tabs button { padding:4px 10px; background:#374151; color:#9ca3af; border:none; border-radius:4px; cursor:pointer; font-size:12px; }
+  .export-tabs button.active { background:#fbbf24; color:#1f2937; font-weight:600; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; カラーパレット抽出</nav>
+
+  <h1>🎨 画像からカラーパレット抽出</h1>
+  <p class="lead">画像をドラッグ＆ドロップするだけで、k-means クラスタリングで<strong>主要な色を自動抽出</strong>。HEX/RGB/HSL コード一発コピー。CSS変数・Tailwind config・JSON 形式で書き出し。Webデザイン・ブランドカラー分析に。</p>
+
+  <div class="toc">
+    <strong>📑 使い方</strong>
+    <ul>
+      <li>画像をドロップ → 色数を選ぶ → パレット自動生成</li>
+      <li>各色クリックで HEX コードをコピー</li>
+      <li>下部の「エクスポート」で CSS / Tailwind / JSON 形式取得</li>
+    </ul>
+  </div>
+
+  <div class="tool">
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="image/*">
+      <div style="font-size:40px;">🖼</div>
+      <p style="margin:8px 0; font-size:15px; font-weight:600; color:#1e40af;">画像をドラッグ＆ドロップ または クリック</p>
+      <p style="font-size:12px;">JPG / PNG / WebP / SVG</p>
+    </div>
+
+    <img id="imgPreview" class="img-preview" style="display:none;">
+
+    <div class="opts">
+      <label>色数: <input type="number" id="numColors" value="6" min="2" max="20"></label>
+      <label><input type="checkbox" id="sortByLight" checked>明度順で並べる</label>
+      <label><input type="checkbox" id="ignoreNearWhite">白に近い色を除外</label>
+      <button id="reExtractBtn">🔄 再抽出</button>
+    </div>
+
+    <div class="palette" id="palette"></div>
+
+    <div id="exportArea" style="display:none;">
+      <h3 style="margin:18px 0 6px;">📤 エクスポート</h3>
+      <div class="export-tabs">
+        <button data-fmt="hex" class="active">HEX</button>
+        <button data-fmt="rgb">RGB</button>
+        <button data-fmt="css">CSS変数</button>
+        <button data-fmt="tailwind">Tailwind</button>
+        <button data-fmt="json">JSON</button>
+        <button data-fmt="ase">SCSS</button>
+      </div>
+      <div class="export-section">
+        <pre id="exportCode"></pre>
+      </div>
+      <button id="copyAllBtn" style="padding:8px 14px; background:#fff; border:1px solid var(--line); border-radius:6px; cursor:pointer;">📋 全コピー</button>
+    </div>
+
+    <p class="note">🔒 画像はアップロードされません。すべてブラウザ内 (Canvas API + k-means) で処理。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>📐 アルゴリズム</h2>
+  <p>本ツールは k-means++ クラスタリングを使用：</p>
+  <ol>
+    <li>画像を縮小サンプリング (最大10,000ピクセル)</li>
+    <li>k-means++ 初期化で代表色を選定（似た色が密集するのを防ぐ）</li>
+    <li>20回反復でクラスタ重心を確定</li>
+    <li>明度順・出現頻度順で並び替え可能</li>
+  </ol>
+
+  <h2>🎯 使い道</h2>
+  <ul>
+    <li><strong>ブランドカラー分析</strong>: 競合のロゴ・サイトから配色を抽出</li>
+    <li><strong>Webデザイン</strong>: 写真や絵画から調和の取れた色を選ぶ</li>
+    <li><strong>UIデザイン</strong>: ヒーロー画像から CSS 変数を即生成</li>
+    <li><strong>イラスト制作</strong>: 参考画像のパレットを再現</li>
+    <li><strong>ファッション</strong>: コーディネートの配色分析</li>
+  </ul>
+
+  <h2>❓ よくある質問</h2>
+  <dl class="faq">
+    <dt>画像はサーバーに送信される？</dt>
+    <dd>いいえ、Canvas API でブラウザ内処理。プライベートな写真・社外秘ロゴも安心です。</dd>
+    <dt>透明背景の画像は？</dt>
+    <dd>透明ピクセルは無視して色抽出します。PNG の透過も問題なし。</dd>
+    <dt>何色まで抽出できる？</dt>
+    <dd>2〜20色。8〜12色がバランス良いです。多すぎると似た色が増えます。</dd>
+    <dt>大きい画像は処理に時間がかかる？</dt>
+    <dd>10,000ピクセルにサンプリングするので、4Kでも1〜2秒。スマホでも快適です。</dd>
+    <dt>Adobe Color や Coolors とどう違う？</dt>
+    <dd>本ツールは「画像から自動抽出」に特化。Adobe Color の補色生成や Coolors の調和生成は別ツールが向きます。</dd>
+  </dl>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../color-converter/"><div class="ico">🎨</div><div class="ttl">カラー変換</div><div class="dsc">HEX/RGB/HSL/HSV相互変換</div></a>
+    <a class="card" href="../favicon-gen/"><div class="ico">🎯</div><div class="ttl">Faviconジェネレーター</div><div class="dsc">1枚から全サイズ</div></a>
+    <a class="card" href="../image-compress/"><div class="ico">🖼</div><div class="ttl">画像圧縮</div><div class="dsc">JPG/PNG/WebPサイズダウン</div></a>
+    <a class="card" href="../image-resize/"><div class="ico">📐</div><div class="ttl">画像リサイズ</div><div class="dsc">px・%指定リサイズ</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var colors = [];
+
+  function rgbToHex(r,g,b){ return '#' + [r,g,b].map(function(x){ return x.toString(16).padStart(2,'0'); }).join(''); }
+  function rgbToHsl(r,g,b){
+    r/=255; g/=255; b/=255;
+    var max = Math.max(r,g,b), min = Math.min(r,g,b);
+    var h, s, l = (max+min)/2;
+    if (max === min){ h = s = 0; }
+    else {
+      var d = max - min;
+      s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+      switch(max){
+        case r: h = (g-b)/d + (g<b?6:0); break;
+        case g: h = (b-r)/d + 2; break;
+        case b: h = (r-g)/d + 4; break;
+      }
+      h /= 6;
+    }
+    return [Math.round(h*360), Math.round(s*100), Math.round(l*100)];
+  }
+  function luminance(r,g,b){ return 0.299*r + 0.587*g + 0.114*b; }
+
+  // k-means++ initialization
+  function kmeansInit(pixels, k){
+    var centers = [pixels[Math.floor(Math.random() * pixels.length)]];
+    while (centers.length < k){
+      var distances = pixels.map(function(p){
+        var minD = Infinity;
+        centers.forEach(function(c){
+          var d = (p[0]-c[0])**2 + (p[1]-c[1])**2 + (p[2]-c[2])**2;
+          if (d < minD) minD = d;
+        });
+        return minD;
+      });
+      var sum = distances.reduce(function(a,b){ return a+b; }, 0);
+      var r = Math.random() * sum;
+      var acc = 0;
+      for (var i = 0; i < pixels.length; i++){
+        acc += distances[i];
+        if (acc >= r){ centers.push(pixels[i]); break; }
+      }
+    }
+    return centers;
+  }
+
+  function kmeans(pixels, k, maxIter){
+    maxIter = maxIter || 20;
+    var centers = kmeansInit(pixels, k);
+    for (var iter = 0; iter < maxIter; iter++){
+      var clusters = Array.from({length: k}, function(){ return []; });
+      pixels.forEach(function(p){
+        var minD = Infinity, idx = 0;
+        centers.forEach(function(c, i){
+          var d = (p[0]-c[0])**2 + (p[1]-c[1])**2 + (p[2]-c[2])**2;
+          if (d < minD){ minD = d; idx = i; }
+        });
+        clusters[idx].push(p);
+      });
+      var newCenters = clusters.map(function(cl, i){
+        if (cl.length === 0) return centers[i];
+        var sum = cl.reduce(function(a,b){ return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }, [0,0,0]);
+        return [Math.round(sum[0]/cl.length), Math.round(sum[1]/cl.length), Math.round(sum[2]/cl.length)];
+      });
+      var shifted = false;
+      for (var i = 0; i < k; i++){
+        if (newCenters[i][0] !== centers[i][0] || newCenters[i][1] !== centers[i][1] || newCenters[i][2] !== centers[i][2]){
+          shifted = true; break;
+        }
+      }
+      centers = newCenters;
+      if (!shifted) break;
+    }
+    // attach counts
+    var counts = Array(k).fill(0);
+    pixels.forEach(function(p){
+      var minD = Infinity, idx = 0;
+      centers.forEach(function(c, i){
+        var d = (p[0]-c[0])**2 + (p[1]-c[1])**2 + (p[2]-c[2])**2;
+        if (d < minD){ minD = d; idx = i; }
+      });
+      counts[idx]++;
+    });
+    return centers.map(function(c, i){ return {rgb:c, count:counts[i]}; });
+  }
+
+  function extractPalette(img){
+    var canvas = document.createElement('canvas');
+    var maxDim = 200;
+    var scale = Math.min(maxDim / img.width, maxDim / img.height, 1);
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    var pixels = [];
+    var ignoreNearWhite = $('ignoreNearWhite').checked;
+    for (var i = 0; i < data.length; i += 4){
+      if (data[i+3] < 128) continue;  // skip transparent
+      if (ignoreNearWhite && data[i] > 240 && data[i+1] > 240 && data[i+2] > 240) continue;
+      pixels.push([data[i], data[i+1], data[i+2]]);
+    }
+    var k = parseInt($('numColors').value, 10);
+    if (pixels.length < k) return [];
+    var clusters = kmeans(pixels, k);
+    if ($('sortByLight').checked){
+      clusters.sort(function(a, b){ return luminance(b.rgb[0],b.rgb[1],b.rgb[2]) - luminance(a.rgb[0],a.rgb[1],a.rgb[2]); });
+    } else {
+      clusters.sort(function(a, b){ return b.count - a.count; });
+    }
+    return clusters;
+  }
+
+  function render(){
+    if (!colors.length){ $('palette').innerHTML = ''; $('exportArea').style.display = 'none'; return; }
+    $('palette').innerHTML = '';
+    colors.forEach(function(c){
+      var hex = rgbToHex(c.rgb[0], c.rgb[1], c.rgb[2]);
+      var hsl = rgbToHsl(c.rgb[0], c.rgb[1], c.rgb[2]);
+      var div = document.createElement('div');
+      div.className = 'swatch';
+      div.dataset.hex = hex;
+      div.innerHTML =
+        '<div class="preview" style="background:' + hex + ';"></div>' +
+        '<div class="codes">' +
+          '<div><span class="lbl">HEX</span><span>' + hex + '</span></div>' +
+          '<div><span class="lbl">RGB</span><span>' + c.rgb.join(',') + '</span></div>' +
+          '<div><span class="lbl">HSL</span><span>' + hsl[0] + ',' + hsl[1] + '%,' + hsl[2] + '%</span></div>' +
+        '</div>';
+      div.addEventListener('click', function(){
+        navigator.clipboard.writeText(hex);
+        var orig = div.querySelector('.preview').style.background;
+        div.querySelector('.preview').style.background = '#16a34a';
+        div.querySelector('.preview').textContent = '✓ Copied';
+        div.querySelector('.preview').style.color = '#fff';
+        div.querySelector('.preview').style.textAlign = 'center';
+        div.querySelector('.preview').style.lineHeight = '80px';
+        setTimeout(function(){
+          div.querySelector('.preview').style.background = orig;
+          div.querySelector('.preview').textContent = '';
+        }, 1000);
+      });
+      $('palette').appendChild(div);
+    });
+    $('exportArea').style.display = '';
+    renderExport('hex');
+  }
+
+  function renderExport(fmt){
+    var lines = [];
+    if (fmt === 'hex') lines = colors.map(function(c){ return rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]); });
+    else if (fmt === 'rgb') lines = colors.map(function(c){ return 'rgb(' + c.rgb.join(', ') + ')'; });
+    else if (fmt === 'css'){
+      lines.push(':root {');
+      colors.forEach(function(c, i){ lines.push('  --color-' + (i+1) + ': ' + rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]) + ';'); });
+      lines.push('}');
+    } else if (fmt === 'tailwind'){
+      lines.push('// tailwind.config.js');
+      lines.push('colors: {');
+      colors.forEach(function(c, i){ lines.push('  brand' + (i+1) + ": '" + rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]) + "',"); });
+      lines.push('}');
+    } else if (fmt === 'json'){
+      lines.push(JSON.stringify(colors.map(function(c, i){
+        return { name: 'color-' + (i+1), hex: rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]), rgb: c.rgb, count: c.count };
+      }), null, 2));
+    } else if (fmt === 'ase'){
+      lines.push('// SCSS');
+      colors.forEach(function(c, i){ lines.push('$color-' + (i+1) + ': ' + rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]) + ';'); });
+    }
+    $('exportCode').textContent = lines.join('\n');
+  }
+
+  var currentImg = null;
+  function processImage(file){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        currentImg = img;
+        $('imgPreview').src = e.target.result;
+        $('imgPreview').style.display = 'block';
+        colors = extractPalette(img);
+        render();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  var dz = $('dropZone'), fi = $('fileInput');
+  dz.addEventListener('click', function(){ fi.click(); });
+  fi.addEventListener('change', function(){ if (fi.files[0]) processImage(fi.files[0]); });
+  ['dragenter','dragover'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.remove('dragover'); });
+  });
+  dz.addEventListener('drop', function(e){ if (e.dataTransfer.files[0]) processImage(e.dataTransfer.files[0]); });
+
+  $('reExtractBtn').addEventListener('click', function(){
+    if (currentImg){ colors = extractPalette(currentImg); render(); }
+  });
+  ['numColors','sortByLight','ignoreNearWhite'].forEach(function(id){
+    $(id).addEventListener('change', function(){
+      if (currentImg){ colors = extractPalette(currentImg); render(); }
+    });
+  });
+  document.querySelectorAll('.export-tabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.export-tabs button').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      renderExport(b.dataset.fmt);
+    });
+  });
+  $('copyAllBtn').addEventListener('click', function(){
+    navigator.clipboard.writeText($('exportCode').textContent);
+    $('copyAllBtn').textContent = '✅ コピー完了';
+    setTimeout(function(){ $('copyAllBtn').textContent = '📋 全コピー'; }, 2000);
+  });
+})();
+</script>
+</body>
+</html>
