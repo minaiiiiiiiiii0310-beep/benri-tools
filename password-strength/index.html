@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パスワード強度チェッカー｜解読時間試算・漏洩リスク判定（無料・ブラウザ内）</title>
+<meta name="description" content="入力パスワードの強度を視覚的に診断。GPU総当たり攻撃に要する時間を計算、辞書攻撃・パターン認識・繰り返し検出も。すべてブラウザ内処理でパスワードは送信されません。zxcvbnベース。">
+<meta name="keywords" content="パスワード,強度,zxcvbn,セキュリティ,辞書攻撃,brute force">
+<link rel="canonical" href="https://patto-tool.com/password-strength/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="パスワード強度チェッカー｜解読時間試算">
+<meta property="og:description" content="パスワード強度を視覚診断。解読時間試算・辞書攻撃検出も。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/password-strength/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"パスワード強度チェッカー","applicationCategory":"SecurityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"パスワード強度チェッカー","item":"https://patto-tool.com/password-strength/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .pwd-input { position:relative; }
+  .pwd-input input { width:100%; padding:14px 50px 14px 14px; font-size:18px; border:2px solid var(--line); border-radius:10px; font-family:'SF Mono',Monaco,Consolas,monospace; box-sizing:border-box; }
+  .pwd-input button.show { position:absolute; right:8px; top:8px; padding:8px; background:transparent; border:none; cursor:pointer; font-size:20px; }
+  .strength-bar { position:relative; height:14px; background:#f3f4f6; border-radius:7px; overflow:hidden; margin:14px 0 8px; }
+  .strength-bar .fill { height:100%; transition:all 0.3s; border-radius:7px; }
+  .strength-bar .fill.s0 { background:#dc2626; width:8%; }
+  .strength-bar .fill.s1 { background:#ea580c; width:25%; }
+  .strength-bar .fill.s2 { background:#f59e0b; width:50%; }
+  .strength-bar .fill.s3 { background:#84cc16; width:75%; }
+  .strength-bar .fill.s4 { background:#16a34a; width:100%; }
+  .strength-label { font-size:18px; font-weight:700; margin-bottom:14px; }
+  .strength-label.s0 { color:#dc2626; }
+  .strength-label.s1 { color:#ea580c; }
+  .strength-label.s2 { color:#f59e0b; }
+  .strength-label.s3 { color:#84cc16; }
+  .strength-label.s4 { color:#16a34a; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin:14px 0; }
+  .stat-card { background:#f9fafb; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:18px; font-weight:700; color:var(--accent-dark); line-height:1.2; }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .crack-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; }
+  .crack-table th, .crack-table td { padding:8px 10px; border:1px solid var(--line); }
+  .crack-table th { background:#f3f4f6; text-align:left; }
+  .crack-table td:last-child { font-family:monospace; font-weight:700; }
+  .feedback { background:#fef3c7; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; margin:14px 0; font-size:14px; }
+  .feedback.good { background:#ecfdf5; border-color:#10b981; }
+  .feedback ul { margin:6px 0 0; padding-left:20px; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  .gen-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; align-items:center; }
+  .gen-row label { font-size:12px; }
+  .gen-row input[type=number] { width:60px; padding:4px 6px; border:1px solid var(--line); border-radius:4px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; パスワード強度チェッカー</nav>
+
+  <h1>🔒 パスワード強度チェッカー</h1>
+  <p class="lead">入力したパスワードの強度を視覚診断。<strong>GPU総当たり攻撃に何年かかるか</strong>を試算。辞書攻撃・キーボードパターン・繰り返し検出も。<strong>完全ブラウザ内処理</strong>、入力されたパスワードはサーバーに送信されません。</p>
+
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#checker">パスワード強度チェッカー</a></li>
+      <li><a href="#generator">安全なパスワード生成器</a></li>
+      <li><a href="#tips">強いパスワードの作り方</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
+  </div>
+
+  <section id="checker">
+    <div class="tool">
+      <div class="pwd-input">
+        <input type="password" id="pwd" placeholder="パスワードを入力" autocomplete="off">
+        <button class="show" id="showBtn" type="button">👁</button>
+      </div>
+
+      <div class="strength-bar"><div class="fill s0" id="bar"></div></div>
+      <div class="strength-label s0" id="label">パスワードを入力してください</div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="v" id="lenV">0</div><div class="k">文字数</div></div>
+        <div class="stat-card"><div class="v" id="entropyV">0</div><div class="k">エントロピー (bits)</div></div>
+        <div class="stat-card"><div class="v" id="charsetV">--</div><div class="k">文字種</div></div>
+        <div class="stat-card"><div class="v" id="combV">--</div><div class="k">組み合わせ総数</div></div>
+      </div>
+
+      <h3 style="margin:16px 0 6px;">🕒 解読時間 (GPU総当たり攻撃)</h3>
+      <table class="crack-table">
+        <tr><th>攻撃シナリオ</th><th>1秒あたりの試行</th><th>解読時間</th></tr>
+        <tr><td>家庭用 GPU (RTX 4090)</td><td>1兆/秒</td><td id="time-1e12">--</td></tr>
+        <tr><td>大規模 GPU クラスタ</td><td>1京/秒</td><td id="time-1e16">--</td></tr>
+        <tr><td>国家機関級スーパーコンピュータ</td><td>1垓/秒</td><td id="time-1e20">--</td></tr>
+      </table>
+
+      <div class="feedback" id="feedback"></div>
+
+      <p class="note">🔒 完全ローカル処理。入力されたパスワードはどこにも送信されません。zxcvbn 風アルゴリズム + 辞書チェック。</p>
+    </div>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <section id="generator">
+    <h2>🎲 安全なパスワード生成器</h2>
+    <div class="tool">
+      <div class="gen-row">
+        <label>長さ: <input type="number" id="genLen" value="20" min="4" max="64"></label>
+        <label><input type="checkbox" id="genU" checked>大文字</label>
+        <label><input type="checkbox" id="genL" checked>小文字</label>
+        <label><input type="checkbox" id="genD" checked>数字</label>
+        <label><input type="checkbox" id="genS" checked>記号</label>
+        <label><input type="checkbox" id="genExcAmb">紛らわしい文字を除く (0,O,l,1)</label>
+        <button id="genBtn" style="padding:6px 14px; background:var(--accent); color:#fff; border:none; border-radius:6px; cursor:pointer;">生成</button>
+      </div>
+      <input type="text" id="genOut" readonly style="margin-top:10px; width:100%; padding:14px; font-family:monospace; font-size:16px; border:2px solid var(--line); border-radius:8px; box-sizing:border-box;" placeholder="ボタンを押すと生成">
+      <button id="genCopyBtn" style="margin-top:8px; padding:8px 14px; background:#fff; border:1px solid var(--line); border-radius:6px; cursor:pointer;">📋 コピー</button>
+    </div>
+  </section>
+
+  <section id="tips">
+    <h2>💡 強いパスワードの作り方 (NIST 800-63B 準拠)</h2>
+    <ul>
+      <li><strong>16文字以上</strong>: 長さが最重要。短いと文字種を増やしても解読が早い</li>
+      <li><strong>4種類の文字種を混ぜる</strong>: 大文字・小文字・数字・記号</li>
+      <li><strong>辞書語・名前・誕生日を避ける</strong>: 辞書攻撃で一瞬で破られる</li>
+      <li><strong>パスフレーズも有効</strong>: 「青い空と緑の海2024!」のような4-5単語の文章</li>
+      <li><strong>サービスごとに異なるパスワード</strong>: 1Password / Bitwarden / Keeper 等のパスワードマネージャーを使う</li>
+      <li><strong>2段階認証を併用</strong>: パスワードが漏れても突破されない</li>
+    </ul>
+    <h3>⚠️ よくある弱いパスワード</h3>
+    <ul>
+      <li><code>password123</code>, <code>qwerty</code>, <code>123456</code> → 1秒で破られる</li>
+      <li><code>tanaka1985</code> (名字+誕生年) → 辞書攻撃で数分</li>
+      <li><code>Password!</code> (P→大文字置換だけ) → 数日</li>
+      <li><code>p@ssw0rd</code> (l33t変換) → 辞書攻撃が対応済み・数分</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>パスワードはどこに送信される？</dt>
+      <dd>送信されません。完全ブラウザ内 (JavaScript) でリアルタイム計算。安心して実際のパスワードをチェックできます。</dd>
+      <dt>「解読時間」はどう計算？</dt>
+      <dd>文字種数 × 文字数の組み合わせ総数を、1秒あたりの試行回数で割った時間。実際の攻撃は辞書・既知パターンを優先するため、表示時間より早く破られる可能性も。</dd>
+      <dt>zxcvbn とは？</dt>
+      <dd>Dropbox 製のオープンソース パスワード強度評価ライブラリ。辞書・キーボードパターン・年・繰り返しを考慮。本ツールは zxcvbn の考え方を簡易実装しています。</dd>
+      <dt>本当に強いパスワードとは？</dt>
+      <dd>NIST 推奨: 16文字以上 + 単語の組み合わせ。例: <code>Tokyo-Sunrise-Coffee-2024!</code> 覚えやすく、辞書攻撃に強い。</dd>
+      <dt>「漏洩済みパスワード」のチェックは？</dt>
+      <dd>本ツールは公開漏洩データベースの照合は行いません。HIBP (Have I Been Pwned) を使った漏洩チェックは別ツールで対応予定。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../password-generator/"><div class="ico">🔑</div><div class="ttl">パスワード生成器</div><div class="dsc">長さ・文字種指定で生成</div></a>
+    <a class="card" href="../phishing-check/"><div class="ico">🎣</div><div class="ttl">フィッシング判定</div><div class="dsc">URLの危険度をチェック</div></a>
+    <a class="card" href="../hash/"><div class="ico">🔐</div><div class="ttl">ハッシュ生成</div><div class="dsc">SHA-256/MD5</div></a>
+    <a class="card" href="../uuid/"><div class="ico">🆔</div><div class="ttl">UUID生成</div><div class="dsc">識別子の生成</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  // 共通の弱いパスワード (簡易辞書)
+  var COMMON = ['password','123456','qwerty','admin','letmein','welcome','monkey','dragon','baseball','football','iloveyou','master','sunshine','password1','123456789','abc123','111111','123123','000000','tanaka','suzuki','yamada','sato','japan','tokyo','osaka'];
+  var KB_SEQ = ['qwerty','asdf','zxcv','1234','abcd','wasd','qaz','zxc','poi'];
+
+  function fmtTime(seconds){
+    if (seconds === Infinity || isNaN(seconds)) return '∞';
+    if (seconds < 1e-3) return '一瞬';
+    if (seconds < 1) return '1秒未満';
+    if (seconds < 60) return Math.round(seconds) + '秒';
+    if (seconds < 3600) return Math.round(seconds/60) + '分';
+    if (seconds < 86400) return Math.round(seconds/3600) + '時間';
+    if (seconds < 31536000) return Math.round(seconds/86400) + '日';
+    if (seconds < 31536000 * 100) return Math.round(seconds/31536000) + '年';
+    if (seconds < 31536000 * 1e6) return (seconds/31536000/1e6).toFixed(1) + '百万年';
+    return (seconds/31536000/1e12).toFixed(1) + '兆年';
+  }
+
+  function fmtBig(n){
+    if (n < 1e6) return n.toLocaleString();
+    if (n < 1e9) return (n/1e6).toFixed(1) + '×10⁶';
+    if (n < 1e12) return (n/1e9).toFixed(1) + '×10⁹';
+    if (n < 1e15) return (n/1e12).toFixed(1) + '×10¹²';
+    if (n < 1e18) return (n/1e15).toFixed(1) + '×10¹⁵';
+    return (n/1e18).toFixed(1) + '×10¹⁸';
+  }
+
+  function evaluate(pwd){
+    if (!pwd) return null;
+    var len = pwd.length;
+    var hasU = /[A-Z]/.test(pwd), hasL = /[a-z]/.test(pwd), hasD = /\d/.test(pwd), hasS = /[^A-Za-z0-9]/.test(pwd);
+    var charset = 0;
+    if (hasU) charset += 26;
+    if (hasL) charset += 26;
+    if (hasD) charset += 10;
+    if (hasS) charset += 32;
+    var combos = Math.pow(charset, len);
+    var entropy = len * Math.log2(charset);
+
+    // パターン検出
+    var penalties = [];
+    var lower = pwd.toLowerCase();
+    COMMON.forEach(function(w){
+      if (lower.indexOf(w) >= 0){
+        penalties.push({type:'common', word:w, factor: 0.01});
+      }
+    });
+    KB_SEQ.forEach(function(s){
+      if (lower.indexOf(s) >= 0){
+        penalties.push({type:'kb', seq:s, factor: 0.1});
+      }
+    });
+    if (/^(.)\1{3,}/.test(pwd)) penalties.push({type:'repeat', factor: 0.05});
+    if (/(\d{4})/.test(pwd) && /(19|20)\d{2}/.test(pwd)) penalties.push({type:'year', factor: 0.5});
+    if (/^\d+$/.test(pwd)) penalties.push({type:'allnum', factor: 0.001});
+    if (/^[a-z]+$/.test(pwd)) penalties.push({type:'alllow', factor: 0.001});
+
+    // adjust entropy
+    var effectiveCombos = combos;
+    penalties.forEach(function(p){ effectiveCombos *= p.factor; });
+
+    var score;
+    if (effectiveCombos < 1e6) score = 0;          // <1M = 即破られる
+    else if (effectiveCombos < 1e10) score = 1;    // <10G
+    else if (effectiveCombos < 1e14) score = 2;
+    else if (effectiveCombos < 1e18) score = 3;
+    else score = 4;
+
+    return {
+      len: len, hasU: hasU, hasL: hasL, hasD: hasD, hasS: hasS,
+      charset: charset, combos: combos, entropy: entropy,
+      effective: effectiveCombos, score: score, penalties: penalties
+    };
+  }
+
+  function check(){
+    var pwd = $('pwd').value;
+    var ev = evaluate(pwd);
+    if (!ev){
+      $('bar').className = 'fill s0';
+      $('label').className = 'strength-label s0';
+      $('label').textContent = 'パスワードを入力してください';
+      ['lenV','entropyV','charsetV','combV'].forEach(function(id){ $(id).textContent = '0'; });
+      ['time-1e12','time-1e16','time-1e20'].forEach(function(id){ $(id).textContent = '--'; });
+      $('feedback').innerHTML = '';
+      return;
+    }
+    $('bar').className = 'fill s' + ev.score;
+    $('label').className = 'strength-label s' + ev.score;
+    $('label').textContent = ['😱 とても弱い','😟 弱い','😐 普通','🙂 強い','😎 とても強い'][ev.score];
+    $('lenV').textContent = ev.len;
+    $('entropyV').textContent = ev.entropy.toFixed(1);
+    var types = [];
+    if (ev.hasU) types.push('A-Z');
+    if (ev.hasL) types.push('a-z');
+    if (ev.hasD) types.push('0-9');
+    if (ev.hasS) types.push('記号');
+    $('charsetV').textContent = types.join(', ') || '--';
+    $('combV').textContent = fmtBig(ev.effective);
+
+    $('time-1e12').textContent = fmtTime(ev.effective / 1e12);
+    $('time-1e16').textContent = fmtTime(ev.effective / 1e16);
+    $('time-1e20').textContent = fmtTime(ev.effective / 1e20);
+
+    var fb = $('feedback');
+    var msgs = [];
+    if (ev.len < 8) msgs.push('❌ <strong>8文字未満</strong>: もっと長く');
+    else if (ev.len < 12) msgs.push('⚠️ <strong>12文字未満</strong>: 16文字以上を推奨');
+    if (!ev.hasU) msgs.push('💡 <strong>大文字</strong>を加える');
+    if (!ev.hasD) msgs.push('💡 <strong>数字</strong>を加える');
+    if (!ev.hasS) msgs.push('💡 <strong>記号</strong>(!@#$%等)を加える');
+    ev.penalties.forEach(function(p){
+      if (p.type === 'common') msgs.push('❌ <strong>「' + p.word + '」</strong>は超有名な弱いパスワード');
+      else if (p.type === 'kb') msgs.push('❌ <strong>キーボード順序「' + p.seq + '」</strong>は辞書攻撃で即破られる');
+      else if (p.type === 'year') msgs.push('⚠️ <strong>西暦4桁</strong>を含む: 推測されやすい');
+      else if (p.type === 'allnum') msgs.push('❌ <strong>数字のみ</strong>: 一瞬で破られる');
+      else if (p.type === 'alllow') msgs.push('❌ <strong>小文字のみ</strong>: 大文字・数字・記号を加える');
+      else if (p.type === 'repeat') msgs.push('⚠️ <strong>同じ文字の繰り返し</strong>(aaaa等)');
+    });
+    if (ev.score >= 3 && msgs.length === 0){
+      fb.className = 'feedback good';
+      fb.innerHTML = '✅ <strong>強いパスワードです</strong>。GPU総当たり攻撃でも長時間かかります。';
+    } else {
+      fb.className = 'feedback';
+      fb.innerHTML = '<strong>改善点</strong>: <ul>' + msgs.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
+    }
+  }
+
+  $('pwd').addEventListener('input', check);
+  $('showBtn').addEventListener('click', function(){
+    var i = $('pwd');
+    i.type = i.type === 'password' ? 'text' : 'password';
+    $('showBtn').textContent = i.type === 'password' ? '👁' : '🙈';
+  });
+
+  // Generator
+  function genPwd(){
+    var len = parseInt($('genLen').value, 10);
+    var u = $('genU').checked, l = $('genL').checked, d = $('genD').checked, s = $('genS').checked;
+    var ex = $('genExcAmb').checked;
+    var pool = '';
+    if (u) pool += ex ? 'ABCDEFGHJKLMNPQRSTUVWXYZ' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (l) pool += ex ? 'abcdefghijkmnpqrstuvwxyz' : 'abcdefghijklmnopqrstuvwxyz';
+    if (d) pool += ex ? '23456789' : '0123456789';
+    if (s) pool += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    if (!pool) return '';
+    var arr = new Uint32Array(len);
+    crypto.getRandomValues(arr);
+    var out = '';
+    for (var i = 0; i < len; i++) out += pool[arr[i] % pool.length];
+    return out;
+  }
+  $('genBtn').addEventListener('click', function(){
+    $('genOut').value = genPwd();
+  });
+  $('genCopyBtn').addEventListener('click', function(){
+    if ($('genOut').value){
+      navigator.clipboard.writeText($('genOut').value);
+      $('genCopyBtn').textContent = '✅ コピー完了';
+      setTimeout(function(){ $('genCopyBtn').textContent = '📋 コピー'; }, 2000);
+    }
+  });
+  $('genOut').value = genPwd();
+})();
+</script>
+</body>
+</html>

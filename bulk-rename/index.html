@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ファイル名一括リネームツール｜正規表現・連番・日付対応（ブラウザ内）</title>
+<meta name="description" content="複数ファイルの名前を正規表現・置換・連番・日付追加で一括リネーム。プレビューで安全に確認してから ZIP出力。ファイルはアップロードされずブラウザ内で処理。写真整理・ドキュメント整理に。">
+<meta name="keywords" content="ファイル名,一括リネーム,連番,正規表現,リネーム,ファイル整理">
+<link rel="canonical" href="https://patto-tool.com/bulk-rename/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ファイル名一括リネームツール">
+<meta property="og:description" content="複数ファイルを正規表現・連番・日付で一括リネーム。ZIP出力。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/bulk-rename/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ファイル名一括リネーム","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"ファイル一括リネーム","item":"https://patto-tool.com/bulk-rename/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop-zone { border:3px dashed #93c5fd; border-radius:14px; padding:30px 20px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f0f9ff; }
+  .drop-zone:hover, .drop-zone.dragover { background:#dbeafe; border-color:var(--accent); }
+  .drop-zone .icon { font-size:40px; margin-bottom:6px; }
+  .drop-zone input { display:none; }
+  .rule-row { display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; align-items:center; padding:10px; background:#fff; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+  .rule-row select, .rule-row input { padding:8px; border:1px solid var(--line); border-radius:6px; font-family:monospace; font-size:13px; }
+  .rule-row .rm { background:transparent; border:none; cursor:pointer; color:#dc2626; font-size:18px; }
+  .add-rule { background:#eff6ff; border:1px dashed var(--accent); padding:8px 16px; border-radius:8px; cursor:pointer; color:var(--accent-dark); font-weight:600; width:100%; }
+  .preview-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .preview-table th, .preview-table td { padding:6px 10px; border-bottom:1px solid var(--line); text-align:left; }
+  .preview-table th { background:#f3f4f6; position:sticky; top:0; }
+  .preview-table .arr { color:var(--accent); font-weight:600; }
+  .preview-table .new { color:#16a34a; font-family:monospace; }
+  .preview-table .dup { color:#dc2626; background:#fef2f2; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; ファイル一括リネーム</nav>
+
+  <h1>📁 ファイル名 一括リネーム</h1>
+  <p class="lead">複数ファイルを一気にリネーム。<strong>正規表現</strong>・<strong>連番付与</strong>・<strong>日付追加</strong>・<strong>前後置換</strong>を組み合わせ可能。プレビューで安全に確認してから ZIP 出力。ファイルはアップロードされずブラウザ内で処理。</p>
+
+  <div class="toc">
+    <strong>📑 こんなときに使う</strong>
+    <ul>
+      <li>iPhone写真の <code>IMG_1234.JPG</code> を <code>2024-06-19_001.jpg</code> 形式に</li>
+      <li>不要な <code>(コピー)</code> や <code>_final_v2</code> を一括削除</li>
+      <li>連番だけのファイルにタイトルを前置 (<code>001.mp3</code> → <code>BGM_001.mp3</code>)</li>
+      <li>大文字小文字の統一・拡張子変更</li>
+    </ul>
+  </div>
+
+  <div class="tool">
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" multiple>
+      <div class="icon">📁</div>
+      <p style="margin:8px 0; font-size:15px; font-weight:600; color:#1e40af;">ファイルをドラッグ＆ドロップ または クリック</p>
+      <p style="font-size:12px;">複数選択OK。種類問わず。フォルダごとは非対応</p>
+    </div>
+
+    <h3 style="margin:20px 0 8px;">🔧 リネームルール</h3>
+    <div id="rulesContainer"></div>
+    <button class="add-rule" id="addRuleBtn">+ ルールを追加</button>
+
+    <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+      <label style="font-size:13px;"><input type="checkbox" id="keepExt" checked> 拡張子は保持</label>
+      <label style="font-size:13px;"><input type="checkbox" id="caseLower"> 小文字に統一</label>
+      <label style="font-size:13px;"><input type="checkbox" id="caseUpper"> 大文字に統一</label>
+    </div>
+
+    <h3 style="margin:20px 0 8px;">👀 プレビュー</h3>
+    <div style="max-height:400px; overflow-y:auto; border:1px solid var(--line); border-radius:8px;">
+      <table class="preview-table" id="previewTable">
+        <thead><tr><th>元のファイル名</th><th></th><th>新しいファイル名</th></tr></thead>
+        <tbody><tr><td colspan="3" style="text-align:center; color:var(--muted); padding:30px;">ファイルを追加してください</td></tr></tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+      <button id="downloadBtn" class="btn primary" style="padding:10px 18px; border:none; background:var(--accent); color:#fff; border-radius:8px; cursor:pointer; font-weight:600;">📦 リネームしてZIP保存</button>
+      <button id="csvBtn" style="padding:10px 18px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer;">📋 リネーム表をCSV保存</button>
+      <button id="clearBtn" style="padding:10px 18px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer;">🗑 クリア</button>
+    </div>
+
+    <p class="note">🔒 ファイルはアップロードされません。すべてブラウザ内処理。リネーム後はZIPでダウンロード→解凍して元の場所に上書き。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>📖 ルールの種類</h2>
+  <ul>
+    <li><strong>置換 (テキスト)</strong>: 「(コピー)」→「」のように指定文字列を別の文字列に置換</li>
+    <li><strong>置換 (正規表現)</strong>: <code>IMG_(\\d+)</code> → <code>photo_$1</code> のようなパターン置換</li>
+    <li><strong>前に追加</strong>: ファイル名の先頭にテキストを付加 (例: <code>2024_</code>)</li>
+    <li><strong>後ろに追加</strong>: 拡張子の直前にテキストを付加 (例: <code>_v2</code>)</li>
+    <li><strong>連番追加</strong>: <code>001</code> <code>002</code> ... の連番を追加</li>
+    <li><strong>日付追加</strong>: 今日の日付 (YYYY-MM-DD) を追加</li>
+    <li><strong>すべて新名</strong>: 名前を完全に置き換え + 連番</li>
+  </ul>
+
+  <h2>❓ よくある質問</h2>
+  <dl class="faq">
+    <dt>ファイルはアップロードされる？</dt>
+    <dd>いいえ。ブラウザ内 (JavaScript File API + JSZip) で完結。ファイル本体はサーバーに送信されません。</dd>
+    <dt>フォルダごとリネームできる？</dt>
+    <dd>Web 標準制限でフォルダ構造は再現できません。ファイルだけ選択してZIPにまとめます。</dd>
+    <dt>同名ファイルが衝突したら？</dt>
+    <dd>プレビューで赤くハイライトされます。連番ルールで自動回避するか、手動で別ルールを追加してください。</dd>
+    <dt>大量ファイルでも大丈夫？</dt>
+    <dd>1,000ファイル程度までサクサク。それ以上は ZIP生成に時間がかかります。</dd>
+    <dt>Mac の HEIC 写真もリネームできる？</dt>
+    <dd>はい。ファイル種類問わずリネーム可能 (変換はできません。HEIC→JPG変換はその専用ツールを使用)。</dd>
+  </dl>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../regex-tester/"><div class="ico">🔍</div><div class="ttl">正規表現テスター</div><div class="dsc">パターンを試してからこちらに</div></a>
+    <a class="card" href="../image-compress/"><div class="ico">🖼</div><div class="ttl">画像圧縮</div><div class="dsc">サイズ削減してから整理</div></a>
+    <a class="card" href="../exif-remove/"><div class="ico">📷</div><div class="ttl">EXIF削除</div><div class="dsc">プライバシー対策に</div></a>
+    <a class="card" href="../csv-json/"><div class="ico">🔄</div><div class="ttl">CSV/JSON変換</div><div class="dsc">名前リストを処理</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var files = [];  // [{file, origName}]
+  var rules = [{type:'replace', from:'', to:''}];
+
+  function renderRules(){
+    var c = $('rulesContainer');
+    c.innerHTML = '';
+    rules.forEach(function(r, i){
+      var div = document.createElement('div');
+      div.className = 'rule-row';
+      var typeOpts = [
+        ['replace', '🔄 置換 (テキスト)'],
+        ['regex', '🔍 置換 (正規表現)'],
+        ['prefix', '⬅ 前に追加'],
+        ['suffix', '➡ 後ろに追加'],
+        ['number', '🔢 連番追加'],
+        ['date', '📅 日付追加 (YYYY-MM-DD)'],
+        ['fullname', '✏️ 完全に置き換え+連番']
+      ];
+      var sel = '<select data-i="' + i + '" class="rule-type">';
+      typeOpts.forEach(function(o){ sel += '<option value="' + o[0] + '"' + (r.type === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; });
+      sel += '</select>';
+
+      var inputs;
+      if (r.type === 'replace' || r.type === 'regex'){
+        inputs = '<input type="text" class="rule-from" placeholder="' + (r.type === 'regex' ? '正規表現' : '検索') + '" value="' + (r.from||'').replace(/"/g, '&quot;') + '"><input type="text" class="rule-to" placeholder="置換後 ($1, $2 可)" value="' + (r.to||'').replace(/"/g, '&quot;') + '">';
+      } else if (r.type === 'prefix' || r.type === 'suffix' || r.type === 'fullname'){
+        inputs = '<input type="text" class="rule-to" placeholder="' + (r.type === 'fullname' ? '基本名 (連番が自動付与)' : '追加文字') + '" value="' + (r.to||'').replace(/"/g, '&quot;') + '"><span></span>';
+      } else if (r.type === 'number'){
+        inputs = '<input type="number" class="rule-start" placeholder="開始番号" value="' + (r.start||1) + '" min="0"><input type="number" class="rule-digits" placeholder="桁数 (例: 3 = 001)" value="' + (r.digits||3) + '" min="1" max="6">';
+      } else if (r.type === 'date'){
+        inputs = '<select class="rule-pos"><option value="prefix"' + (r.pos === 'prefix' ? ' selected' : '') + '>先頭に</option><option value="suffix"' + (r.pos === 'suffix' ? ' selected' : '') + '>末尾に</option></select><input type="text" class="rule-sep" placeholder="区切り" value="' + (r.sep || '_') + '">';
+      }
+      div.innerHTML = sel + inputs + '<button class="rm" data-i="' + i + '">×</button>';
+      c.appendChild(div);
+    });
+    // bind
+    c.querySelectorAll('.rule-type').forEach(function(s){
+      s.addEventListener('change', function(){
+        var idx = parseInt(s.dataset.i, 10);
+        rules[idx] = {type: s.value};
+        renderRules();
+        preview();
+      });
+    });
+    c.querySelectorAll('.rm').forEach(function(b){
+      b.addEventListener('click', function(){
+        rules.splice(parseInt(b.dataset.i, 10), 1);
+        if (rules.length === 0) rules.push({type:'replace', from:'', to:''});
+        renderRules();
+        preview();
+      });
+    });
+    c.querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        var i = c.querySelectorAll('.rule-row').length;
+        c.querySelectorAll('.rule-row').forEach(function(row, idx){
+          var r = {type: row.querySelector('.rule-type').value};
+          var from = row.querySelector('.rule-from'); if (from) r.from = from.value;
+          var to = row.querySelector('.rule-to'); if (to) r.to = to.value;
+          var start = row.querySelector('.rule-start'); if (start) r.start = parseInt(start.value, 10) || 0;
+          var digits = row.querySelector('.rule-digits'); if (digits) r.digits = parseInt(digits.value, 10) || 3;
+          var pos = row.querySelector('.rule-pos'); if (pos) r.pos = pos.value;
+          var sep = row.querySelector('.rule-sep'); if (sep) r.sep = sep.value;
+          rules[idx] = r;
+        });
+        preview();
+      });
+    });
+  }
+
+  function applyRules(name, idx){
+    var ext = '';
+    var base = name;
+    if ($('keepExt').checked){
+      var lastDot = name.lastIndexOf('.');
+      if (lastDot > 0){ base = name.slice(0, lastDot); ext = name.slice(lastDot); }
+    }
+    var today = new Date().toISOString().slice(0,10);
+    rules.forEach(function(r){
+      if (r.type === 'replace' && r.from){
+        base = base.split(r.from).join(r.to || '');
+      } else if (r.type === 'regex' && r.from){
+        try { base = base.replace(new RegExp(r.from, 'g'), r.to || ''); } catch(e){}
+      } else if (r.type === 'prefix'){
+        base = (r.to || '') + base;
+      } else if (r.type === 'suffix'){
+        base = base + (r.to || '');
+      } else if (r.type === 'number'){
+        var n = (r.start || 1) + idx;
+        var d = r.digits || 3;
+        base = base + '_' + String(n).padStart(d, '0');
+      } else if (r.type === 'date'){
+        var sep = r.sep || '_';
+        if (r.pos === 'suffix') base = base + sep + today;
+        else base = today + sep + base;
+      } else if (r.type === 'fullname'){
+        var d = 3, n = idx + 1;
+        base = (r.to || 'file') + '_' + String(n).padStart(d, '0');
+      }
+    });
+    if ($('caseLower').checked) base = base.toLowerCase();
+    else if ($('caseUpper').checked) base = base.toUpperCase();
+    return base + ext;
+  }
+
+  function preview(){
+    var tbody = $('previewTable').querySelector('tbody');
+    if (files.length === 0){
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:30px;">ファイルを追加してください</td></tr>';
+      return;
+    }
+    var nameSet = {};
+    var rows = files.map(function(f, i){
+      var newName = applyRules(f.origName, i);
+      nameSet[newName] = (nameSet[newName] || 0) + 1;
+      return {orig: f.origName, neu: newName};
+    });
+    tbody.innerHTML = rows.map(function(r){
+      var dupCls = nameSet[r.neu] > 1 ? ' dup' : '';
+      return '<tr><td>' + r.orig + '</td><td class="arr">→</td><td class="new' + dupCls + '">' + r.neu + (nameSet[r.neu] > 1 ? ' ⚠️ 重複' : '') + '</td></tr>';
+    }).join('');
+  }
+
+  function addFiles(fl){
+    Array.from(fl).forEach(function(f){
+      files.push({file: f, origName: f.name});
+    });
+    preview();
+  }
+
+  var dz = $('dropZone'), fi = $('fileInput');
+  dz.addEventListener('click', function(){ fi.click(); });
+  fi.addEventListener('change', function(){ if (fi.files.length) addFiles(fi.files); });
+  ['dragenter','dragover'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.remove('dragover'); });
+  });
+  dz.addEventListener('drop', function(e){ if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+
+  $('addRuleBtn').addEventListener('click', function(){
+    rules.push({type:'replace', from:'', to:''});
+    renderRules();
+    preview();
+  });
+  ['keepExt','caseLower','caseUpper'].forEach(function(id){
+    $(id).addEventListener('change', function(){
+      if (id === 'caseLower' && $(id).checked) $('caseUpper').checked = false;
+      if (id === 'caseUpper' && $(id).checked) $('caseLower').checked = false;
+      preview();
+    });
+  });
+
+  $('downloadBtn').addEventListener('click', function(){
+    if (files.length === 0) return;
+    var zip = new JSZip();
+    files.forEach(function(f, i){
+      var newName = applyRules(f.origName, i);
+      zip.file(newName, f.file);
+    });
+    zip.generateAsync({type:'blob'}).then(function(blob){
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'renamed_files_' + Date.now() + '.zip';
+      a.click();
+    });
+  });
+
+  $('csvBtn').addEventListener('click', function(){
+    if (files.length === 0) return;
+    var csv = 'old,new\n' + files.map(function(f, i){
+      return '"' + f.origName.replace(/"/g, '""') + '","' + applyRules(f.origName, i).replace(/"/g, '""') + '"';
+    }).join('\n');
+    var blob = new Blob([csv], {type:'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'rename_log.csv';
+    a.click();
+  });
+
+  $('clearBtn').addEventListener('click', function(){
+    files = [];
+    preview();
+  });
+
+  renderRules();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テキスト差分(Diff)ツール｜2文書の違いを行+文字単位でハイライト（無料）</title>
+<meta name="description" content="2つのテキスト/JSON/コードの違いを行+文字単位でハイライト表示。LCS (Longest Common Subsequence) アルゴリズムで正確に検出。ブラウザ内処理でコード・契約書も安全に比較。">
+<meta name="keywords" content="diff,差分,テキスト比較,JSON diff,コード比較,LCS">
+<link rel="canonical" href="https://patto-tool.com/diff-tool/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="テキスト差分(Diff)ツール">
+<meta property="og:description" content="2文書の違いを行+文字単位でハイライト。コード・JSON・契約書比較に。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/diff-tool/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"テキスト差分ツール","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"テキスト差分ツール","item":"https://patto-tool.com/diff-tool/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .diff-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  @media (max-width:760px){ .diff-grid { grid-template-columns:1fr; } }
+  .pane h3 { margin:0 0 6px; font-size:14px; }
+  .pane textarea { width:100%; min-height:200px; font-family:'SF Mono',Monaco,Consolas,monospace; font-size:13px; padding:10px; border:1px solid var(--line); border-radius:8px; box-sizing:border-box; resize:vertical; }
+  .opts { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; font-size:13px; }
+  .opts label { padding:4px 10px; background:#f3f4f6; border-radius:14px; cursor:pointer; }
+  .opts input { margin-right:4px; vertical-align:middle; }
+  .diff-output { font-family:'SF Mono',Monaco,Consolas,monospace; font-size:13px; background:#fafafa; border:1px solid var(--line); border-radius:8px; padding:14px; line-height:1.6; min-height:200px; overflow-x:auto; max-height:600px; overflow-y:auto; }
+  .diff-line { padding:2px 8px; border-radius:3px; white-space:pre-wrap; word-break:break-all; }
+  .diff-line.add { background:#dcfce7; color:#14532d; }
+  .diff-line.add::before { content:"+ "; color:#16a34a; font-weight:bold; }
+  .diff-line.del { background:#fee2e2; color:#7f1d1d; }
+  .diff-line.del::before { content:"− "; color:#dc2626; font-weight:bold; }
+  .diff-line.eq { color:#6b7280; }
+  .diff-line.eq::before { content:"  "; }
+  .diff-line ins, .diff-line.add ins { background:#86efac; color:#14532d; text-decoration:none; padding:0 1px; }
+  .diff-line del, .diff-line.del del { background:#fca5a5; color:#7f1d1d; text-decoration:line-through; padding:0 1px; }
+  .stats-bar { display:flex; gap:14px; font-size:13px; margin-bottom:10px; color:var(--muted); flex-wrap:wrap; }
+  .stats-bar strong { color:var(--ink); }
+  .stats-bar .add-c { color:#16a34a; }
+  .stats-bar .del-c { color:#dc2626; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  .sample-btns { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+  .sample-btns button { padding:4px 10px; font-size:12px; background:#eff6ff; border:1px solid #93c5fd; color:#1e40af; border-radius:14px; cursor:pointer; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; テキスト差分ツール</nav>
+
+  <h1>🔀 テキスト差分 (Diff) ツール</h1>
+  <p class="lead">2つのテキスト/コード/JSONの違いを <strong>行単位</strong>＋<strong>文字単位</strong>で視覚比較。LCS (最長共通部分列) アルゴリズムで正確に変更箇所を検出。ブラウザ内処理で機密データも安全。</p>
+
+  <div class="toc">
+    <strong>📑 こんなときに使う</strong>
+    <ul>
+      <li>契約書のバージョン比較（旧版 vs 新版で何が変わった？）</li>
+      <li>コードレビュー・修正前後の比較</li>
+      <li>JSON API レスポンスの差分確認</li>
+      <li>翻訳の校正（原文 vs 修正版）</li>
+      <li>ファイルが正しくコピーされたか検証</li>
+    </ul>
+  </div>
+
+  <div class="tool">
+    <div class="sample-btns">
+      <span style="font-size:12px; color:var(--muted); align-self:center;">サンプル:</span>
+      <button data-sample="code">コード比較</button>
+      <button data-sample="json">JSON比較</button>
+      <button data-sample="text">文書比較</button>
+    </div>
+
+    <div class="diff-grid">
+      <div class="pane">
+        <h3>📄 元のテキスト</h3>
+        <textarea id="textA" placeholder="比較元のテキスト"></textarea>
+      </div>
+      <div class="pane">
+        <h3>📄 比較先のテキスト</h3>
+        <textarea id="textB" placeholder="比較先のテキスト"></textarea>
+      </div>
+    </div>
+
+    <div class="opts">
+      <label><input type="checkbox" id="ignoreWS" checked>空白を無視</label>
+      <label><input type="checkbox" id="ignoreCase">大文字小文字無視</label>
+      <label><input type="checkbox" id="charLevel" checked>文字単位ハイライト</label>
+      <label><input type="radio" name="view" value="unified" checked>統合表示</label>
+      <label><input type="radio" name="view" value="sidebyside">並列表示</label>
+    </div>
+
+    <div class="stats-bar" id="stats">差分: --</div>
+
+    <h3 style="margin:10px 0 6px;">🎯 差分結果</h3>
+    <div class="diff-output" id="output"></div>
+
+    <p class="note">🔒 すべてブラウザ内処理。テキストはサーバーに送信されません。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>📐 使用アルゴリズム</h2>
+  <details style="margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px;">
+    <summary style="cursor:pointer; font-weight:600;">LCS (Longest Common Subsequence) とは</summary>
+    <p style="margin-top:8px;">2つの系列の最も長い共通部分列を見つけるアルゴリズム。DP（動的計画法）で O(N×M) で計算。Unix の <code>diff</code> コマンド・Git の差分表示・本ツール全てこのアルゴリズムをベースにしています。</p>
+  </details>
+  <details style="margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px;">
+    <summary style="cursor:pointer; font-weight:600;">文字単位差分の計算方法</summary>
+    <p style="margin-top:8px;">変更行（add/delの組）を検出した後、行内をさらに単語/文字単位でLCS適用。挿入された部分が緑、削除された部分が赤でハイライトされます。Google Docs の変更履歴と同じ表示方式。</p>
+  </details>
+
+  <h2>❓ よくある質問</h2>
+  <dl class="faq">
+    <dt>機密文書も比較できる？</dt>
+    <dd>はい。すべてブラウザ内処理 (JavaScript) で完結。テキストはサーバーに送信されません。機密契約書・社内コードも安心。</dd>
+    <dt>大きなファイルでも大丈夫？</dt>
+    <dd>1万行までサクサク動作。それ以上はLCSが O(N²) なので数秒かかる場合があります。</dd>
+    <dt>Git の diff と同じ表示？</dt>
+    <dd>はい。「+」追加、「-」削除、「 」変更なし。ただし本ツールは「文字単位」でも変更箇所をハイライトする点が独自。</dd>
+    <dt>JSON を構造的に比較できる？</dt>
+    <dd>テキストとして行単位で比較します。構造的比較は JSON フォーマッタ で整形してから比較してください。</dd>
+    <dt>結果をエクスポートできる？</dt>
+    <dd>結果ペインを選択コピーすれば可能。Unifield Diff 形式 (.patch) でのダウンロードは将来対応予定。</dd>
+  </dl>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../json-format/"><div class="ico">🧩</div><div class="ttl">JSONフォーマッタ</div><div class="dsc">JSONを整形してから比較</div></a>
+    <a class="card" href="../csv-json/"><div class="ico">🔄</div><div class="ttl">CSV/JSON変換</div><div class="dsc">データ整形に</div></a>
+    <a class="card" href="../regex-tester/"><div class="ico">🔍</div><div class="ttl">正規表現テスター</div><div class="dsc">パターン検索に</div></a>
+    <a class="card" href="../hash/"><div class="ico">🔐</div><div class="ttl">ハッシュ生成</div><div class="dsc">ファイル一致確認に</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  var SAMPLES = {
+    code: {
+      a: 'function add(a, b) {\n  return a + b;\n}\n\nconsole.log(add(1, 2));',
+      b: 'function add(a, b, c = 0) {\n  // 3rd param optional\n  return a + b + c;\n}\n\nconsole.log(add(1, 2, 3));'
+    },
+    json: {
+      a: '{\n  "name": "Alice",\n  "age": 30,\n  "city": "Tokyo"\n}',
+      b: '{\n  "name": "Alice",\n  "age": 31,\n  "city": "Osaka",\n  "email": "alice@example.com"\n}'
+    },
+    text: {
+      a: '吾輩は猫である。\n名前はまだない。\nどこで生れたか頓と見当がつかぬ。\nなんでも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。',
+      b: '吾輩は猫である。\n名前はミーである。\nどこで生まれたか皆目検討がつかない。\nなんでも薄暗いじめじめした所で鳴いていたことだけは記憶している。'
+    }
+  };
+
+  function lcs(a, b){
+    var n = a.length, m = b.length;
+    var dp = Array(n+1).fill(0).map(function(){ return Array(m+1).fill(0); });
+    for (var i = 1; i <= n; i++){
+      for (var j = 1; j <= m; j++){
+        if (a[i-1] === b[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
+        else dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+      }
+    }
+    // backtrack to ops
+    var ops = []; // {type:'eq'|'del'|'add', val}
+    var i = n, j = m;
+    while (i > 0 && j > 0){
+      if (a[i-1] === b[j-1]){ ops.unshift({type:'eq', val: a[i-1]}); i--; j--; }
+      else if (dp[i-1][j] >= dp[i][j-1]){ ops.unshift({type:'del', val: a[i-1]}); i--; }
+      else { ops.unshift({type:'add', val: b[j-1]}); j--; }
+    }
+    while (i > 0){ ops.unshift({type:'del', val: a[i-1]}); i--; }
+    while (j > 0){ ops.unshift({type:'add', val: b[j-1]}); j--; }
+    return ops;
+  }
+
+  function escHTML(s){
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function charDiff(s1, s2){
+    var ops = lcs(s1.split(''), s2.split(''));
+    var html = '';
+    var buf = '', mode = 'eq';
+    ops.forEach(function(o){
+      if (o.type === mode){ buf += o.val; }
+      else {
+        if (buf){
+          if (mode === 'eq') html += escHTML(buf);
+          else if (mode === 'add') html += '<ins>' + escHTML(buf) + '</ins>';
+          else if (mode === 'del') html += '<del>' + escHTML(buf) + '</del>';
+        }
+        buf = o.val; mode = o.type;
+      }
+    });
+    if (buf){
+      if (mode === 'eq') html += escHTML(buf);
+      else if (mode === 'add') html += '<ins>' + escHTML(buf) + '</ins>';
+      else if (mode === 'del') html += '<del>' + escHTML(buf) + '</del>';
+    }
+    return html;
+  }
+
+  function normalize(s){
+    if ($('ignoreCase').checked) s = s.toLowerCase();
+    if ($('ignoreWS').checked) s = s.replace(/\s+/g, ' ').trim();
+    return s;
+  }
+
+  function compute(){
+    var a = $('textA').value, b = $('textB').value;
+    var linesA = a.split('\n'), linesB = b.split('\n');
+    var normA = linesA.map(normalize), normB = linesB.map(normalize);
+    var ops = lcs(normA, normB);
+
+    var addCount = 0, delCount = 0;
+    var html = '';
+    // pair add/del to find char-level diffs
+    var i = 0;
+    while (i < ops.length){
+      var op = ops[i];
+      if (op.type === 'eq'){
+        html += '<div class="diff-line eq">' + escHTML(linesA[normA.indexOf(op.val)] || op.val) + '</div>';
+        normA.shift();
+        i++;
+      } else if (op.type === 'del'){
+        // check if next is add (paired change)
+        var next = ops[i+1];
+        if (next && next.type === 'add' && $('charLevel').checked){
+          // char-level diff
+          var origA = linesA[0]; var origB = linesB[0];
+          html += '<div class="diff-line del">' + charDiff(origA, origB) + '</div>';
+          html += '<div class="diff-line add">' + charDiff(origA, origB) + '</div>';
+          delCount++; addCount++;
+          linesA.shift(); linesB.shift(); normA.shift(); normB.shift();
+          i += 2;
+        } else {
+          html += '<div class="diff-line del">' + escHTML(linesA[0]) + '</div>';
+          delCount++;
+          linesA.shift(); normA.shift();
+          i++;
+        }
+      } else if (op.type === 'add'){
+        html += '<div class="diff-line add">' + escHTML(linesB[0]) + '</div>';
+        addCount++;
+        linesB.shift(); normB.shift();
+        i++;
+      }
+    }
+
+    $('output').innerHTML = html || '<span style="color:#9ca3af;">テキストを入力してください</span>';
+    $('stats').innerHTML = '<span class="add-c">+ ' + addCount + '行追加</span><span class="del-c">− ' + delCount + '行削除</span><strong>合計変更 ' + (addCount + delCount) + ' 行</strong>';
+  }
+
+  ['textA','textB','ignoreWS','ignoreCase','charLevel'].forEach(function(id){
+    $(id).addEventListener('input', compute);
+    $(id).addEventListener('change', compute);
+  });
+  document.querySelectorAll('.sample-btns button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var s = SAMPLES[b.dataset.sample];
+      $('textA').value = s.a;
+      $('textB').value = s.b;
+      compute();
+    });
+  });
+
+  // initial sample
+  $('textA').value = SAMPLES.code.a;
+  $('textB').value = SAMPLES.code.b;
+  compute();
+})();
+</script>
+</body>
+</html>
