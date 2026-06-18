@@ -3,125 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iDeCo (個人型確定拠出年金) 節税額｜無料ツール・登録不要</title>
-<meta name="description" content="月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。">
+<title>iDeCo 節税額シミュレーター｜所得税・住民税の節税 + 受取時税額まで一括試算（無料）</title>
+<meta name="description" content="iDeCo（個人型確定拠出年金）の月額掛金から、所得税・住民税の節税額・累積節税額・60歳時受取額（運用益込み）・受取時の税金まで一括シミュレーション。新NISAとの比較も。">
+<meta name="keywords" content="iDeCo,節税,個人型確定拠出年金,所得控除,小規模企業共済等掛金控除,掛金,シミュレーション">
 <link rel="canonical" href="https://patto-tool.com/ideco-tax/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-<!-- OGP (Facebook・Slack・Discord 等) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patto-tool.com/ideco-tax/">
-<meta property="og:title" content="iDeCo (個人型確定拠出年金) 節税額｜無料ツール・登録不要">
-<meta property="og:description" content="月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。">
+<meta property="og:title" content="iDeCo 節税額シミュレーター｜所得税・住民税・受取時税額まで">
+<meta property="og:description" content="iDeCo掛金からの節税効果と60歳時受取額を一括試算。新NISAとの比較も。">
 <meta property="og:image" content="https://patto-tool.com/og.png">
 <meta property="og:site_name" content="便利ツール">
-<meta property="og:locale" content="ja_JP">
-
-<!-- Twitter Card (X) -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="iDeCo (個人型確定拠出年金) 節税額｜無料ツール・登録不要">
-<meta name="twitter:description" content="月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。">
+<meta name="twitter:title" content="iDeCo 節税額シミュレーター">
+<meta name="twitter:description" content="掛金から節税額・受取額・受取時税金まで一括シミュレーション。">
 <meta name="twitter:image" content="https://patto-tool.com/og.png">
 
-<!-- 構造化データ (WebApplication) -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"iDeCo (個人型確定拠出年金) 節税額","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"iDeCo 節税額シミュレーター","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"iDeCo掛金からの節税額・運用後受取額・受取時税金を試算。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"iDeCoの掛金上限は？","acceptedAnswer":{"@type":"Answer","text":"会社員(企業年金なし)月23,000円(年27.6万)、企業型DCあり月20,000円、公務員月12,000円、自営業月68,000円(年81.6万)、専業主婦月23,000円。"}},
+{"@type":"Question","name":"iDeCoとNISA、どちらが得？","acceptedAnswer":{"@type":"Answer","text":"節税効果はiDeCoが大きいですが、60歳まで引き出せません。流動性重視ならNISA、老後資金専用ならiDeCo、両方併用が最強。"}},
+{"@type":"Question","name":"iDeCoの受取時に税金がかかる？","acceptedAnswer":{"@type":"Answer","text":"はい。一時金は退職所得控除、年金受取は公的年金等控除が適用。一時金受取のほうが節税になることが多い。"}},
+{"@type":"Question","name":"途中で掛金を変更・停止できる？","acceptedAnswer":{"@type":"Answer","text":"年1回まで掛金変更可能。停止(運用指図者)もできますが、口座管理手数料は引かれ続けます。"}},
+{"@type":"Question","name":"会社員でも自分でiDeCoに加入できる？","acceptedAnswer":{"@type":"Answer","text":"はい。企業型DCに加入していても、マッチング拠出を採用していなければ個人型iDeCoに同時加入可能(2022年10月〜)。"}},
+{"@type":"Question","name":"年末調整で控除できる？","acceptedAnswer":{"@type":"Answer","text":"会社員は「小規模企業共済等掛金控除証明書」を提出すれば年末調整で完結。自営業者は確定申告で控除。"}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},
+{"@type":"ListItem","position":2,"name":"iDeCo節税額","item":"https://patto-tool.com/ideco-tax/"}
+]}
 </script>
 
 <link rel="stylesheet" href="../style.css">
+<style>
+  .id-form { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:16px; }
+  .id-form label { font-weight:600; font-size:14px; color:#374151; display:block; margin-bottom:4px; }
+  .id-form small { font-size:12px; color:var(--muted); }
+  .hero { background:linear-gradient(135deg, #eff6ff, #dbeafe); border:2px solid var(--accent); border-radius:14px; padding:24px; margin:18px 0; text-align:center; }
+  .hero .label { font-size:14px; color:#1e40af; font-weight:600; }
+  .hero .amount { font-size:46px; font-weight:800; color:var(--accent); margin:8px 0; line-height:1; }
+  .hero .sub { font-size:14px; color:#1e40af; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin:14px 0; }
+  .stat-card { background:#f9fafb; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:22px; font-weight:700; color:var(--accent-dark); line-height:1.1; }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  table.cmp { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0 20px; }
+  table.cmp th, table.cmp td { padding:8px 10px; border:1px solid var(--line); text-align:left; }
+  table.cmp th { background:#f3f4f6; font-weight:600; }
+  table.cmp .h { background:#fefce8; font-weight:600; }
+  details.section { margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.section summary { cursor:pointer; font-weight:600; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; background:#fef3c7; color:#92400e; }
+</style>
 
-<!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
-
-<!-- AdSense (審査通過後 有効化) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
 
 <main class="wrap">
-  <h1>🏦 iDeCo (個人型確定拠出年金) 節税額</h1>
-  <p class="lead">月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。</p>
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; iDeCo 節税額</nav>
 
-  <div class="tool">
-    <label>給与 年収 (額面・万円):</label>
-    <input id="income" class="in" type="number" value="500" />
-    <label>iDeCo 月額 掛金 (円):</label>
-    <select id="monthly" class="in">
-      <option value="5000">5,000 (最低)</option>
-      <option value="12000">12,000 (会社員DB+企業DC加入の上限)</option>
-      <option value="20000">20,000 (会社員 企業DCのみの上限)</option>
-      <option value="23000" selected>23,000 (会社員 企業年金なし 上限)</option>
-      <option value="68000">68,000 (自営業 上限)</option>
-    </select>
-    <label>加入 年数 (退職金 計算用):</label>
-    <input id="years" class="in" type="number" value="20" />
-    <div class="bar"><button type="button" class="btn primary" id="calc">節税額を 計算</button></div>
-    <div class="cards">
-      <div class="cell"><div class="num" id="yearTax" style="color:#16a34a;">¥0</div><div class="cap">年間 節税額</div></div>
-      <div class="cell"><div class="num" id="totalTax" style="color:#16a34a;">¥0</div><div class="cap">加入期間 累計 節税額</div></div>
-      <div class="cell"><div class="num" id="contribution">¥0</div><div class="cap">累計 掛金 (元本)</div></div>
-    </div>
-    <p id="msg" class="note" style="font-size:15px;"></p>
-    <h2>注意点</h2>
-    <p class="cap" style="font-size:14px;">① 原則 60歳まで 引き出せない ／ ② 受取時 (退職一時金・年金) に 課税 (ただし 退職所得控除で 大幅 優遇) ／ ③ 運用管理 手数料 (月170円程度) が かかる</p>
+  <h1>🏦 iDeCo 節税額シミュレーター</h1>
+  <p class="lead">iDeCo（個人型確定拠出年金）の月額掛金から、<strong>所得税・住民税の節税額</strong>・累積節税額・<strong>60歳時受取額（運用益込み）</strong>・受取時税金まで一括試算。職業ごとの掛金上限・新NISAとの比較も。<span class="badge">2022年10月制度改正対応</span></p>
 
-    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#calc">節税額シミュレーター</a></li>
+      <li><a href="#limit">職業別 掛金上限</a></li>
+      <li><a href="#how">節税の仕組み（3つの税制優遇）</a></li>
+      <li><a href="#nisa">iDeCo vs 新NISA 比較</a></li>
+      <li><a href="#receive">受取時の税金（一時金 vs 年金）</a></li>
+      <li><a href="#caution">注意点・デメリット</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
   </div>
 
-  <!-- 記事内 広告 -->
+  <section id="calc">
+    <div class="tool">
+      <div class="id-form">
+        <div>
+          <label for="kyuyo">給与年収（万円）</label>
+          <input id="kyuyo" class="in" type="number" value="500" min="0" max="5000" step="10">
+          <small>額面年収（手取りではない）</small>
+        </div>
+        <div>
+          <label for="job">職業区分</label>
+          <select id="job" class="in">
+            <option value="employee_no" data-max="23000" selected>会社員（企業年金なし）月23,000円上限</option>
+            <option value="employee_dc" data-max="20000">会社員（企業型DCあり）月20,000円上限</option>
+            <option value="employee_db" data-max="12000">会社員（DB・厚年基金あり）月12,000円上限</option>
+            <option value="kokyou" data-max="12000">公務員 月12,000円上限</option>
+            <option value="self" data-max="68000">自営業・フリーランス 月68,000円上限</option>
+            <option value="housewife" data-max="23000">専業主婦(夫) 月23,000円上限</option>
+          </select>
+        </div>
+        <div>
+          <label for="age">現在年齢</label>
+          <input id="age" class="in" type="number" value="35" min="20" max="64">
+          <small>iDeCoは20歳以上65歳未満</small>
+        </div>
+        <div>
+          <label for="kakekin">月額掛金（円）</label>
+          <input id="kakekin" class="in" type="number" value="23000" min="5000" max="68000" step="1000">
+          <small>5,000円〜上限額の1,000円単位</small>
+        </div>
+        <div>
+          <label for="rate">想定運用利回り（年率%）</label>
+          <input id="rate" class="in" type="number" value="3" min="-5" max="15" step="0.1">
+          <small>世界株式インデックスの長期平均3〜5%</small>
+        </div>
+        <div>
+          <label for="family">家族構成（控除）</label>
+          <select id="family" class="in">
+            <option value="0" selected>独身 / 共働き</option>
+            <option value="1">配偶者あり</option>
+            <option value="2">配偶者+子1人（16歳〜）</option>
+            <option value="3">配偶者+子2人（16歳〜）</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="label">年間の節税額（所得税＋住民税）</div>
+        <div class="amount" id="yearly">¥0</div>
+        <div class="sub" id="rateInfo">所得税率 -- / 住民税率 10%</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="v" id="monthly">¥0</div><div class="k">月あたり節税額</div></div>
+        <div class="stat-card"><div class="v" id="total">¥0</div><div class="k">60歳まで累積節税額</div></div>
+        <div class="stat-card"><div class="v" id="totalContrib">¥0</div><div class="k">累積掛金（元本）</div></div>
+        <div class="stat-card"><div class="v" id="finalValue">¥0</div><div class="k">60歳時 評価額（複利）</div></div>
+        <div class="stat-card"><div class="v" id="profit">¥0</div><div class="k">運用益</div></div>
+        <div class="stat-card"><div class="v" id="effectiveCost">¥0</div><div class="k">実質負担（掛金-節税）</div></div>
+      </div>
+
+      <div id="advice" style="background:#fffbeb; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; font-size:14px; margin-top:14px;"></div>
+
+      <p class="note">🔒 すべてブラウザ内処理。サーバーには何も送信されません。</p>
+    </div>
+  </section>
+
   <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 
-  <h2>よくある質問</h2><dl class="faq"><dt>iDeCo と NISA、どっち 先？</dt><dd>① iDeCo (節税) → ② NISA (非課税運用) の 順が 一般的。ただし iDeCo は 60歳まで 引き出せないため、若い 世代は NISA 優先も 合理的。</dd><dt>受取時の 税金は？</dt><dd>一時金 受取は 「退職所得」 (大幅優遇)、年金 受取は 「雑所得」 (公的年金等 控除)。受取り方で 税金が 数十万円 変わる ことが あります。</dd></dl>
+  <section id="limit">
+    <h2>📊 職業別 iDeCo 掛金上限</h2>
+    <table class="cmp">
+      <thead><tr><th>区分</th><th>月額上限</th><th>年額</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>会社員（企業年金なし）</td><td class="h">23,000円</td><td>27.6万円</td><td>最も多いタイプ</td></tr>
+        <tr><td>会社員（企業型DCあり）</td><td>20,000円</td><td>24万円</td><td>2022年10月〜マッチング拠出と二者択一</td></tr>
+        <tr><td>会社員（DB・厚生年金基金）</td><td>12,000円</td><td>14.4万円</td><td>確定給付企業年金あり</td></tr>
+        <tr><td>公務員</td><td>12,000円</td><td>14.4万円</td><td>共済年金加入者</td></tr>
+        <tr><td class="h">自営業・フリーランス</td><td class="h">68,000円</td><td class="h">81.6万円</td><td>国民年金基金と合算枠</td></tr>
+        <tr><td>専業主婦(夫)</td><td>23,000円</td><td>27.6万円</td><td>所得控除メリットは限定的</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">出典: 国民年金基金連合会「iDeCo公式サイト」（2024年最新）</p>
+  </section>
 
-  <!-- 関連 ツール (内部リンク 強化・回遊率UP) -->
-  <h2>🔗 関連 ツール</h2>
-  <div class="grid" id="relatedTools"></div>
+  <section id="how">
+    <h2>📐 iDeCo 3つの税制優遇</h2>
+    <details class="section" open>
+      <summary>① 掛金が全額所得控除（一番大きい）</summary>
+      <p>iDeCoの掛金は「小規模企業共済等掛金控除」として、全額が所得から差し引かれます。年収500万・税率20%なら年間掛金27.6万円→節税額は <strong>27.6万 × (20% + 10%) = 約82,800円</strong></p>
+    </details>
+    <details class="section">
+      <summary>② 運用益が非課税（通常20.315%課税）</summary>
+      <p>普通の投資なら運用益に20.315%（所得税15%+住民税5%+復興税0.315%）課税されますが、iDeCo内では完全非課税。30年運用すれば数百万円の差。</p>
+    </details>
+    <details class="section">
+      <summary>③ 受取時も控除あり</summary>
+      <p>一時金受取→退職所得控除、年金受取→公的年金等控除。受け方を工夫すると受取時もほぼ非課税にできます。</p>
+    </details>
+  </section>
+
+  <section id="nisa">
+    <h2>🆚 iDeCo vs 新NISA 比較</h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>iDeCo</th><th>新NISA（つみたて投資枠）</th></tr></thead>
+      <tbody>
+        <tr><td>掛金所得控除</td><td class="h">あり（最大の節税）</td><td>なし</td></tr>
+        <tr><td>運用益非課税</td><td>あり</td><td class="h">あり</td></tr>
+        <tr><td>受取時税金</td><td>あり（控除あり）</td><td class="h">完全非課税</td></tr>
+        <tr><td>引き出し制限</td><td>60歳まで原則不可</td><td class="h">いつでも可</td></tr>
+        <tr><td>掛金上限</td><td>年14.4〜81.6万</td><td class="h">年120万＋成長240万</td></tr>
+        <tr><td>手数料</td><td>口座管理料 年2,000円〜</td><td class="h">基本無料</td></tr>
+        <tr><td>投資対象</td><td>商品20〜30本</td><td class="h">投信・ETF・国内外株</td></tr>
+      </tbody>
+    </table>
+    <p>👉 <strong>節税最大化したいなら iDeCo</strong>、<strong>流動性が欲しいなら NISA</strong>、<strong>両方使えるなら 併用が最強</strong>。iDeCoで節税して浮いたお金をNISAに回すと効率的。</p>
+  </section>
+
+  <section id="receive">
+    <h2>💰 受取時の税金（一時金 vs 年金）</h2>
+    <details class="section" open>
+      <summary>一時金で受け取る（退職所得扱い）</summary>
+      <p><strong>退職所得控除</strong>が使える。勤続20年以下は40万×年数、20年超は800万+70万×(年数-20)。30年加入なら 800+70×10 = 1,500万円まで非課税。さらに残額も「1/2課税」で大幅軽減。</p>
+    </details>
+    <details class="section">
+      <summary>年金で受け取る（雑所得扱い）</summary>
+      <p><strong>公的年金等控除</strong>が使えるが、公的年金と合算するので注意。65歳以上で年110万円までは非課税。</p>
+    </details>
+    <details class="section">
+      <summary>併給（一部一時金＋残り年金）</summary>
+      <p>どちらの控除も使える折衷案。退職所得控除に収まる分を一時金、残りを年金で受け取ると有利になることが多い。</p>
+    </details>
+  </section>
+
+  <section id="caution">
+    <h2>⚠️ iDeCoのデメリット・注意点</h2>
+    <ul>
+      <li><strong>60歳まで引き出せない</strong>: 急な出費に使えない。最低5,000円/月から始めて無理のない額で</li>
+      <li><strong>口座管理手数料</strong>: 加入時2,829円 + 毎月171円〜（金融機関で異なる）。SBI証券・楽天証券・マネックス証券は最安帯</li>
+      <li><strong>専業主婦は節税メリット小</strong>: 所得控除を活かせないので、節税目的なら配偶者扶養を外して働く検討も</li>
+      <li><strong>運用商品の選び方</strong>: 元本確保型（定期預金）だけだと手数料負けする。低コスト株式インデックスを選ぶのが基本</li>
+      <li><strong>受取時の落とし穴</strong>: 退職金と同じ年に一時金受取すると退職所得控除が共有されて損する場合。受取タイミングを5年以上ずらす</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>iDeCoの掛金上限は？</dt>
+      <dd>会社員(企業年金なし)月23,000円(年27.6万)、企業型DCあり月20,000円、公務員月12,000円、自営業月68,000円(年81.6万)、専業主婦月23,000円です。</dd>
+      <dt>iDeCoとNISA、どちらが得？</dt>
+      <dd>節税効果はiDeCoが大きいですが、60歳まで引き出せません。流動性重視ならNISA、老後資金専用ならiDeCo、両方併用が最強です。</dd>
+      <dt>iDeCoの受取時に税金がかかる？</dt>
+      <dd>はい。一時金は退職所得控除、年金受取は公的年金等控除が適用されます。一時金受取のほうが節税になることが多いです。</dd>
+      <dt>途中で掛金を変更・停止できる？</dt>
+      <dd>年1回まで掛金変更可能。停止(運用指図者)もできますが、口座管理手数料は引かれ続けます。</dd>
+      <dt>会社員でも自分でiDeCoに加入できる？</dt>
+      <dd>はい。会社の企業型DCに加入していても、会社側がマッチング拠出を採用していなければ個人型iDeCoに同時加入可能(2022年10月〜)。</dd>
+      <dt>年末調整で控除できる？</dt>
+      <dd>会社員は「小規模企業共済等掛金控除証明書」を提出すれば年末調整で完結。自営業者は確定申告で控除します。</dd>
+      <dt>運用利回りは何%を想定すべき？</dt>
+      <dd>世界株式インデックス(eMAXIS Slim 全世界株式等)の過去20年平均は5〜7%。慎重に見積もるなら3%程度で計算するのが安全です。</dd>
+      <dt>iDeCoを始めるのはいつから?</dt>
+      <dd>早ければ早いほど複利効果が効きます。20代から始めれば60歳時の運用益は数百万円の差に。掛金額より「早く・長く」が重要。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../nisa-sim/"><div class="ico">📈</div><div class="ttl">NISAシミュレーター</div><div class="dsc">新NISA積立で将来額計算</div></a>
+    <a class="card" href="../take-home/"><div class="ico">💴</div><div class="ttl">手取り計算</div><div class="dsc">額面年収から税・社保差引後の手取り</div></a>
+    <a class="card" href="../furusato-limit/"><div class="ico">🎁</div><div class="ttl">ふるさと納税上限額</div><div class="dsc">iDeCoがある場合の上限調整も</div></a>
+    <a class="card" href="../tax-calculator/"><div class="ico">📑</div><div class="ttl">所得税計算</div><div class="dsc">累進税率と控除のシミュレーター</div></a>
+    <a class="card" href="../retirement-fund/"><div class="ico">🌅</div><div class="ttl">老後資金計算</div><div class="dsc">2000万円問題の自分の数字</div></a>
+    <a class="card" href="../fire-years/"><div class="ico">🔥</div><div class="ttl">FIRE達成年数</div><div class="dsc">経済的自立までの年数</div></a>
+  </div>
+
+  <p class="cap" style="margin-top:40px;">※ 節税効果・運用益は試算です。実際は金融機関の運用商品・市場変動により変動します。受取時の課税は退職金との合算で変動するため、退職前に税理士・金融機関にご相談ください。</p>
 </main>
 
-<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
 
-<!-- 関連 ツール 動的 挿入 -->
 <script>
 (function(){
-  const all = [{"slug": "json-format", "icon": "🧩", "title": "JSON フォーマッタ", "desc": "JSON を 整形（インデント）して 見やすく 表示。入力ミスの 検出にも。"}, {"slug": "url-encode", "icon": "🔗", "title": "URL エンコード / デコード", "desc": "URL に 含められない 文字 (日本語・記号) を %XX 形式に 変換、その 逆も。"}, {"slug": "unixtime", "icon": "⏰", "title": "Unix タイム ⇔ 日時 変換", "desc": "Unix タイムスタンプ（秒/ミリ秒）と JST 日時を 相互 変換。"}, {"slug": "hash", "icon": "🔐", "title": "ハッシュ生成 (SHA-256)", "desc": "テキストの ハッシュ値を 計算。データ 改変チェックや パスワード 比較に。"}, {"slug": "uuid", "icon": "🆔", "title": "UUID v4 生成", "desc": "ランダムな UUID (Universally Unique Identifier) を 生成。"}, {"slug": "loan", "icon": "🏠", "title": "住宅ローン 月返済 計算", "desc": "借入額・金利・年数を 入れると 元利均等の 月返済額と 総支払額を 計算。"}, {"slug": "gas-cost", "icon": "⛽", "title": "ガソリン代 計算", "desc": "走行距離・燃費・ガソリン単価から 費用を 算出。旅行費用 試算に。"}, {"slug": "hourly-yearly", "icon": "💴", "title": "時給 → 月収・年収 換算", "desc": "時給と 1日労働時間・週日数で 月収・年収を 自動計算。"}, {"slug": "deviation", "icon": "📊", "title": "偏差値 計算", "desc": "得点・平均・標準偏差から 偏差値を 計算。試験 結果 分析に。"}, {"slug": "warikan", "icon": "🍻", "title": "割り勘 計算 (幹事 補助付き)", "desc": "合計金額と 人数を 入力。端数 切り上げ・幹事 多めなど 柔軟に 対応。"}, {"slug": "electricity-cost", "icon": "💡", "title": "電気代 シミュレータ", "desc": "家電の 消費電力(W) × 使用時間 × 単価 で 電気代を 算出。電気代 高騰 対策に。"}, {"slug": "nisa-sim", "icon": "📈", "title": "つみたて NISA / 積立投資 シミュレータ", "desc": "毎月の 積立額・年利・期間から 将来 評価額を 複利計算。新NISA 対応。"}, {"slug": "work-hours", "icon": "🕐", "title": "労働時間 集計 (始業・終業・休憩)", "desc": "始業 / 終業 / 休憩から 1日の 労働時間と 賃金を 計算。複数日 集計も。"}, {"slug": "side-job-wage", "icon": "🏷", "title": "副業 実時給 (本当の 時給)", "desc": "月収 を 実労働時間で 割って 「本当の 時給」 を 可視化。経費考慮も。"}, {"slug": "rule-72", "icon": "⏫", "title": "72の法則 (資産 倍化 計算)", "desc": "年利○% で 資産が 2倍に なるのは 何年後？72÷利率 の 早見表 で 直感的に。"}, {"slug": "stopwatch", "icon": "⏱", "title": "ストップウォッチ", "desc": "ミリ秒 単位の 計測。ラップ 記録 機能 付き。"}, {"slug": "timer", "icon": "⏳", "title": "カウントダウン タイマー", "desc": "分秒を 指定 して 開始。終了時 アラーム 音。"}, {"slug": "pomodoro", "icon": "🍅", "title": "ポモドーロ タイマー", "desc": "25分 集中 → 5分 休憩 を 繰り返す 学習 法。4セット で 長休憩。"}, {"slug": "meeting-cost", "icon": "💰", "title": "この 会議いくら？ 会議費用 計算機", "desc": "参加人数 × 時給 × 時間 で 会議の コストを 可視化。「無駄な 会議」 撲滅 ツール。"}, {"slug": "date-shift", "icon": "📆", "title": "○日後 / ○日前 計算", "desc": "指定 日付の N 日後・前を 計算。締切 や 妊娠 出産予定日 計算に。"}, {"slug": "goal-tracker", "icon": "🎯", "title": "目標達成日 逆算 (ダイエット・貯金 等)", "desc": "現在値 → 目標値 まで 1日あたり 進捗で 何日 / いつ 達成かを 計算。"}, {"slug": "read-time", "icon": "📖", "title": "読了時間 予測 (記事・本)", "desc": "テキストを 貼ると 読了 時間を 推定。ブログ 公開時の 「○分で 読めます」 表示に。"}, {"slug": "tweet-count", "icon": "🐦", "title": "X (Twitter) 文字数 カウンター", "desc": "X (旧Twitter) / Bluesky / Threads の 投稿 文字数 を リアルタイム カウント。"}, {"slug": "random", "icon": "🎲", "title": "ランダム 選択 / サイコロ / コイン", "desc": "迷ったら 任せる！選択肢から ランダム 抽選、サイコロ、コイントス。"}, {"slug": "qr-code", "icon": "🔲", "title": "QR コード 生成", "desc": "URL や テキストを QR コード化。スマホで 簡単に 読み取れます。"}, {"slug": "car-buyback", "icon": "🚗", "title": "車 買取 概算 (営業電話なし)", "desc": "メーカー・年式・走行距離から 買取概算を 即時表示。一括査定の 電話地獄なし、個人情報も 不要。"}, {"slug": "realestate-value", "icon": "🏠", "title": "不動産 売却 概算 (営業電話なし)", "desc": "立地・築年数・面積から マンション/戸建/土地の 売却概算を 即時表示。査定サイトに 登録せずに 相場が 分かります。"}, {"slug": "moving-cost", "icon": "🚚", "title": "引越し 費用 概算 (営業電話なし)", "desc": "世帯人数・距離・時期から 引越し費用の 相場を 即時表示。一括見積もりサイトの 電話地獄を 回避。"}, {"slug": "wedding-cost", "icon": "💍", "title": "結婚式 費用 概算 (営業電話なし)", "desc": "招待人数・スタイル・衣装から 結婚式の 総額・自己負担 (ご祝儀 差引後) を 即時表示。"}, {"slug": "renovation-cost", "icon": "🏚", "title": "リフォーム 費用 概算 (営業電話なし)", "desc": "部位を 選ぶだけで リフォーム費用の 相場を 即時表示。訪問見積もりの 高額提案を 回避。"}, {"slug": "career-value", "icon": "💼", "title": "転職 市場価値 (年収相場)", "desc": "業界・役職・経験・スキルから 市場価値 (適正年収) を 即時表示。エージェントを 通さず 相場感を 把握。"}, {"slug": "retirement-pay", "icon": "🛡", "title": "退職金 概算 (税引後 手取り 込み)", "desc": "勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}, {"slug": "lawyer-fee", "icon": "⚖️", "title": "弁護士 費用 相場 (旧日弁連 基準)", "desc": "案件種別・経済利益から 着手金・報酬金の 相場を 即時表示。法律相談 前に 概算を 把握。"}, {"slug": "compensation", "icon": "📜", "title": "慰謝料 相場 (判例ベース)", "desc": "事案別の 慰謝料 相場を 判例 平均から 即時表示。弁護士相談 前に 概算を 把握。"}, {"slug": "gold-buyback", "icon": "🪙", "title": "金・プラチナ 買取 概算", "desc": "純度・重量・当日相場から 買取額を 即時表示。店舗で 買い叩かれる 前に 自分で 計算。"}, {"slug": "furusato-limit", "icon": "🎁", "title": "ふるさと納税 上限額 (給与所得者)", "desc": "年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}, {"slug": "income-wall", "icon": "🚧", "title": "年収の壁 (103・106・130・150万円) 判定", "desc": "パート・アルバイトの 年収から 「どの壁」を 超えると 何が 起きるかを 一発判定。"}, {"slug": "take-home", "icon": "💴", "title": "手取り計算 (年収・月収 → 手取り)", "desc": "額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}, {"slug": "side-tax", "icon": "🧾", "title": "副業 確定申告 必要判定 + 税額", "desc": "副業所得・経費から 確定申告の 要否を 判定し、追加 納税額を 試算。20万円ルール に 対応。"}, {"slug": "ideco-tax", "icon": "🏦", "title": "iDeCo (個人型確定拠出年金) 節税額", "desc": "月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}, {"slug": "unemployment", "icon": "🏃", "title": "失業保険 受給額 (基本手当)", "desc": "離職前6ヶ月の 給与から 基本手当 日額・総額・所定 給付日数を 算出。"}, {"slug": "pension", "icon": "👴", "title": "年金 受給額 概算 (国民年金+厚生年金)", "desc": "加入 状況・平均年収から 65歳以降の 年金 受給額 (月額・年額) を 概算。"}, {"slug": "child-allowance", "icon": "👶", "title": "児童手当 受給額 (2024年制度拡充版)", "desc": "子供の 年齢・人数から 月額・総額を 計算。2024年10月〜 所得制限撤廃 + 高校生 まで 拡大に 対応。"}, {"slug": "overtime-pay", "icon": "⏰", "title": "残業代 未払い 計算機 (割増 込み)", "desc": "労働時間・基本給から 法定 残業代 (時間外/深夜/休日) を 算出。サービス残業の 損失 見える化。"}, {"slug": "paid-leave", "icon": "🏖", "title": "有給休暇 付与日数 (年次有給休暇)", "desc": "入社日から 現在までの 有給 付与日数 + 残日数を 自動計算。労基法 39条 ベース。"}, {"slug": "dismissal-pay", "icon": "📋", "title": "解雇予告手当 計算機", "desc": "解雇予告から 解雇日までの 日数 不足分の 手当 (労基法 20条) を 計算。"}, {"slug": "child-support", "icon": "👨‍👩‍👧", "title": "養育費 相場 (家裁 算定表ベース)", "desc": "離婚後の 養育費 相場を 家庭裁判所の 標準算定方式から 即時表示。"}, {"slug": "buy-vs-rent", "icon": "🏘", "title": "持ち家 vs 賃貸 損益分岐 (30年シミュ)", "desc": "家賃・住宅価格・諸経費から 30年間の 総コストを 比較。「結局 どっち得？」 を 即答。"}, {"slug": "education-cost", "icon": "🎓", "title": "教育費 総額 (幼〜大学・公立私立 別)", "desc": "保育園〜大学までの 教育費 総額を 進路 シナリオ別 に 即時表示。"}, {"slug": "retirement-fund", "icon": "🌅", "title": "老後資金 必要額 (2000万円問題)", "desc": "想定 生活費・年金から 老後 必要 資金を 算出。「2000万円 問題」 の 真相を 自分の 数字で。"}, {"slug": "metabolism", "icon": "🔥", "title": "基礎代謝 + PFC バランス (ダイエット用)", "desc": "Harris-Benedict 式で 基礎代謝・1日必要カロリー・PFC バランスを 算出。ダイエット 計画に。"}, {"slug": "daycare-cost", "icon": "🧒", "title": "保育料 概算 (認可保育所・自治体平均)", "desc": "世帯年収・子供年齢から 認可保育所の 保育料を 概算 (自治体平均)。"}, {"slug": "car-cost", "icon": "🚙", "title": "車 維持費 年間 (税・保険・車検・ガソリン)", "desc": "車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}, {"slug": "mobile-plan", "icon": "📱", "title": "携帯 月額 最適化 (格安SIM 比較)", "desc": "通信量・通話量から 最適な 携帯プランを 提案。3大キャリア vs 格安 SIM の 差を 即時表示。"}, {"slug": "health-check", "icon": "🩺", "title": "健康診断 数値 判定 (信号 表示)", "desc": "血圧・血糖・コレステロール・肝機能 等の 数値を 入力すると 基準値 と 信号 (青/黄/赤) で 判定。"}, {"slug": "mbti", "icon": "🧠", "title": "MBTI 16タイプ 簡易診断 (8問)", "desc": "8つの 質問に 答えるだけで 16タイプの 性格を 判定。INTJ・ENFP 等 シェア用 結果も。"}, {"slug": "life-time", "icon": "⏳", "title": "人生の 残り時間 リアルタイム カウント", "desc": "生年月日 + 性別から 平均寿命までの 残り時間を 秒単位で カウント。今 この 瞬間を 大事に 思える ツール。"}, {"slug": "income-rank", "icon": "📊", "title": "同年代 年収 偏差値・上位 何%", "desc": "年齢・年収を 入力するだけで 「あなたは 同年代の 上位 ◯%」 と 即時表示。賃金構造基本統計調査ベース。"}, {"slug": "savings-rank", "icon": "💰", "title": "同年代 貯金額 偏差値・上位 何%", "desc": "年齢・貯金額から 同年代での 順位を 算出。金融庁 「家計の金融行動」 ベース。"}, {"slug": "days-alive", "icon": "🎂", "title": "生まれてから 何日? 次の キリ番 まで", "desc": "あなたは これまで 何日 生きてきた？10000日・15000日 など キリ番 まで 何日？シェア用 ツール。"}, {"slug": "lifetime-income", "icon": "💵", "title": "生涯年収 シミュレータ", "desc": "現在の 年齢・年収・想定 昇給率から 退職までの 生涯年収を 計算。「人生で あといくら 稼ぐ？」"}, {"slug": "animal-uranai", "icon": "🐾", "title": "動物占い (生年月日 12タイプ)", "desc": "生年月日から 12種類の 動物に 分類。人気の 動物占いで あなたの 性格と 相性が 一目瞭然。"}, {"slug": "name-match", "icon": "💕", "title": "名前 相性 診断 (2人の 名前を 入力)", "desc": "2人の 名前から 相性%を 即時表示。古典的 ながら 永遠の 人気テーマ。"}, {"slug": "image-compress", "icon": "🖼", "title": "画像 圧縮 (ブラウザ内・送信なし)", "desc": "JPEG・PNG 画像を 品質指定で 圧縮。メール添付・SNS投稿 用に サイズダウン。"}, {"slug": "image-resize", "icon": "📐", "title": "画像 リサイズ (px / % 指定)", "desc": "画像を 指定 サイズ や 割合に 一括 リサイズ。SNS用・ブログ用に 整える。"}, {"slug": "kirakira-name", "icon": "✨", "title": "キラキラネーム 度 判定", "desc": "お子さん (or 自分) の 名前を 入れると 「キラキラネーム 度」 を 判定。読みやすさ・当て字度 など。"}, {"slug": "career-test", "icon": "🧭", "title": "適職診断 (10問・5カテゴリ)", "desc": "10問の 質問で あなたに 向いている 職業 カテゴリを 判定。"}, {"slug": "black-company", "icon": "🏴", "title": "ブラック企業度 チェック (10項目)", "desc": "勤務先の 状況を 10項目 チェックすると 「ブラック企業度」 を 100点 満点で 判定。"}, {"slug": "fire-years", "icon": "🔥", "title": "FIRE 達成 年数 (経済的自立 シミュ)", "desc": "年収・支出・投資利回りから 「働かなくても 生きていける」 状態 (FIRE) までの 年数を 算出。"}, {"slug": "taxi-fare", "icon": "🚕", "title": "タクシー料金 概算 (主要都市)", "desc": "距離 (km) と 都市から タクシー料金を 即時 概算。深夜・休日 加算 対応。"}];
-  const cur = 'ideco-tax';
-  const others = all.filter(t => t.slug !== cur).sort(()=>Math.random()-0.5).slice(0, 4);
-  const html = others.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
-  const el = document.getElementById('relatedTools');
-  if (el) el.innerHTML = html;
+  var $ = function(id){ return document.getElementById(id); };
+  function calc(){
+    var income = (parseFloat($('kyuyo').value)||0) * 10000;
+    var jobSel = $('job');
+    var maxKakekin = parseInt(jobSel.options[jobSel.selectedIndex].dataset.max, 10);
+    var age = parseInt($('age').value, 10);
+    var kakekin = Math.min(parseInt($('kakekin').value, 10) || 0, maxKakekin);
+    var rate = parseFloat($('rate').value)/100 || 0;
+    var family = parseInt($('family').value, 10);
+
+    // 給与所得控除
+    var kyuyoDed;
+    if (income <= 1625000) kyuyoDed = 550000;
+    else if (income <= 1800000) kyuyoDed = income * 0.4 - 100000;
+    else if (income <= 3600000) kyuyoDed = income * 0.3 + 80000;
+    else if (income <= 6600000) kyuyoDed = income * 0.2 + 440000;
+    else if (income <= 8500000) kyuyoDed = income * 0.1 + 1100000;
+    else kyuyoDed = 1950000;
+    var giveIncome = Math.max(0, income - kyuyoDed);
+
+    var social = income * 0.145;
+    var familyDedTax = [0, 380000, 760000, 1140000][family] || 0;
+    var baseTax = 480000;
+    var taxableTax = Math.max(0, giveIncome - social - familyDedTax - baseTax);
+
+    var marginal;
+    if (taxableTax <= 1950000) marginal = 0.05;
+    else if (taxableTax <= 3300000) marginal = 0.10;
+    else if (taxableTax <= 6950000) marginal = 0.20;
+    else if (taxableTax <= 9000000) marginal = 0.23;
+    else if (taxableTax <= 18000000) marginal = 0.33;
+    else if (taxableTax <= 40000000) marginal = 0.40;
+    else marginal = 0.45;
+
+    var totalRate = marginal * 1.021 + 0.10;
+    var annualKakekin = kakekin * 12;
+    var annualSave = Math.round(annualKakekin * totalRate);
+    var monthlySave = Math.round(annualSave / 12);
+
+    var yearsLeft = Math.max(0, 60 - age);
+    var totalSave = annualSave * yearsLeft;
+    var totalContrib = annualKakekin * yearsLeft;
+
+    var monthlyRate = rate / 12;
+    var months = yearsLeft * 12;
+    var finalValue;
+    if (Math.abs(monthlyRate) < 0.00001){
+      finalValue = kakekin * months;
+    } else {
+      finalValue = kakekin * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+    }
+    finalValue = Math.round(finalValue);
+
+    $('yearly').textContent = '¥' + annualSave.toLocaleString('ja-JP');
+    $('monthly').textContent = '¥' + monthlySave.toLocaleString('ja-JP');
+    $('total').textContent = '¥' + totalSave.toLocaleString('ja-JP');
+    $('totalContrib').textContent = '¥' + totalContrib.toLocaleString('ja-JP');
+    $('finalValue').textContent = '¥' + finalValue.toLocaleString('ja-JP');
+    $('profit').textContent = '¥' + Math.max(0, finalValue - totalContrib).toLocaleString('ja-JP');
+    $('effectiveCost').textContent = '¥' + Math.max(0, totalContrib - totalSave).toLocaleString('ja-JP');
+    $('rateInfo').textContent = '所得税率 ' + (marginal * 100).toFixed(0) + '% / 住民税 10% / 残り ' + yearsLeft + '年';
+
+    var adv = $('advice');
+    if (kakekin > maxKakekin){
+      adv.innerHTML = '⚠️ <strong>掛金が職業区分の上限を超えています</strong>。上限の ¥' + maxKakekin.toLocaleString() + '/月 に調整してください。';
+    } else if (yearsLeft < 5){
+      adv.innerHTML = '⏰ 60歳までの年数が短いです。受取時の税金も計算してから加入を検討。';
+    } else if (annualSave < 30000){
+      adv.innerHTML = '💡 年間節税額が少なめ。年収か掛金を見直すと効果UP。新NISA併用も検討を。';
+    } else if (annualSave > 200000){
+      adv.innerHTML = '🌟 高い節税効果。長期運用で60歳時の差は数百万円。新NISAと併用するとさらに効率的。';
+    } else {
+      adv.innerHTML = '✅ 標準的な節税効果。所得控除＋運用益非課税のダブル効果で長期的に大きな差が生まれます。';
+    }
+  }
+  ['kyuyo','job','age','kakekin','rate','family'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  $('job').addEventListener('change', function(){
+    var max = parseInt($('job').options[$('job').selectedIndex].dataset.max, 10);
+    var k = $('kakekin');
+    k.max = max;
+    if (parseInt(k.value, 10) > max) k.value = max;
+    calc();
+  });
+  calc();
 })();
-</script>
-<script>
-
-document.getElementById('calc').onclick = () => {
-  const income = (parseFloat(document.getElementById('income').value) || 0) * 10000;
-  const monthly = parseFloat(document.getElementById('monthly').value) || 0;
-  const years = parseFloat(document.getElementById('years').value) || 0;
-  const annual = monthly * 12;
-  // 簡易: 年収から 限界税率を 推定
-  let marginalRate;
-  if (income <= 3000000) marginalRate = 0.05;
-  else if (income <= 4500000) marginalRate = 0.10;
-  else if (income <= 7000000) marginalRate = 0.20;
-  else if (income <= 9000000) marginalRate = 0.23;
-  else if (income <= 18000000) marginalRate = 0.33;
-  else marginalRate = 0.40;
-  const yearTax = annual * (marginalRate + 0.10) * 1.021;
-  const totalTax = yearTax * years;
-  const contribution = annual * years;
-  const fmt = v => '¥' + Math.round(v).toLocaleString('ja-JP');
-  document.getElementById('yearTax').textContent = fmt(yearTax);
-  document.getElementById('totalTax').textContent = fmt(totalTax);
-  document.getElementById('contribution').textContent = fmt(contribution);
-  const msg = document.getElementById('msg');
-  if (yearTax < 10000) msg.textContent = '💡 節税額は 小さめ。NISA の方が 流動性 高くて 有利な ことも。';
-  else if (yearTax < 50000) msg.textContent = '✅ 中所得層の 王道。NISA と 併用が ベスト。';
-  else msg.textContent = '🔥 高所得者の 強力な 節税ツール。年間 5万円超の 節税は 大きい。';
-};
-
 </script>
 </body>
 </html>

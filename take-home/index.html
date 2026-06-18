@@ -3,139 +3,369 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>手取り計算 (年収・月収 → 手取り)｜無料ツール・登録不要</title>
-<meta name="description" content="額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。">
+<title>手取り計算ツール｜年収・月収から税金・社保差引後の手取り（無料・2024年版）</title>
+<meta name="description" content="額面年収・月収から、所得税・住民税・社会保険料を差し引いた手取り額を即時計算。年収別早見表・ボーナス対応・配偶者控除・iDeCo・ふるさと納税の影響まで。給与所得控除2024年版準拠。">
+<meta name="keywords" content="手取り計算,年収,月収,額面,所得税,住民税,社会保険料,給与所得控除">
 <link rel="canonical" href="https://patto-tool.com/take-home/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-<!-- OGP (Facebook・Slack・Discord 等) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patto-tool.com/take-home/">
-<meta property="og:title" content="手取り計算 (年収・月収 → 手取り)｜無料ツール・登録不要">
-<meta property="og:description" content="額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。">
+<meta property="og:title" content="手取り計算ツール｜年収から税・社保差引後の手取り">
+<meta property="og:description" content="額面年収から手取り額を即時計算。年収別早見表・ボーナス対応も。">
 <meta property="og:image" content="https://patto-tool.com/og.png">
-<meta property="og:site_name" content="便利ツール">
-<meta property="og:locale" content="ja_JP">
-
-<!-- Twitter Card (X) -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="手取り計算 (年収・月収 → 手取り)｜無料ツール・登録不要">
-<meta name="twitter:description" content="額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。">
+<meta name="twitter:title" content="手取り計算ツール">
+<meta name="twitter:description" content="額面年収から手取り額を即時計算。">
 <meta name="twitter:image" content="https://patto-tool.com/og.png">
 
-<!-- 構造化データ (WebApplication) -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"手取り計算 (年収・月収 → 手取り)","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"手取り計算ツール","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"額面年収から手取り額を計算。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"年収500万円の手取りはいくら？","acceptedAnswer":{"@type":"Answer","text":"独身の場合、約392万円(月32.6万円)。社会保険料75万円・所得税14万円・住民税24万円が引かれます。配偶者控除があると約405万円。"}},
+{"@type":"Question","name":"額面と手取りの差はどのくらい？","acceptedAnswer":{"@type":"Answer","text":"一般的に年収の22-30%が控除されます。年収300万→22%、500万→22%、1000万→27%、2000万→33%が目安。"}},
+{"@type":"Question","name":"ボーナスの手取りは？","acceptedAnswer":{"@type":"Answer","text":"ボーナスからも社会保険料(健保・厚年・雇用)と所得税は引かれます。住民税は月給からのみ。手取りは額面の約80%程度。"}},
+{"@type":"Question","name":"社会保険料は何で構成？","acceptedAnswer":{"@type":"Answer","text":"健康保険(5%)+厚生年金(9.15%)+雇用保険(0.6%)で約14.75%。介護保険は40歳以上+0.9%。地域・年齢で多少変動。"}},
+{"@type":"Question","name":"iDeCoやふるさと納税で手取りは増える？","acceptedAnswer":{"@type":"Answer","text":"iDeCoは所得控除で税が減るので手取り増。ふるさと納税は翌年の住民税が減るので翌年の手取りが増えます。"}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},
+{"@type":"ListItem","position":2,"name":"手取り計算","item":"https://patto-tool.com/take-home/"}
+]}
 </script>
 
 <link rel="stylesheet" href="../style.css">
+<style>
+  .th-form { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:16px; }
+  .th-form label { font-weight:600; font-size:14px; color:#374151; display:block; margin-bottom:4px; }
+  .th-form small { font-size:12px; color:var(--muted); }
+  .hero { background:linear-gradient(135deg, #ecfdf5, #d1fae5); border:2px solid #10b981; border-radius:14px; padding:24px; margin:18px 0; text-align:center; }
+  .hero .label { font-size:14px; color:#065f46; font-weight:600; }
+  .hero .amount { font-size:46px; font-weight:800; color:#16a34a; margin:8px 0; line-height:1; }
+  .hero .sub { font-size:14px; color:#047857; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin:14px 0; }
+  .stat-card { background:#f9fafb; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:22px; font-weight:700; color:#dc2626; line-height:1.1; }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  table.cmp { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0 20px; }
+  table.cmp th, table.cmp td { padding:8px 10px; border:1px solid var(--line); text-align:center; }
+  table.cmp th { background:#f3f4f6; font-weight:600; }
+  details.section { margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.section summary { cursor:pointer; font-weight:600; }
+  /* breakdown bar */
+  .breakdown { display:flex; height:36px; border-radius:8px; overflow:hidden; margin:14px 0; }
+  .breakdown div { display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:600; }
+  .b-net { background:#16a34a; }
+  .b-tax { background:#f59e0b; }
+  .b-jumin { background:#ea580c; }
+  .b-social { background:#3b82f6; }
+  .legend { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:6px; font-size:12px; margin-top:6px; }
+  .legend span i { display:inline-block; width:12px; height:12px; border-radius:2px; vertical-align:middle; margin-right:4px; }
+</style>
 
-<!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
-
-<!-- AdSense (審査通過後 有効化) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
 
 <main class="wrap">
-  <h1>💴 手取り計算 (年収・月収 → 手取り)</h1>
-  <p class="lead">額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。</p>
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; 手取り計算</nav>
 
-  <div class="tool">
-    <label>給与 年収 (額面・円):</label>
-    <input id="income" class="in" type="number" value="5000000" />
-    <label>賞与の 占める 割合 (年収内・賞与なしは 0%):</label>
-    <select id="bonus" class="in">
-      <option value="0">なし (月給 のみ)</option>
-      <option value="0.15" selected>標準 (年 約2ヶ月分・15%)</option>
-      <option value="0.25">多め (年 約3ヶ月分・25%)</option>
-      <option value="0.35">大企業 (年 約4-5ヶ月分・35%)</option>
-    </select>
-    <label>扶養 家族 (配偶者+16歳以上の子):</label>
-    <input id="deps" class="in" type="number" value="0" min="0" />
-    <div class="bar"><button type="button" class="btn primary" id="calc">手取りを 計算</button></div>
-    <div class="cards">
-      <div class="cell"><div class="num" id="net" style="color:#16a34a;">¥0</div><div class="cap">年間 手取り</div></div>
-      <div class="cell"><div class="num" id="netMonth">¥0</div><div class="cap">月 手取り (賞与含む 平均)</div></div>
-      <div class="cell"><div class="num" id="ratio">0%</div><div class="cap">手取り率</div></div>
-    </div>
-    <h2>内訳 (年間)</h2>
-    <div id="detail" class="cap" style="font-size:14px;line-height:1.8;"></div>
+  <h1>💴 手取り計算ツール（額面 → 手取り）</h1>
+  <p class="lead">額面年収から、<strong>所得税・住民税・社会保険料</strong>を差し引いた手取り額を即時計算。月収・ボーナス・配偶者控除・iDeCo・年金控除まで反映。年収別早見表付き。</p>
 
-    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#calc">手取り計算ツール</a></li>
+      <li><a href="#table">年収別 手取り早見表</a></li>
+      <li><a href="#breakdown">差引項目の内訳</a></li>
+      <li><a href="#how">給与所得控除の計算式（2024年版）</a></li>
+      <li><a href="#tips">手取りを増やす5つの方法</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
   </div>
 
-  <!-- 記事内 広告 -->
+  <section id="calc">
+    <div class="tool">
+      <div class="th-form">
+        <div>
+          <label for="income">年収（万円）</label>
+          <input id="income" class="in" type="number" value="500" min="0" max="10000" step="10">
+          <small>額面年収（賞与込み）</small>
+        </div>
+        <div>
+          <label for="bonus">うち賞与（万円）</label>
+          <input id="bonus" class="in" type="number" value="80" min="0" max="2000" step="10">
+          <small>夏冬合計の額面</small>
+        </div>
+        <div>
+          <label for="age">年齢</label>
+          <input id="age" class="in" type="number" value="35" min="15" max="80">
+          <small>40歳以上は介護保険料 +0.9%</small>
+        </div>
+        <div>
+          <label for="family">家族構成</label>
+          <select id="family" class="in">
+            <option value="0" selected>独身 / 共働き</option>
+            <option value="1">配偶者あり（扶養）</option>
+            <option value="2">配偶者+子1人（16歳〜）</option>
+            <option value="3">配偶者+子2人（16歳〜）</option>
+            <option value="4">配偶者+子1人（中学生以下）</option>
+          </select>
+        </div>
+        <div>
+          <label for="ideco">iDeCo 月額（円）</label>
+          <input id="ideco" class="in" type="number" value="0" min="0" max="68000" step="1000">
+          <small>所得控除になる</small>
+        </div>
+        <div>
+          <label for="pref">居住地</label>
+          <select id="pref" class="in">
+            <option value="14.4" selected>標準（健保10.0% × 1/2 + 厚年18.3% × 1/2 + 雇用0.6%）</option>
+            <option value="15.0">少し高め（東京・愛知 等）</option>
+            <option value="14.0">少し低め（北海道 等）</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="label">手取り年収（額面から税・社保差引後）</div>
+        <div class="amount" id="net">¥0</div>
+        <div class="sub" id="sub">月収換算: ¥0 / 控除率: --%</div>
+      </div>
+
+      <div class="breakdown" id="breakdown">
+        <div class="b-net" style="flex:78;">手取り</div>
+        <div class="b-social" style="flex:15;">社保</div>
+        <div class="b-tax" style="flex:3;">所得税</div>
+        <div class="b-jumin" style="flex:4;">住民税</div>
+      </div>
+      <div class="legend">
+        <span><i style="background:#16a34a;"></i>手取り</span>
+        <span><i style="background:#3b82f6;"></i>社会保険料</span>
+        <span><i style="background:#f59e0b;"></i>所得税</span>
+        <span><i style="background:#ea580c;"></i>住民税</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="v" id="social">¥0</div><div class="k">社会保険料（年）</div></div>
+        <div class="stat-card"><div class="v" id="incomeTax">¥0</div><div class="k">所得税（年）</div></div>
+        <div class="stat-card"><div class="v" id="juminTax">¥0</div><div class="k">住民税（年）</div></div>
+        <div class="stat-card"><div class="v" id="totalDed">¥0</div><div class="k">合計控除額</div></div>
+        <div class="stat-card"><div class="v" style="color:#16a34a;" id="netMonth">¥0</div><div class="k">月収換算（手取り）</div></div>
+        <div class="stat-card"><div class="v" style="color:#16a34a;" id="bonusNet">¥0</div><div class="k">賞与手取り（年合計）</div></div>
+      </div>
+
+      <p class="note">🔒 すべてブラウザ内処理。サーバーには何も送信されません。</p>
+    </div>
+  </section>
+
   <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 
-  <h2>よくある質問</h2><dl class="faq"><dt>「年収 ÷ 0.8 が 手取り」 って 本当？</dt><dd>ざっくり 正しいです。年収 400-800万円 帯なら 手取りは 額面の 75-80% が 一般的。本ツールで 自分の 年収帯で 正確に 計算できます。</dd><dt>賞与の 計算は？</dt><dd>賞与にも 同じく 社会保険料 (14.75%) + 所得税が かかり、住民税は 月給に 含めて 計算。本ツールは 年収 トータルで 計算しているので 賞与 比率に 関わらず ほぼ 同じ結果。</dd></dl>
+  <section id="table">
+    <h2>📊 年収別 手取り早見表（独身・iDeCoなし）</h2>
+    <table class="cmp">
+      <thead><tr><th>年収</th><th>手取り（年）</th><th>月収換算</th><th>控除率</th></tr></thead>
+      <tbody>
+        <tr><td>300万円</td><td>239万円</td><td>19.9万円</td><td>20%</td></tr>
+        <tr><td>400万円</td><td>314万円</td><td>26.2万円</td><td>22%</td></tr>
+        <tr><td>500万円</td><td>392万円</td><td>32.7万円</td><td>22%</td></tr>
+        <tr><td>600万円</td><td>464万円</td><td>38.7万円</td><td>23%</td></tr>
+        <tr><td>700万円</td><td>533万円</td><td>44.4万円</td><td>24%</td></tr>
+        <tr><td>800万円</td><td>602万円</td><td>50.2万円</td><td>25%</td></tr>
+        <tr><td>1,000万円</td><td>728万円</td><td>60.7万円</td><td>27%</td></tr>
+        <tr><td>1,500万円</td><td>1,036万円</td><td>86.3万円</td><td>31%</td></tr>
+        <tr><td>2,000万円</td><td>1,340万円</td><td>111.7万円</td><td>33%</td></tr>
+        <tr><td>3,000万円</td><td>1,898万円</td><td>158.2万円</td><td>37%</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">独身・東京勤務・40歳未満・賞与なしの目安。配偶者・扶養・iDeCo・住宅ローン控除で変動。</p>
+  </section>
 
-  <!-- 関連 ツール (内部リンク 強化・回遊率UP) -->
-  <h2>🔗 関連 ツール</h2>
-  <div class="grid" id="relatedTools"></div>
+  <section id="breakdown">
+    <h2>📐 差引項目の内訳</h2>
+    <details class="section" open>
+      <summary>① 社会保険料（年収の約14.5%）</summary>
+      <ul>
+        <li><strong>健康保険料</strong>: 標準報酬月額 × 約10% × 1/2 (労使折半)</li>
+        <li><strong>厚生年金保険料</strong>: 標準報酬月額 × 18.3% × 1/2</li>
+        <li><strong>雇用保険料</strong>: 賃金総額 × 0.6%</li>
+        <li><strong>介護保険料</strong>: 40-64歳のみ +0.9%</li>
+      </ul>
+    </details>
+    <details class="section">
+      <summary>② 所得税（累進課税 5〜45%）</summary>
+      <p>給与所得控除＋基礎控除（48万）＋社会保険料控除＋配偶者控除等を差し引いた「課税所得」に対し累進課税。源泉徴収で毎月引かれ、年末調整で精算。</p>
+    </details>
+    <details class="section">
+      <summary>③ 住民税（一律10%）</summary>
+      <p>所得割10%（道府県4%＋市町村6%）+均等割5,000円。前年所得に対して翌年6月から徴収（前年比較で1年遅れ）。新卒1年目は0円。</p>
+    </details>
+  </section>
+
+  <section id="how">
+    <h2>📊 給与所得控除（2024年版）</h2>
+    <table class="cmp">
+      <thead><tr><th>年収</th><th>給与所得控除額</th></tr></thead>
+      <tbody>
+        <tr><td>〜162.5万</td><td>55万円</td></tr>
+        <tr><td>162.5〜180万</td><td>収入×40% - 10万</td></tr>
+        <tr><td>180〜360万</td><td>収入×30% + 8万</td></tr>
+        <tr><td>360〜660万</td><td>収入×20% + 44万</td></tr>
+        <tr><td>660〜850万</td><td>収入×10% + 110万</td></tr>
+        <tr><td>850万〜</td><td>195万円（上限）</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">出典: 国税庁「給与所得控除額の計算」</p>
+  </section>
+
+  <section id="tips">
+    <h2>💡 手取りを増やす5つの方法</h2>
+    <ol>
+      <li><strong>iDeCo</strong>: 掛金が全額所得控除。年収500万なら月23,000円で年8万円節税</li>
+      <li><strong>ふるさと納税</strong>: 翌年の住民税が減るので翌年の手取り増。年収500万で約6万円</li>
+      <li><strong>医療費控除</strong>: 年10万超の医療費は確定申告で還付</li>
+      <li><strong>住宅ローン控除</strong>: 借入残高の0.7%が13年間還付（最大35万円/年）</li>
+      <li><strong>副業の経費計上</strong>: 副業所得は経費を差し引いて課税。事業所得なら青色65万円控除も</li>
+    </ol>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>年収500万円の手取りはいくら？</dt>
+      <dd>独身の場合、約392万円(月32.6万円)。社会保険料75万円・所得税14万円・住民税24万円が引かれます。配偶者控除があると約405万円です。</dd>
+      <dt>額面と手取りの差はどのくらい？</dt>
+      <dd>一般的に年収の22-30%が控除されます。年収300万→22%、500万→22%、1000万→27%、2000万→33%が目安です。</dd>
+      <dt>ボーナスの手取りは？</dt>
+      <dd>ボーナスからも社会保険料(健保・厚年・雇用)と所得税は引かれます。住民税は月給からのみ。手取りは額面の約80%程度です。</dd>
+      <dt>社会保険料は何で構成？</dt>
+      <dd>健康保険(5%)+厚生年金(9.15%)+雇用保険(0.6%)で約14.75%。介護保険は40歳以上+0.9%。地域・年齢で多少変動。</dd>
+      <dt>iDeCoやふるさと納税で手取りは増える？</dt>
+      <dd>iDeCoは所得控除で税が減るので手取り増。ふるさと納税は翌年の住民税が減るので翌年の手取りが増えます。</dd>
+      <dt>住民税はいつから払う？</dt>
+      <dd>前年所得に対して翌年6月から翌々年5月まで分割徴収。新卒1年目は前年所得がほぼないので住民税0円。2年目から増えるので注意。</dd>
+      <dt>年収の壁は何ですか？</dt>
+      <dd>パート・アルバイトの場合、103万・106万・130万・150万円が壁。これを超えると配偶者控除を外れたり、自分で社会保険料を払うことに。</dd>
+      <dt>手取りを増やしたい新卒は何をすべき？</dt>
+      <dd>iDeCo・新NISAでの長期投資、ふるさと納税、家賃補助制度の活用、転職で年収UP。手取りより「貯蓄＋投資」の習慣化が重要。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../tax-calculator/"><div class="ico">📑</div><div class="ttl">所得税計算</div><div class="dsc">累進税率と各種控除の詳細</div></a>
+    <a class="card" href="../furusato-limit/"><div class="ico">🎁</div><div class="ttl">ふるさと納税上限額</div><div class="dsc">翌年の住民税を減らす</div></a>
+    <a class="card" href="../ideco-tax/"><div class="ico">🏦</div><div class="ttl">iDeCo節税額</div><div class="dsc">所得控除で手取りUP</div></a>
+    <a class="card" href="../hourly-yearly/"><div class="ico">💴</div><div class="ttl">時給→年収換算</div><div class="dsc">時給・週時間で年収算出</div></a>
+    <a class="card" href="../income-rank/"><div class="ico">📊</div><div class="ttl">同年代年収偏差値</div><div class="dsc">あなたは上位何%</div></a>
+    <a class="card" href="../income-wall/"><div class="ico">🚧</div><div class="ttl">年収の壁判定</div><div class="dsc">パート103/106/130/150万</div></a>
+  </div>
+
+  <p class="cap" style="margin-top:40px;">※ 本ツールは概算です。標準報酬月額の等級・健康保険組合の保険料率・地域差で実際の値は変動します。正確な手取りは源泉徴収票・給与明細を確認してください。</p>
 </main>
 
-<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
 
-<!-- 関連 ツール 動的 挿入 -->
 <script>
 (function(){
-  const all = [{"slug": "json-format", "icon": "🧩", "title": "JSON フォーマッタ", "desc": "JSON を 整形（インデント）して 見やすく 表示。入力ミスの 検出にも。"}, {"slug": "url-encode", "icon": "🔗", "title": "URL エンコード / デコード", "desc": "URL に 含められない 文字 (日本語・記号) を %XX 形式に 変換、その 逆も。"}, {"slug": "unixtime", "icon": "⏰", "title": "Unix タイム ⇔ 日時 変換", "desc": "Unix タイムスタンプ（秒/ミリ秒）と JST 日時を 相互 変換。"}, {"slug": "hash", "icon": "🔐", "title": "ハッシュ生成 (SHA-256)", "desc": "テキストの ハッシュ値を 計算。データ 改変チェックや パスワード 比較に。"}, {"slug": "uuid", "icon": "🆔", "title": "UUID v4 生成", "desc": "ランダムな UUID (Universally Unique Identifier) を 生成。"}, {"slug": "loan", "icon": "🏠", "title": "住宅ローン 月返済 計算", "desc": "借入額・金利・年数を 入れると 元利均等の 月返済額と 総支払額を 計算。"}, {"slug": "gas-cost", "icon": "⛽", "title": "ガソリン代 計算", "desc": "走行距離・燃費・ガソリン単価から 費用を 算出。旅行費用 試算に。"}, {"slug": "hourly-yearly", "icon": "💴", "title": "時給 → 月収・年収 換算", "desc": "時給と 1日労働時間・週日数で 月収・年収を 自動計算。"}, {"slug": "deviation", "icon": "📊", "title": "偏差値 計算", "desc": "得点・平均・標準偏差から 偏差値を 計算。試験 結果 分析に。"}, {"slug": "warikan", "icon": "🍻", "title": "割り勘 計算 (幹事 補助付き)", "desc": "合計金額と 人数を 入力。端数 切り上げ・幹事 多めなど 柔軟に 対応。"}, {"slug": "electricity-cost", "icon": "💡", "title": "電気代 シミュレータ", "desc": "家電の 消費電力(W) × 使用時間 × 単価 で 電気代を 算出。電気代 高騰 対策に。"}, {"slug": "nisa-sim", "icon": "📈", "title": "つみたて NISA / 積立投資 シミュレータ", "desc": "毎月の 積立額・年利・期間から 将来 評価額を 複利計算。新NISA 対応。"}, {"slug": "work-hours", "icon": "🕐", "title": "労働時間 集計 (始業・終業・休憩)", "desc": "始業 / 終業 / 休憩から 1日の 労働時間と 賃金を 計算。複数日 集計も。"}, {"slug": "side-job-wage", "icon": "🏷", "title": "副業 実時給 (本当の 時給)", "desc": "月収 を 実労働時間で 割って 「本当の 時給」 を 可視化。経費考慮も。"}, {"slug": "rule-72", "icon": "⏫", "title": "72の法則 (資産 倍化 計算)", "desc": "年利○% で 資産が 2倍に なるのは 何年後？72÷利率 の 早見表 で 直感的に。"}, {"slug": "stopwatch", "icon": "⏱", "title": "ストップウォッチ", "desc": "ミリ秒 単位の 計測。ラップ 記録 機能 付き。"}, {"slug": "timer", "icon": "⏳", "title": "カウントダウン タイマー", "desc": "分秒を 指定 して 開始。終了時 アラーム 音。"}, {"slug": "pomodoro", "icon": "🍅", "title": "ポモドーロ タイマー", "desc": "25分 集中 → 5分 休憩 を 繰り返す 学習 法。4セット で 長休憩。"}, {"slug": "meeting-cost", "icon": "💰", "title": "この 会議いくら？ 会議費用 計算機", "desc": "参加人数 × 時給 × 時間 で 会議の コストを 可視化。「無駄な 会議」 撲滅 ツール。"}, {"slug": "date-shift", "icon": "📆", "title": "○日後 / ○日前 計算", "desc": "指定 日付の N 日後・前を 計算。締切 や 妊娠 出産予定日 計算に。"}, {"slug": "goal-tracker", "icon": "🎯", "title": "目標達成日 逆算 (ダイエット・貯金 等)", "desc": "現在値 → 目標値 まで 1日あたり 進捗で 何日 / いつ 達成かを 計算。"}, {"slug": "read-time", "icon": "📖", "title": "読了時間 予測 (記事・本)", "desc": "テキストを 貼ると 読了 時間を 推定。ブログ 公開時の 「○分で 読めます」 表示に。"}, {"slug": "tweet-count", "icon": "🐦", "title": "X (Twitter) 文字数 カウンター", "desc": "X (旧Twitter) / Bluesky / Threads の 投稿 文字数 を リアルタイム カウント。"}, {"slug": "random", "icon": "🎲", "title": "ランダム 選択 / サイコロ / コイン", "desc": "迷ったら 任せる！選択肢から ランダム 抽選、サイコロ、コイントス。"}, {"slug": "qr-code", "icon": "🔲", "title": "QR コード 生成", "desc": "URL や テキストを QR コード化。スマホで 簡単に 読み取れます。"}, {"slug": "car-buyback", "icon": "🚗", "title": "車 買取 概算 (営業電話なし)", "desc": "メーカー・年式・走行距離から 買取概算を 即時表示。一括査定の 電話地獄なし、個人情報も 不要。"}, {"slug": "realestate-value", "icon": "🏠", "title": "不動産 売却 概算 (営業電話なし)", "desc": "立地・築年数・面積から マンション/戸建/土地の 売却概算を 即時表示。査定サイトに 登録せずに 相場が 分かります。"}, {"slug": "moving-cost", "icon": "🚚", "title": "引越し 費用 概算 (営業電話なし)", "desc": "世帯人数・距離・時期から 引越し費用の 相場を 即時表示。一括見積もりサイトの 電話地獄を 回避。"}, {"slug": "wedding-cost", "icon": "💍", "title": "結婚式 費用 概算 (営業電話なし)", "desc": "招待人数・スタイル・衣装から 結婚式の 総額・自己負担 (ご祝儀 差引後) を 即時表示。"}, {"slug": "renovation-cost", "icon": "🏚", "title": "リフォーム 費用 概算 (営業電話なし)", "desc": "部位を 選ぶだけで リフォーム費用の 相場を 即時表示。訪問見積もりの 高額提案を 回避。"}, {"slug": "career-value", "icon": "💼", "title": "転職 市場価値 (年収相場)", "desc": "業界・役職・経験・スキルから 市場価値 (適正年収) を 即時表示。エージェントを 通さず 相場感を 把握。"}, {"slug": "retirement-pay", "icon": "🛡", "title": "退職金 概算 (税引後 手取り 込み)", "desc": "勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}, {"slug": "lawyer-fee", "icon": "⚖️", "title": "弁護士 費用 相場 (旧日弁連 基準)", "desc": "案件種別・経済利益から 着手金・報酬金の 相場を 即時表示。法律相談 前に 概算を 把握。"}, {"slug": "compensation", "icon": "📜", "title": "慰謝料 相場 (判例ベース)", "desc": "事案別の 慰謝料 相場を 判例 平均から 即時表示。弁護士相談 前に 概算を 把握。"}, {"slug": "gold-buyback", "icon": "🪙", "title": "金・プラチナ 買取 概算", "desc": "純度・重量・当日相場から 買取額を 即時表示。店舗で 買い叩かれる 前に 自分で 計算。"}, {"slug": "furusato-limit", "icon": "🎁", "title": "ふるさと納税 上限額 (給与所得者)", "desc": "年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}, {"slug": "income-wall", "icon": "🚧", "title": "年収の壁 (103・106・130・150万円) 判定", "desc": "パート・アルバイトの 年収から 「どの壁」を 超えると 何が 起きるかを 一発判定。"}, {"slug": "take-home", "icon": "💴", "title": "手取り計算 (年収・月収 → 手取り)", "desc": "額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}, {"slug": "side-tax", "icon": "🧾", "title": "副業 確定申告 必要判定 + 税額", "desc": "副業所得・経費から 確定申告の 要否を 判定し、追加 納税額を 試算。20万円ルール に 対応。"}, {"slug": "ideco-tax", "icon": "🏦", "title": "iDeCo (個人型確定拠出年金) 節税額", "desc": "月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}, {"slug": "unemployment", "icon": "🏃", "title": "失業保険 受給額 (基本手当)", "desc": "離職前6ヶ月の 給与から 基本手当 日額・総額・所定 給付日数を 算出。"}, {"slug": "pension", "icon": "👴", "title": "年金 受給額 概算 (国民年金+厚生年金)", "desc": "加入 状況・平均年収から 65歳以降の 年金 受給額 (月額・年額) を 概算。"}, {"slug": "child-allowance", "icon": "👶", "title": "児童手当 受給額 (2024年制度拡充版)", "desc": "子供の 年齢・人数から 月額・総額を 計算。2024年10月〜 所得制限撤廃 + 高校生 まで 拡大に 対応。"}, {"slug": "overtime-pay", "icon": "⏰", "title": "残業代 未払い 計算機 (割増 込み)", "desc": "労働時間・基本給から 法定 残業代 (時間外/深夜/休日) を 算出。サービス残業の 損失 見える化。"}, {"slug": "paid-leave", "icon": "🏖", "title": "有給休暇 付与日数 (年次有給休暇)", "desc": "入社日から 現在までの 有給 付与日数 + 残日数を 自動計算。労基法 39条 ベース。"}, {"slug": "dismissal-pay", "icon": "📋", "title": "解雇予告手当 計算機", "desc": "解雇予告から 解雇日までの 日数 不足分の 手当 (労基法 20条) を 計算。"}, {"slug": "child-support", "icon": "👨‍👩‍👧", "title": "養育費 相場 (家裁 算定表ベース)", "desc": "離婚後の 養育費 相場を 家庭裁判所の 標準算定方式から 即時表示。"}, {"slug": "buy-vs-rent", "icon": "🏘", "title": "持ち家 vs 賃貸 損益分岐 (30年シミュ)", "desc": "家賃・住宅価格・諸経費から 30年間の 総コストを 比較。「結局 どっち得？」 を 即答。"}, {"slug": "education-cost", "icon": "🎓", "title": "教育費 総額 (幼〜大学・公立私立 別)", "desc": "保育園〜大学までの 教育費 総額を 進路 シナリオ別 に 即時表示。"}, {"slug": "retirement-fund", "icon": "🌅", "title": "老後資金 必要額 (2000万円問題)", "desc": "想定 生活費・年金から 老後 必要 資金を 算出。「2000万円 問題」 の 真相を 自分の 数字で。"}, {"slug": "metabolism", "icon": "🔥", "title": "基礎代謝 + PFC バランス (ダイエット用)", "desc": "Harris-Benedict 式で 基礎代謝・1日必要カロリー・PFC バランスを 算出。ダイエット 計画に。"}, {"slug": "daycare-cost", "icon": "🧒", "title": "保育料 概算 (認可保育所・自治体平均)", "desc": "世帯年収・子供年齢から 認可保育所の 保育料を 概算 (自治体平均)。"}, {"slug": "car-cost", "icon": "🚙", "title": "車 維持費 年間 (税・保険・車検・ガソリン)", "desc": "車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}, {"slug": "mobile-plan", "icon": "📱", "title": "携帯 月額 最適化 (格安SIM 比較)", "desc": "通信量・通話量から 最適な 携帯プランを 提案。3大キャリア vs 格安 SIM の 差を 即時表示。"}, {"slug": "health-check", "icon": "🩺", "title": "健康診断 数値 判定 (信号 表示)", "desc": "血圧・血糖・コレステロール・肝機能 等の 数値を 入力すると 基準値 と 信号 (青/黄/赤) で 判定。"}, {"slug": "mbti", "icon": "🧠", "title": "MBTI 16タイプ 簡易診断 (8問)", "desc": "8つの 質問に 答えるだけで 16タイプの 性格を 判定。INTJ・ENFP 等 シェア用 結果も。"}, {"slug": "life-time", "icon": "⏳", "title": "人生の 残り時間 リアルタイム カウント", "desc": "生年月日 + 性別から 平均寿命までの 残り時間を 秒単位で カウント。今 この 瞬間を 大事に 思える ツール。"}, {"slug": "income-rank", "icon": "📊", "title": "同年代 年収 偏差値・上位 何%", "desc": "年齢・年収を 入力するだけで 「あなたは 同年代の 上位 ◯%」 と 即時表示。賃金構造基本統計調査ベース。"}, {"slug": "savings-rank", "icon": "💰", "title": "同年代 貯金額 偏差値・上位 何%", "desc": "年齢・貯金額から 同年代での 順位を 算出。金融庁 「家計の金融行動」 ベース。"}, {"slug": "days-alive", "icon": "🎂", "title": "生まれてから 何日? 次の キリ番 まで", "desc": "あなたは これまで 何日 生きてきた？10000日・15000日 など キリ番 まで 何日？シェア用 ツール。"}, {"slug": "lifetime-income", "icon": "💵", "title": "生涯年収 シミュレータ", "desc": "現在の 年齢・年収・想定 昇給率から 退職までの 生涯年収を 計算。「人生で あといくら 稼ぐ？」"}, {"slug": "animal-uranai", "icon": "🐾", "title": "動物占い (生年月日 12タイプ)", "desc": "生年月日から 12種類の 動物に 分類。人気の 動物占いで あなたの 性格と 相性が 一目瞭然。"}, {"slug": "name-match", "icon": "💕", "title": "名前 相性 診断 (2人の 名前を 入力)", "desc": "2人の 名前から 相性%を 即時表示。古典的 ながら 永遠の 人気テーマ。"}, {"slug": "image-compress", "icon": "🖼", "title": "画像 圧縮 (ブラウザ内・送信なし)", "desc": "JPEG・PNG 画像を 品質指定で 圧縮。メール添付・SNS投稿 用に サイズダウン。"}, {"slug": "image-resize", "icon": "📐", "title": "画像 リサイズ (px / % 指定)", "desc": "画像を 指定 サイズ や 割合に 一括 リサイズ。SNS用・ブログ用に 整える。"}, {"slug": "kirakira-name", "icon": "✨", "title": "キラキラネーム 度 判定", "desc": "お子さん (or 自分) の 名前を 入れると 「キラキラネーム 度」 を 判定。読みやすさ・当て字度 など。"}, {"slug": "career-test", "icon": "🧭", "title": "適職診断 (10問・5カテゴリ)", "desc": "10問の 質問で あなたに 向いている 職業 カテゴリを 判定。"}, {"slug": "black-company", "icon": "🏴", "title": "ブラック企業度 チェック (10項目)", "desc": "勤務先の 状況を 10項目 チェックすると 「ブラック企業度」 を 100点 満点で 判定。"}, {"slug": "fire-years", "icon": "🔥", "title": "FIRE 達成 年数 (経済的自立 シミュ)", "desc": "年収・支出・投資利回りから 「働かなくても 生きていける」 状態 (FIRE) までの 年数を 算出。"}, {"slug": "taxi-fare", "icon": "🚕", "title": "タクシー料金 概算 (主要都市)", "desc": "距離 (km) と 都市から タクシー料金を 即時 概算。深夜・休日 加算 対応。"}];
-  const cur = 'take-home';
-  const others = all.filter(t => t.slug !== cur).sort(()=>Math.random()-0.5).slice(0, 4);
-  const html = others.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
-  const el = document.getElementById('relatedTools');
-  if (el) el.innerHTML = html;
+  var $ = function(id){ return document.getElementById(id); };
+  function calc(){
+    var income = (parseFloat($('income').value) || 0) * 10000;
+    var bonus = (parseFloat($('bonus').value) || 0) * 10000;
+    var age = parseInt($('age').value, 10) || 35;
+    var family = parseInt($('family').value, 10);
+    var ideco = (parseFloat($('ideco').value) || 0) * 12;
+    var socialRate = parseFloat($('pref').value) / 100;
+
+    // 介護保険料追加
+    if (age >= 40 && age < 65) socialRate += 0.009;
+
+    var social = Math.round(income * socialRate);
+
+    // 給与所得控除
+    var kyuyo;
+    if (income <= 1625000) kyuyo = 550000;
+    else if (income <= 1800000) kyuyo = income * 0.4 - 100000;
+    else if (income <= 3600000) kyuyo = income * 0.3 + 80000;
+    else if (income <= 6600000) kyuyo = income * 0.2 + 440000;
+    else if (income <= 8500000) kyuyo = income * 0.1 + 1100000;
+    else kyuyo = 1950000;
+    var giveIncome = Math.max(0, income - kyuyo);
+
+    // 控除
+    var familyDedTax = [0, 380000, 760000, 1140000, 380000][family] || 0;
+    var familyDedJumin = [0, 330000, 660000, 990000, 330000][family] || 0;
+
+    // 所得税
+    var taxBase = Math.max(0, giveIncome - social - ideco - familyDedTax - 480000);
+    function it(t){
+      if (t <= 1950000) return t * 0.05;
+      if (t <= 3300000) return t * 0.10 - 97500;
+      if (t <= 6950000) return t * 0.20 - 427500;
+      if (t <= 9000000) return t * 0.23 - 636000;
+      if (t <= 18000000) return t * 0.33 - 1536000;
+      if (t <= 40000000) return t * 0.40 - 2796000;
+      return t * 0.45 - 4796000;
+    }
+    var incomeTax = Math.round(it(taxBase) * 1.021); // 復興特別所得税
+    incomeTax = Math.max(0, incomeTax);
+
+    // 住民税 (所得割10% + 均等割5000)
+    var juminBase = Math.max(0, giveIncome - social - ideco - familyDedJumin - 430000);
+    var juminTax = Math.round(juminBase * 0.10 + 5000);
+    juminTax = Math.max(0, juminTax);
+
+    var net = income - social - incomeTax - juminTax;
+    var totalDed = social + incomeTax + juminTax;
+    var dedRate = income > 0 ? (totalDed / income * 100).toFixed(1) : '0';
+
+    // 月収換算（賞与除く）
+    var monthly = (income - bonus) / 12;
+    var netMonth = monthly - (social - bonus * socialRate) / 12 - (incomeTax - bonus * 0.05) / 12 - juminTax / 12;
+    netMonth = Math.max(0, Math.round(netMonth));
+
+    // 賞与手取り
+    var bonusNet = bonus > 0 ? Math.round(bonus * (1 - socialRate - 0.10)) : 0;
+
+    $('net').textContent = '¥' + net.toLocaleString('ja-JP');
+    $('sub').textContent = '月収換算: ¥' + netMonth.toLocaleString() + ' / 控除率: ' + dedRate + '%';
+    $('social').textContent = '¥' + social.toLocaleString('ja-JP');
+    $('incomeTax').textContent = '¥' + incomeTax.toLocaleString('ja-JP');
+    $('juminTax').textContent = '¥' + juminTax.toLocaleString('ja-JP');
+    $('totalDed').textContent = '¥' + totalDed.toLocaleString('ja-JP');
+    $('netMonth').textContent = '¥' + netMonth.toLocaleString('ja-JP');
+    $('bonusNet').textContent = '¥' + bonusNet.toLocaleString('ja-JP');
+
+    // breakdown bar
+    var bd = $('breakdown');
+    if (income > 0){
+      var p1 = (net/income*100).toFixed(0);
+      var p2 = (social/income*100).toFixed(0);
+      var p3 = (incomeTax/income*100).toFixed(0);
+      var p4 = (juminTax/income*100).toFixed(0);
+      bd.innerHTML = '<div class="b-net" style="flex:'+p1+';">手取り '+p1+'%</div>' +
+        '<div class="b-social" style="flex:'+p2+';">社保 '+p2+'%</div>' +
+        '<div class="b-tax" style="flex:'+p3+';">税 '+p3+'%</div>' +
+        '<div class="b-jumin" style="flex:'+p4+';">住民 '+p4+'%</div>';
+    }
+  }
+  ['income','bonus','age','family','ideco','pref'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
 })();
-</script>
-<script>
-
-document.getElementById('calc').onclick = () => {
-  const income = parseFloat(document.getElementById('income').value) || 0;
-  const deps = parseInt(document.getElementById('deps').value, 10) || 0;
-  // 社会保険料 (厚生年金 9.15% + 健保 約5% + 雇用保険 0.6%) ≒ 14.75%
-  const social = income * 0.1475;
-  // 給与所得控除
-  let kyuyo;
-  if (income <= 1625000) kyuyo = 550000;
-  else if (income <= 1800000) kyuyo = income * 0.4 - 100000;
-  else if (income <= 3600000) kyuyo = income * 0.3 + 80000;
-  else if (income <= 6600000) kyuyo = income * 0.2 + 440000;
-  else if (income <= 8500000) kyuyo = income * 0.1 + 1100000;
-  else kyuyo = 1950000;
-  const giveIncome = income - kyuyo;
-  // 所得税 (基礎48万 + 扶養38万/人)
-  const taxBase = giveIncome - social - 480000 - deps * 380000;
-  const t = Math.max(0, taxBase);
-  let itax;
-  if (t <= 1950000) itax = t * 0.05;
-  else if (t <= 3300000) itax = t * 0.10 - 97500;
-  else if (t <= 6950000) itax = t * 0.20 - 427500;
-  else if (t <= 9000000) itax = t * 0.23 - 636000;
-  else if (t <= 18000000) itax = t * 0.33 - 1536000;
-  else if (t <= 40000000) itax = t * 0.40 - 2796000;
-  else itax = t * 0.45 - 4796000;
-  itax *= 1.021; // 復興特別税
-  // 住民税 (基礎43万 + 扶養33万/人 + 一律10% + 均等割 約5000円)
-  const jumBase = Math.max(0, giveIncome - social - 430000 - deps * 330000);
-  const jumin = jumBase * 0.10 + 5000;
-  const net = income - social - itax - jumin;
-  const fmt = v => '¥' + Math.round(v).toLocaleString('ja-JP');
-  document.getElementById('net').textContent = fmt(net);
-  document.getElementById('netMonth').textContent = fmt(net / 12);
-  document.getElementById('ratio').textContent = (net / income * 100).toFixed(1) + '%';
-  document.getElementById('detail').innerHTML =
-    `額面 年収: ${fmt(income)}<br>` +
-    `- 社会保険料 (約14.75%): ${fmt(social)}<br>` +
-    `- 所得税 (累進+復興税): ${fmt(itax)}<br>` +
-    `- 住民税 (一律10%+均等割): ${fmt(jumin)}<br>` +
-    `<strong style="color:#16a34a;">= 年間 手取り: ${fmt(net)}</strong>`;
-};
-
 </script>
 </body>
 </html>

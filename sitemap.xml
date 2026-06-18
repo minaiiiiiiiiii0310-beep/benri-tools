@@ -108,6 +108,26 @@
   <url><loc>https://patto-tool.com/wedding-cost/</loc><lastmod>2026-06-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://patto-tool.com/work-hours/</loc><lastmod>2026-06-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
+  <!-- コラム（解説記事） priority 0.7 -->
+  <url><loc>https://patto-tool.com/column/</loc><lastmod>2026-06-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/furusato-nozei-gendogaku/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/nenshu-no-kabe/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/tedori-no-keisan/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/kogaku-ryoyohi-seido/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/iryohi-kojo/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/fukugyo-zeikin/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/anzen-na-password/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/phishing-mikiwake/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/ideco-setsuzei/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/shitsugyo-hoken/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/taishokukin-zeikin/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/jutaku-loan-kojo/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/jido-teate/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/sozokuzei-kiso-kojo/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/zangyo-dai-keisan/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patto-tool.com/column/rirekisho-gakureki-kakikata/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://patto-tool.com/column/black-kigyo-mikiwake/</loc><lastmod>2026-06-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <!-- 静的ページ priority 0.5 -->
   <url><loc>https://patto-tool.com/about/</loc><lastmod>2026-06-15</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
   <url><loc>https://patto-tool.com/privacy/</loc><lastmod>2026-06-15</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>

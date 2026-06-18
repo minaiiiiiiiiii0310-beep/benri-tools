@@ -3,50 +3,404 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BMI計算ツール｜身長と体重から肥満度を判定（無料）</title>
-<meta name="description" content="身長と体重を入力するだけでBMI（体格指数）と肥満度の判定、適正体重の目安を自動計算。登録不要・無料のBMI計算ツール。">
+<title>BMI計算ツール｜肥満度・適正体重・必要カロリーまで一発診断（無料）</title>
+<meta name="description" content="身長・体重・年齢・性別から、BMI（体格指数）、肥満度の判定、適正体重、基礎代謝、1日に必要なカロリーまでまとめて自動計算。目標体重に近づくための目安日数も表示。日本肥満学会の基準準拠・登録不要・無料。">
+<meta name="keywords" content="BMI計算,BMI,適正体重,肥満度,基礎代謝,カロリー計算,日本肥満学会,標準体重">
+<link rel="canonical" href="https://patto-tool.com/bmi/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patto-tool.com/bmi/">
+<meta property="og:title" content="BMI計算ツール｜肥満度・適正体重・必要カロリーまで一発診断">
+<meta property="og:description" content="身長・体重・年齢・性別から、BMI、適正体重、基礎代謝、1日に必要なカロリーまで自動計算。日本肥満学会基準。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:site_name" content="便利ツール">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BMI計算ツール｜肥満度・適正体重・必要カロリーまで一発診断">
+<meta name="twitter:description" content="身長・体重・年齢・性別から、BMI、適正体重、基礎代謝、必要カロリーを自動計算。">
+<meta name="twitter:image" content="https://patto-tool.com/og.png">
+
+<!-- 構造化データ -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"BMI計算ツール","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"BMI、適正体重、基礎代謝、1日に必要なカロリーを自動計算する無料ツール。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"BMIとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"BMI（Body Mass Index：体格指数）は、体重(kg)を身長(m)の2乗で割った値。世界共通の肥満度の指標で、WHOや日本肥満学会の判定基準で使われます。"}},
+{"@type":"Question","name":"日本人の理想BMIはいくつですか？","acceptedAnswer":{"@type":"Answer","text":"日本肥満学会では、最も病気にかかりにくいBMI=22を「標準体重」としています。BMI18.5未満は低体重、18.5以上25未満が普通体重、25以上が肥満です。"}},
+{"@type":"Question","name":"BMIだけで肥満かどうか判定できますか？","acceptedAnswer":{"@type":"Answer","text":"BMIは体脂肪率や筋肉量を反映しないため、アスリート等の筋肉質な体型では実際より高く出ます。体脂肪率・腹囲・血液検査と合わせて総合判定するのが正確です。"}},
+{"@type":"Question","name":"BMI22の「標準体重」はどう計算しますか？","acceptedAnswer":{"@type":"Answer","text":"標準体重(kg) = 身長(m)×身長(m)×22。例えば身長170cmなら 1.7×1.7×22 = 63.6kgが標準体重です。"}},
+{"@type":"Question","name":"基礎代謝とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"基礎代謝量(BMR)は、安静時に生命維持のために消費されるカロリー。本ツールでは国立健康・栄養研究所の改良ハリス・ベネディクト式を採用しています。"}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},
+{"@type":"ListItem","position":2,"name":"BMI計算ツール","item":"https://patto-tool.com/bmi/"}
+]}
+</script>
+
 <link rel="stylesheet" href="../style.css">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<style>
+  /* BMI 専用 UI */
+  .bmi-form { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:18px; }
+  .bmi-form label { font-weight:600; font-size:14px; color:#374151; display:block; margin-bottom:4px; }
+  .bmi-result { background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px; margin:18px 0; box-shadow:var(--shadow); }
+  .bmi-big { font-size:64px; font-weight:800; line-height:1; margin:8px 0; }
+  .bmi-cat { font-size:20px; font-weight:700; margin-bottom:12px; }
+  .bmi-scale { position:relative; height:36px; border-radius:20px; margin:24px 0 16px; background:linear-gradient(90deg, #3b82f6 0%, #3b82f6 20%, #16a34a 20%, #16a34a 45%, #f59e0b 45%, #f59e0b 60%, #ea580c 60%, #ea580c 75%, #dc2626 75%, #dc2626 100%); }
+  .bmi-marker { position:absolute; top:-8px; bottom:-8px; width:6px; background:#111827; border:3px solid #fff; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,.3); transition:left .4s ease; }
+  .bmi-scale-labels { display:flex; justify-content:space-between; font-size:11px; color:#6b7280; margin-top:6px; padding:0 2px; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin:18px 0; }
+  .stat-card { background:#f9fafb; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:22px; font-weight:700; color:var(--accent); line-height:1.2; }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .goal-card { background:linear-gradient(135deg, #eff6ff, #dbeafe); border-radius:12px; padding:18px; margin:18px 0; border-left:4px solid var(--accent); }
+  .goal-card h4 { margin:0 0 8px; color:var(--accent-dark); }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  .toc li { margin:4px 0; }
+  table.bmi-table { width:100%; border-collapse:collapse; margin:12px 0 20px; font-size:14px; }
+  table.bmi-table th, table.bmi-table td { padding:8px 10px; border:1px solid var(--line); text-align:left; }
+  table.bmi-table th { background:#f3f4f6; font-weight:600; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:12px; font-weight:600; }
+  .badge-blue { background:#dbeafe; color:#1e40af; }
+  .badge-green { background:#dcfce7; color:#166534; }
+  .badge-amber { background:#fef3c7; color:#92400e; }
+  .badge-red { background:#fee2e2; color:#991b1b; }
+  details.calc-detail { margin:8px 0; padding:10px 14px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.calc-detail summary { cursor:pointer; font-weight:600; }
+  details.calc-detail[open] { background:#eff6ff; }
+</style>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
 
 <main class="wrap">
-  <h1>BMI計算</h1>
-  <p class="lead">身長と体重を入力すると、BMI（体格指数）と肥満度の判定、適正体重の目安を自動で計算します。</p>
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; BMI計算</nav>
 
-  <div class="tool">
-    <div class="row"><label>身長 (cm)</label><input type="number" id="h" class="in" placeholder="例：170"></div>
-    <div class="row"><label>体重 (kg)</label><input type="number" id="w" class="in" placeholder="例：60"></div>
-    <div class="result"><span class="big" id="val">--</span><div id="cat" class="lbl">身長と体重を入力してください</div><div id="ideal" class="lbl"></div></div>
+  <h1>🩺 BMI計算ツール</h1>
+  <p class="lead">身長・体重・年齢・性別を入力するだけで、<strong>BMI（体格指数）</strong>・肥満度の判定・<strong>適正体重</strong>・<strong>基礎代謝</strong>・<strong>1日の必要カロリー</strong>を自動計算。さらに、目標体重に近づくための目安日数まで表示します。日本肥満学会の基準準拠。</p>
+
+  <!-- 目次 -->
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#calc">計算ツール</a></li>
+      <li><a href="#judge">判定基準（日本肥満学会・WHO）</a></li>
+      <li><a href="#weight">適正体重の3つの計算方式</a></li>
+      <li><a href="#bmr">基礎代謝と1日のカロリー</a></li>
+      <li><a href="#limit">BMIだけでは分からないこと</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
   </div>
 
-  <h2>BMIの判定基準（日本肥満学会）</h2>
-  <dl class="faq">
-    <dt>18.5未満</dt><dd>低体重（やせ）</dd>
-    <dt>18.5〜25未満</dt><dd>普通体重</dd>
-    <dt>25以上</dt><dd>肥満（数値により1〜4度）</dd>
-    <dt>適正体重の目安</dt><dd>BMI22となる体重（最も病気になりにくいとされる）で計算しています。</dd>
-  </dl>
+  <!-- 計算ツール -->
+  <section id="calc">
+    <div class="tool">
+      <div class="bmi-form">
+        <div>
+          <label for="h">身長 (cm)</label>
+          <input type="number" id="h" class="in" placeholder="例：170" min="50" max="250" step="0.1">
+        </div>
+        <div>
+          <label for="w">体重 (kg)</label>
+          <input type="number" id="w" class="in" placeholder="例：65" min="10" max="300" step="0.1">
+        </div>
+        <div>
+          <label for="age">年齢</label>
+          <input type="number" id="age" class="in" placeholder="例：35" min="1" max="120">
+        </div>
+        <div>
+          <label for="sex">性別</label>
+          <select id="sex" class="in">
+            <option value="m">男性</option>
+            <option value="f">女性</option>
+          </select>
+        </div>
+        <div>
+          <label for="act">活動レベル</label>
+          <select id="act" class="in">
+            <option value="1.2">ほぼ運動なし（座り仕事中心）</option>
+            <option value="1.375">軽い運動（週1-3日）</option>
+            <option value="1.55" selected>中程度の運動（週3-5日）</option>
+            <option value="1.725">激しい運動（週6-7日）</option>
+            <option value="1.9">非常に激しい運動（毎日2回 or 肉体労働）</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bmi-result">
+        <div style="font-size:13px; color:var(--muted); font-weight:600;">あなたのBMI</div>
+        <div class="bmi-big" id="bmiVal">--</div>
+        <div class="bmi-cat" id="bmiCat" style="color:#6b7280;">身長と体重を入力してください</div>
+
+        <div class="bmi-scale" aria-label="BMIスケール">
+          <div class="bmi-marker" id="marker" style="left:50%;"></div>
+        </div>
+        <div class="bmi-scale-labels">
+          <span>15</span><span>18.5<br>(普通の下限)</span><span>25<br>(肥満境界)</span><span>30</span><span>35</span><span>40+</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="v" id="idealW">--</div>
+            <div class="k">適正体重 (BMI22)</div>
+          </div>
+          <div class="stat-card">
+            <div class="v" id="diffW">--</div>
+            <div class="k">適正との差</div>
+          </div>
+          <div class="stat-card">
+            <div class="v" id="bmr">--</div>
+            <div class="k">基礎代謝量 (kcal/日)</div>
+          </div>
+          <div class="stat-card">
+            <div class="v" id="tdee">--</div>
+            <div class="k">1日必要カロリー (kcal)</div>
+          </div>
+          <div class="stat-card">
+            <div class="v" id="bodyFat">--</div>
+            <div class="k">推定 体脂肪率</div>
+          </div>
+          <div class="stat-card">
+            <div class="v" id="standardW">--</div>
+            <div class="k">標準体重 (BMI22)</div>
+          </div>
+        </div>
+
+        <div class="goal-card" id="goalCard" style="display:none;">
+          <h4 id="goalTitle">🎯 目標体重への目安</h4>
+          <div id="goalDetail" style="font-size:14px; line-height:1.7;"></div>
+        </div>
+      </div>
+
+      <p class="note">🔒 すべてブラウザ内処理。サーバーには何も送信されません。</p>
+    </div>
+  </section>
+
+  <!-- 広告 -->
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <!-- 判定基準 -->
+  <section id="judge">
+    <h2>📊 BMI判定基準（日本肥満学会・WHO）</h2>
+    <p>日本肥満学会の基準では、BMI=22を最も病気になりにくい「<strong>標準体重</strong>」としています。WHOは欧米人向けに少し緩めの基準を採用しています。日本人は欧米人より低いBMIから生活習慣病リスクが上がるため、日本独自の基準が使われています。</p>
+    <table class="bmi-table">
+      <thead><tr><th>BMI</th><th>日本肥満学会</th><th>WHO</th><th>健康リスク</th></tr></thead>
+      <tbody>
+        <tr><td>～18.5</td><td><span class="badge badge-blue">低体重</span></td><td>Underweight</td><td>免疫低下・骨粗鬆症のリスク</td></tr>
+        <tr><td>18.5～25</td><td><span class="badge badge-green">普通体重</span></td><td>Normal</td><td>最も健康的とされる範囲</td></tr>
+        <tr><td>25～30</td><td><span class="badge badge-amber">肥満（1度）</span></td><td>Overweight</td><td>生活習慣病リスク上昇</td></tr>
+        <tr><td>30～35</td><td><span class="badge badge-amber">肥満（2度）</span></td><td>Obese class I</td><td>高血圧・糖尿病リスク高</td></tr>
+        <tr><td>35～40</td><td><span class="badge badge-red">肥満（3度）</span></td><td>Obese class II</td><td>「高度肥満」治療が必要</td></tr>
+        <tr><td>40～</td><td><span class="badge badge-red">肥満（4度）</span></td><td>Obese class III</td><td>「高度肥満」専門治療を推奨</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">出典: 日本肥満学会「肥満症診療ガイドライン2022」／ WHO Global Database on Body Mass Index</p>
+  </section>
+
+  <!-- 適正体重 -->
+  <section id="weight">
+    <h2>⚖️ 適正体重の3つの計算方式</h2>
+    <p>「適正体重」「標準体重」は計算方法が複数あります。本ツールは最も広く使われる<strong>BMI22</strong>を採用していますが、参考として他の方式も紹介します。</p>
+    <details class="calc-detail">
+      <summary>① BMI22法（日本肥満学会・推奨）</summary>
+      <p><strong>計算式：</strong> 身長(m) × 身長(m) × 22</p>
+      <p>1991年の松澤らの研究で、日本人成人の最も病気が少ないBMIが22.0であると示されました。健康診断・人間ドックで使われる標準値です。</p>
+    </details>
+    <details class="calc-detail">
+      <summary>② Broca桂変法</summary>
+      <p><strong>計算式：</strong> (身長(cm) - 100) × 0.9</p>
+      <p>19世紀フランスの外科医ブローカの式を桂教授が日本人向けに改良。BMI22法より少し軽めの値が出ます。簡単に暗算できる利点があります。</p>
+    </details>
+    <details class="calc-detail">
+      <summary>③ 「美容体重」「シンデレラ体重」（参考）</summary>
+      <p><strong>美容体重：</strong> 身長(m) × 身長(m) × 20</p>
+      <p><strong>シンデレラ体重：</strong> 身長(m) × 身長(m) × 18</p>
+      <p>美容業界で使われる体重で、医学的根拠はありません。シンデレラ体重(BMI18)は「低体重」域なので健康リスクが高く、推奨されません。</p>
+    </details>
+  </section>
+
+  <!-- 基礎代謝 -->
+  <section id="bmr">
+    <h2>🔥 基礎代謝・1日の必要カロリー</h2>
+    <p><strong>基礎代謝量(BMR)</strong>は、安静にしていても消費されるカロリー（呼吸・体温維持・臓器活動など）。<strong>1日必要カロリー(TDEE)</strong>は、活動レベルを加味した実際の消費カロリー総量。本ツールでは以下の式を採用：</p>
+    <details class="calc-detail" open>
+      <summary>採用式：国立健康・栄養研究所の式（日本人向け）</summary>
+      <p><strong>男性：</strong> BMR = (0.0481×体重 + 0.0234×身長 - 0.0138×年齢 - 0.4235) × 1000 ÷ 4.186</p>
+      <p><strong>女性：</strong> BMR = (0.0481×体重 + 0.0234×身長 - 0.0138×年齢 - 0.9708) × 1000 ÷ 4.186</p>
+      <p>日本人を対象とした研究に基づく式で、ハリス・ベネディクト式より日本人の実測値に近いとされています。</p>
+    </details>
+    <p><strong>TDEE = 基礎代謝 × 活動係数</strong>（座り仕事1.2 〜 激しい運動1.9）。ダイエットしたい人は「TDEE - 500kcal/日」を目安にすると、約1週間で体脂肪0.5kg減のペースになります。</p>
+  </section>
+
+  <!-- BMIの限界 -->
+  <section id="limit">
+    <h2>⚠️ BMIだけでは分からないこと</h2>
+    <p>BMIは便利な指標ですが、いくつか限界があります：</p>
+    <ul>
+      <li><strong>筋肉量を反映しない</strong>：アスリートや筋トレ実践者は、BMI25以上でも「肥満」ではなく「筋肉質」のことが多い</li>
+      <li><strong>体脂肪の分布が分からない</strong>：同じBMIでも、内臓脂肪型(リンゴ型)と皮下脂肪型(洋ナシ型)では健康リスクが大きく異なる</li>
+      <li><strong>高齢者は低めに出る</strong>：加齢で身長が縮み、筋肉量が落ちると、見た目より痩せて見える</li>
+      <li><strong>子ども・妊婦には不向き</strong>：成長過程・妊娠中はカウプ指数や別の指標を使う</li>
+    </ul>
+    <p>BMIが「肥満」域でも腹囲が基準内(男性85cm未満・女性90cm未満)で血液検査も正常なら、ただちに心配する必要はありません。逆に「普通体重」でも内臓脂肪型なら要注意です。<strong>BMI＋腹囲＋血液検査</strong>で総合判定するのが正確です。</p>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>BMIとは何ですか？</dt>
+      <dd>BMI（Body Mass Index：体格指数）は、体重(kg)を身長(m)の2乗で割った値です。1972年にアンセル・キーズが提唱し、WHOや日本肥満学会の判定基準で使われる世界共通の肥満度指標です。</dd>
+
+      <dt>日本人の理想BMIはいくつですか？</dt>
+      <dd>日本肥満学会では、最も病気にかかりにくいBMI=22を「標準体重」としています。BMI18.5未満は低体重、18.5以上25未満が普通体重、25以上は肥満です。</dd>
+
+      <dt>BMIだけで肥満かどうか判定できますか？</dt>
+      <dd>BMIは体脂肪率や筋肉量を反映しないため、アスリート等の筋肉質な体型では実際より高く出ます。体脂肪率・腹囲・血液検査と合わせて総合判定するのが正確です。</dd>
+
+      <dt>BMI22の「標準体重」はどう計算しますか？</dt>
+      <dd>標準体重(kg) = 身長(m) × 身長(m) × 22 です。例えば身長170cmなら 1.7×1.7×22 = 63.58kgが標準体重になります。</dd>
+
+      <dt>基礎代謝とは何ですか？</dt>
+      <dd>基礎代謝量(BMR)は、安静時に生命維持のために消費されるカロリー。本ツールでは国立健康・栄養研究所の式（日本人向け）を採用しています。</dd>
+
+      <dt>BMIが高い=不健康ですか？</dt>
+      <dd>必ずしもそうではありません。筋肉質な人やアスリートはBMIが高くても健康なことが多いです。重要なのは体脂肪率と内臓脂肪量。腹囲・血液検査の結果と合わせて判定してください。</dd>
+
+      <dt>子どもや妊婦も使えますか？</dt>
+      <dd>このツールは成人向けです。子どもは「カウプ指数」「ローレル指数」、妊婦は「妊娠期BMI」など別の指標を使います。お子様の場合はかかりつけ医にご相談ください。</dd>
+
+      <dt>BMIをダイエット目標にしてもいい？</dt>
+      <dd>体重を急に落とすと筋肉も減って基礎代謝が下がり、リバウンドしやすくなります。月に体重の5%以内の減量が安全とされます。本ツールの「TDEE-500kcal/日」を目安に、運動を組み合わせて緩やかに減らすのが理想です。</dd>
+    </dl>
+  </section>
+
+  <!-- 関連 ツール -->
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../metabolism/"><div class="ico">🔥</div><div class="ttl">基礎代謝計算</div><div class="dsc">年齢・性別・活動量から詳細な代謝量と必要カロリーを算出</div></a>
+    <a class="card" href="../health-check/"><div class="ico">🩺</div><div class="ttl">健康診断シミュレーター</div><div class="dsc">数値の読み方ガイド</div></a>
+    <a class="card" href="../life-time/"><div class="ico">⏳</div><div class="ttl">寿命カウンター</div><div class="dsc">健康寿命の参考に</div></a>
+    <a class="card" href="../days-alive/"><div class="ico">📅</div><div class="ttl">生まれてからの日数</div><div class="dsc">人生100年時代の自分時計</div></a>
+  </div>
+
+  <p class="cap" style="margin-top:40px;">※ 本ツールは健康管理の参考情報を提供するもので、医学的診断ではありません。気になる症状がある場合は医療機関を受診してください。</p>
 </main>
 
 <footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
 
 <script>
 (function(){
-  var h=document.getElementById('h');
+  var $ = function(id){ return document.getElementById(id); };
+  var h = $('h'), w = $('w'), age = $('age'), sex = $('sex'), act = $('act');
+
   function calc(){
-    var hv=parseFloat(h.value), wv=parseFloat(document.getElementById('w').value);
-    if(!hv||!wv||hv<=0||wv<=0){document.getElementById('val').textContent='--';document.getElementById('cat').textContent='身長と体重を入力してください';document.getElementById('ideal').textContent='';return;}
-    var m=hv/100, bmi=wv/(m*m), c;
-    if(bmi<18.5)c='低体重（やせ）'; else if(bmi<25)c='普通体重'; else if(bmi<30)c='肥満（1度）'; else if(bmi<35)c='肥満（2度）'; else if(bmi<40)c='肥満（3度）'; else c='肥満（4度）';
-    document.getElementById('val').textContent=bmi.toFixed(1);
-    document.getElementById('cat').textContent=c;
-    document.getElementById('ideal').textContent='適正体重の目安：'+(22*m*m).toFixed(1)+' kg';
+    var hv = parseFloat(h.value);
+    var wv = parseFloat(w.value);
+    var av = parseInt(age.value, 10);
+    var sv = sex.value;
+    var av_act = parseFloat(act.value);
+
+    if(!hv || !wv || hv <= 30 || wv <= 5){
+      $('bmiVal').textContent = '--';
+      $('bmiCat').textContent = '身長と体重を入力してください';
+      $('bmiCat').style.color = '#6b7280';
+      $('marker').style.left = '50%';
+      ['idealW','diffW','bmr','tdee','bodyFat','standardW'].forEach(function(k){ $(k).textContent = '--'; });
+      $('goalCard').style.display = 'none';
+      return;
+    }
+
+    var m = hv/100;
+    var bmi = wv/(m*m);
+    var cat, color;
+    if(bmi < 18.5){ cat = '低体重（やせ）'; color = '#3b82f6'; }
+    else if(bmi < 25){ cat = '普通体重 ✅'; color = '#16a34a'; }
+    else if(bmi < 30){ cat = '肥満（1度）'; color = '#f59e0b'; }
+    else if(bmi < 35){ cat = '肥満（2度）'; color = '#ea580c'; }
+    else if(bmi < 40){ cat = '肥満（3度）'; color = '#dc2626'; }
+    else { cat = '肥満（4度）'; color = '#991b1b'; }
+
+    $('bmiVal').textContent = bmi.toFixed(1);
+    $('bmiCat').textContent = cat;
+    $('bmiCat').style.color = color;
+
+    // スケール上の位置 (15〜40 の範囲を 0〜100% にマッピング)
+    var pct = Math.max(0, Math.min(100, (bmi - 15) / (40 - 15) * 100));
+    $('marker').style.left = pct + '%';
+
+    // 適正体重 (BMI22)
+    var ideal = 22 * m * m;
+    $('idealW').textContent = ideal.toFixed(1) + 'kg';
+    $('standardW').textContent = ideal.toFixed(1) + 'kg';
+
+    // 差分
+    var diff = wv - ideal;
+    var sign = diff > 0 ? '+' : '';
+    $('diffW').textContent = sign + diff.toFixed(1) + 'kg';
+
+    // 基礎代謝 (国立健康・栄養研究所の式)
+    if(av && av > 0){
+      var bmrVal;
+      if(sv === 'm'){
+        bmrVal = (0.0481*wv + 0.0234*hv - 0.0138*av - 0.4235) * 1000 / 4.186;
+      } else {
+        bmrVal = (0.0481*wv + 0.0234*hv - 0.0138*av - 0.9708) * 1000 / 4.186;
+      }
+      bmrVal = Math.max(800, Math.round(bmrVal));
+      $('bmr').textContent = bmrVal.toLocaleString();
+      $('tdee').textContent = Math.round(bmrVal * av_act).toLocaleString();
+    } else {
+      $('bmr').textContent = '年齢入力';
+      $('tdee').textContent = '年齢入力';
+    }
+
+    // 推定体脂肪率 (Deurenberg式: 児童は別)
+    if(av && av > 18){
+      var sexN = (sv === 'm') ? 1 : 0;
+      var bf = 1.20 * bmi + 0.23 * av - 10.8 * sexN - 5.4;
+      $('bodyFat').textContent = bf.toFixed(1) + '%';
+    } else {
+      $('bodyFat').textContent = '年齢入力';
+    }
+
+    // 目標体重への目安
+    var diffAbs = Math.abs(diff);
+    if(diffAbs > 0.5){
+      $('goalCard').style.display = 'block';
+      var direction = diff > 0 ? '減量' : '増量';
+      var safe = diff > 0 ? wv * 0.05 : wv * 0.03;  // 月にこの量以内
+      var kcalNeed = diffAbs * 7200;  // 体脂肪1kgあたり約7200kcal
+      var dailyDef = 500;
+      var daysNeeded = Math.round(kcalNeed / dailyDef);
+      var safeMonths = Math.ceil(diffAbs / safe);
+      $('goalTitle').textContent = '🎯 目標体重(' + ideal.toFixed(1) + 'kg) に近づくには';
+      $('goalDetail').innerHTML =
+        '<strong>方向：</strong>' + direction + ' <strong>' + diffAbs.toFixed(1) + 'kg</strong><br>' +
+        '<strong>安全なペース：</strong> 月あたり ' + safe.toFixed(1) + 'kg 以内（' + safeMonths + 'ヶ月計画）<br>' +
+        '<strong>カロリー目安：</strong> 1日 ' + (diff > 0 ? '−' : '+') + dailyDef + 'kcal で約 ' + daysNeeded + '日<br>' +
+        '<span style="color:var(--muted); font-size:13px;">※ 体脂肪1kg ≒ 7200kcal の換算。実際は基礎代謝の変化や個人差で前後します。急激な変化はリバウンドの原因に。</span>';
+    } else {
+      $('goalCard').style.display = 'block';
+      $('goalTitle').textContent = '✅ 適正体重に近い状態です';
+      $('goalDetail').innerHTML = 'BMI22の適正体重に近く、現状を維持するのがおすすめ。<br>1日の必要カロリーを意識して、運動と栄養バランスを保ちましょう。';
+    }
   }
-  h.addEventListener('input',calc);
-  document.getElementById('w').addEventListener('input',calc);
+
+  ['h','w','age','sex','act'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
 })();
 </script>
 </body>

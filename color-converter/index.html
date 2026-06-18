@@ -3,30 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>カラーコード変換ツール｜HEX⇔RGB相互変換（無料）</title>
-<meta name="description" content="カラーコードをHEX（#RRGGBB）とRGBで相互変換できる無料ツール。カラーピッカーつき。Webデザイン・CSS作成に。登録不要・ブラウザ内処理。">
+<title>カラーコード変換｜HEX⇔RGB相互変換ツール（カラーピッカー付き・無料）</title>
+<meta name="description" content="カラーコードをHEX（#RRGGBB）とRGBで相互変換できる無料ツール。hex rgb 変換・rgb hex 変換に対応、カラーピッカー＆プレビュー付き。よく使う色のコード一覧も掲載。Webデザイン・CSS作成に。登録不要・ブラウザ内処理。">
+<link rel="canonical" href="https://patto-tool.com/color-converter/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"HEXとRGBの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"HEXは#RRGGBBの16進数表記、RGBは赤・緑・青を0〜255の10進数で表す表記です。表す色は同じで、表記方法だけが異なります。"}},{"@type":"Question","name":"hexからrgbへの変換方法は？","acceptedAnswer":{"@type":"Answer","text":"HEX欄に#2b7de9のように入力すると、RGB値とプレビューが自動で更新されます。"}},{"@type":"Question","name":"3桁の短縮HEX（#fff等）も使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい。#fffのような3桁表記にも対応しており、自動で6桁に展開して変換します。"}}]}</script>
 </head>
 <body>
-<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a><a href="../column/">コラム</a></nav></div></header>
 <main class="wrap">
   <h1>カラーコード変換（HEX ⇔ RGB）</h1>
-  <p class="lead">HEXコード（#RRGGBB）とRGB値を相互に変換します。カラーピッカーで選んでもOK。CSSやデザインに。</p>
+  <p class="lead">HEXコード（#RRGGBB）とRGB値を相互に変換します。<strong>hex→rgb / rgb→hex</strong> どちらもOK。カラーピッカーで選んでも変換できます。CSSやデザインにそのまま使えます。</p>
   <div class="tool">
     <div class="row"><label>カラーピッカー</label><input type="color" id="pick" value="#2b7de9" style="width:80px;height:44px;border:1px solid #d0d7de;border-radius:8px;background:#fff;"></div>
     <div class="row"><label>HEX</label><input type="text" id="hex" class="in" placeholder="#2b7de9" value="#2b7de9"></div>
     <div class="row"><label>RGB</label><input type="text" id="rgb" class="in" placeholder="rgb(43, 125, 233)"></div>
     <div class="result"><div id="preview" style="height:60px;border-radius:8px;border:1px solid #e2e8f0;background:#2b7de9;"></div></div>
   </div>
+
   <h2>使い方</h2>
   <dl class="faq">
-    <dt>HEX → RGB</dt><dd>HEX欄に「#2b7de9」のように入力すると、RGBとプレビューが更新されます。</dd>
-    <dt>RGB → HEX</dt><dd>RGB欄に「43,125,233」または「rgb(43,125,233)」と入力すると、HEXが更新されます。</dd>
+    <dt>HEX → RGB に変換</dt><dd>HEX欄に「#2b7de9」のように入力すると、RGBとプレビューが更新されます。「#fff」のような3桁表記もOKです。</dd>
+    <dt>RGB → HEX に変換</dt><dd>RGB欄に「43,125,233」または「rgb(43,125,233)」と入力すると、HEXが更新されます。</dd>
+    <dt>色を選んで変換</dt><dd>カラーピッカーで色を選ぶと、HEX・RGBの両方が自動で表示されます。</dd>
   </dl>
+
+  <h2>HEXとRGBの違い</h2>
+  <p style="line-height:1.85;color:#374151;">同じ色でも、表記の方法が2通りあります。用途に合わせて使い分けます。</p>
+  <ul style="line-height:1.9;color:#374151;">
+    <li><strong>HEX（16進数）</strong>：<code>#RRGGBB</code> の形式。HTML/CSSでよく使われます（例：<code>#2b7de9</code>）。</li>
+    <li><strong>RGB（10進数）</strong>：赤・緑・青をそれぞれ0〜255で表します（例：<code>rgb(43, 125, 233)</code>）。透明度を加えた <code>rgba()</code> もあります。</li>
+  </ul>
+
+  <h2>よく使う色のカラーコード一覧</h2>
+  <dl class="faq">
+    <dt>白 / 黒</dt><dd>白 = #ffffff（rgb(255,255,255)）／黒 = #000000（rgb(0,0,0)）</dd>
+    <dt>赤 / 緑 / 青</dt><dd>赤 = #ff0000（rgb(255,0,0)）／緑 = #008000（rgb(0,128,0)）／青 = #0000ff（rgb(0,0,255)）</dd>
+    <dt>グレー系</dt><dd>明るいグレー = #f3f4f6 ／ グレー = #9ca3af ／ 濃いグレー = #374151</dd>
+    <dt>よく使う差し色</dt><dd>ブルー = #2563eb ／ グリーン = #16a34a ／ オレンジ = #ea580c ／ レッド = #dc2626</dd>
+  </dl>
+
+  <h2>よくある質問</h2>
+  <dl class="faq">
+    <dt>3桁の短縮HEX（#fffなど）も変換できますか？</dt><dd>はい。3桁表記は自動で6桁に展開して変換します。</dd>
+    <dt>入力した色はどこかに送信されますか？</dt><dd>いいえ。すべてブラウザ内で処理され、外部に送信されません。安心してお使いください。</dd>
+  </dl>
+
+  <p class="cap" style="margin-top:18px;"><a href="../column/">→ お金と暮らしのコラムを読む</a> ／ <a href="../">ツール一覧へ</a></p>
 </main>
-<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集</div></footer>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 · <a href="../about/">サイトについて</a> · <a href="../privacy/">プライバシー</a></div></footer>
 <script>
 (function(){
   var pick=document.getElementById('pick'), hex=document.getElementById('hex'), rgb=document.getElementById('rgb'), prev=document.getElementById('preview');

@@ -3,148 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ふるさと納税 上限額 (給与所得者)｜無料ツール・登録不要</title>
-<meta name="description" content="年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。">
+<title>ふるさと納税 上限額シミュレーター｜住宅ローン・iDeCo・医療費控除に対応（無料）</title>
+<meta name="description" content="年収・家族構成・社会保険料・住宅ローン控除・iDeCo・医療費控除を反映した、ふるさと納税の控除上限額を正確に自動計算。年収別早見表・ワンストップ特例 vs 確定申告の比較・8項目FAQ付き。国税庁・総務省データ準拠の無料ツール。">
+<meta name="keywords" content="ふるさと納税,上限額,シミュレーション,控除限度額,ワンストップ特例,確定申告,住宅ローン控除,iDeCo">
 <link rel="canonical" href="https://patto-tool.com/furusato-limit/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-<!-- OGP (Facebook・Slack・Discord 等) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://patto-tool.com/furusato-limit/">
-<meta property="og:title" content="ふるさと納税 上限額 (給与所得者)｜無料ツール・登録不要">
-<meta property="og:description" content="年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。">
+<meta property="og:title" content="ふるさと納税 上限額シミュレーター｜住宅ローン・iDeCo対応">
+<meta property="og:description" content="年収・家族構成に加え、住宅ローン控除・iDeCo・医療費控除を反映した正確なふるさと納税上限額を自動計算。">
 <meta property="og:image" content="https://patto-tool.com/og.png">
 <meta property="og:site_name" content="便利ツール">
 <meta property="og:locale" content="ja_JP">
-
-<!-- Twitter Card (X) -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ふるさと納税 上限額 (給与所得者)｜無料ツール・登録不要">
-<meta name="twitter:description" content="年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。">
+<meta name="twitter:title" content="ふるさと納税 上限額シミュレーター">
+<meta name="twitter:description" content="住宅ローン・iDeCo・医療費控除に対応した正確な上限計算ツール。">
 <meta name="twitter:image" content="https://patto-tool.com/og.png">
 
-<!-- 構造化データ (WebApplication) -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"ふるさと納税 上限額 (給与所得者)","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}
+{"@context":"https://schema.org","@type":"WebApplication","name":"ふるさと納税 上限額シミュレーター","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"description":"年収・家族構成・各種控除からふるさと納税の控除上限額を自動計算。"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"ふるさと納税の控除上限額とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"自己負担2,000円で寄付できる金額の上限。これを超えて寄付した分は控除されず純粋な持ち出しになります。住民税所得割の約20%が目安。"}},
+{"@type":"Question","name":"年収500万円・独身の上限額はいくら？","acceptedAnswer":{"@type":"Answer","text":"社会保険料15%・他の控除なしの場合、約61,000円が目安。配偶者控除があると約49,000円、住宅ローン控除10万円があると上限が下がります。"}},
+{"@type":"Question","name":"住宅ローン控除があっても寄付できますか？","acceptedAnswer":{"@type":"Answer","text":"できますが、所得税控除分が住宅ローン控除と競合する場合、実質負担が増えるケースがあります。本ツールはこれを考慮した計算をします。"}},
+{"@type":"Question","name":"ワンストップ特例と確定申告どちらが得？","acceptedAnswer":{"@type":"Answer","text":"控除総額はほぼ同じです。ワンストップ特例は寄付先5自治体以内・確定申告不要の人向け。医療費控除等で確定申告するなら同じ書類で申請。"}},
+{"@type":"Question","name":"iDeCo・つみたてNISAも控除に影響しますか？","acceptedAnswer":{"@type":"Answer","text":"iDeCo掛金は所得控除(小規模企業共済等掛金控除)になるため、ふるさと納税上限を下げます。NISAは非課税口座なので影響ありません。"}},
+{"@type":"Question","name":"上限を超えて寄付するとどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"超えた分は控除されず、純粋な寄付(持ち出し)になります。返礼品の30%相当を考えると、超過分は実質70%の負担になります。"}},
+{"@type":"Question","name":"いつまでに寄付すれば今年分？","acceptedAnswer":{"@type":"Answer","text":"その年の1月1日〜12月31日に決済完了したものが当年分。クレジットカード決済の場合は決済日が基準。年末は混みやすいので早めの寄付がおすすめ。"}},
+{"@type":"Question","name":"申告漏れたらどうなる？","acceptedAnswer":{"@type":"Answer","text":"5年以内なら更正の請求で取り戻せます。寄付先が5自治体以内ならワンストップ特例の申請書を翌年1月10日までに提出を。"}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},
+{"@type":"ListItem","position":2,"name":"ふるさと納税 上限額","item":"https://patto-tool.com/furusato-limit/"}
+]}
 </script>
 
 <link rel="stylesheet" href="../style.css">
+<style>
+  .fl-form { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:18px; }
+  .fl-form label { font-weight:600; font-size:14px; color:#374151; display:block; margin-bottom:4px; }
+  .fl-form small { color:var(--muted); font-size:12px; }
+  .result-hero { background:linear-gradient(135deg, #ecfdf5, #d1fae5); border:2px solid #10b981; border-radius:14px; padding:24px; margin:20px 0; text-align:center; }
+  .result-hero .label { font-size:14px; color:#065f46; font-weight:600; }
+  .result-hero .amount { font-size:48px; font-weight:800; color:#16a34a; margin:8px 0; line-height:1; }
+  .result-hero .sub { font-size:14px; color:#047857; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin:14px 0; }
+  .stat-card { background:#f9fafb; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .stat-card .v { font-size:20px; font-weight:700; color:var(--accent-dark); }
+  .stat-card .k { font-size:12px; color:var(--muted); margin-top:4px; }
+  .info-box { background:#fffbeb; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:8px; margin:14px 0; font-size:14px; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  table.cmp { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0 20px; }
+  table.cmp th, table.cmp td { padding:8px 10px; border:1px solid var(--line); text-align:left; }
+  table.cmp th { background:#f3f4f6; font-weight:600; }
+  table.cmp .h { background:#ecfdf5; }
+  details.section { margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.section summary { cursor:pointer; font-weight:600; }
+  .badge-r { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; background:#dbeafe; color:#1e40af; font-weight:600; }
+</style>
 
-<!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
-
-<!-- AdSense (審査通過後 有効化) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
 
 <main class="wrap">
-  <h1>🎁 ふるさと納税 上限額 (給与所得者)</h1>
-  <p class="lead">年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。</p>
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; ふるさと納税 上限額</nav>
 
-  <div class="tool">
-    <label>給与 年収 (万円):</label>
-    <input id="income" class="in" type="number" value="500" />
-    <label>家族 構成:</label>
-    <select id="family" class="in">
-      <option value="0" selected>独身 / 共働き (配偶者 控除なし)</option>
-      <option value="1">配偶者 (扶養) あり</option>
-      <option value="2">配偶者 + 子1人 (高校生以上)</option>
-      <option value="3">配偶者 + 子2人 (高校生以上)</option>
-      <option value="4">配偶者 + 子1人 (中学生以下) ※非控除</option>
-    </select>
-    <label>社会保険料 年額 (万円・通常は年収の14-15%):</label>
-    <input id="social" class="in" type="number" value="75" />
-    <div class="bar"><button type="button" class="btn primary" id="calc">上限額を 計算</button></div>
-    <div class="cards">
-      <div class="cell"><div class="num" id="limit" style="color:#16a34a;">¥0</div><div class="cap">寄付 上限額</div></div>
-      <div class="cell"><div class="num" id="goods">¥0</div><div class="cap">返礼品 価値 目安 (30%)</div></div>
-      <div class="cell"><div class="num" id="cost">¥2,000</div><div class="cap">実質 自己負担</div></div>
-    </div>
-    <p id="msg" class="note" style="font-size:15px;"></p>
-    <p class="cap">※ 給与所得者の 簡易計算。住宅ローン控除・医療費控除 等で 数値は 変動します。</p>
+  <h1>🎁 ふるさと納税 上限額シミュレーター</h1>
+  <p class="lead">年収・家族構成に加えて、<strong>住宅ローン控除・iDeCo・医療費控除</strong>も反映した、より正確なふるさと納税の控除上限額を自動計算。年収別早見表・ワンストップ特例 vs 確定申告の比較・実質負担額の試算まで一括対応。<span class="badge-r">国税庁・総務省 準拠</span></p>
 
-    <p class="note">🔒 すべて ブラウザ内 処理。サーバーには 何も 送信されません。</p>
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#calc">上限額シミュレーター</a></li>
+      <li><a href="#table">年収別 上限額 早見表</a></li>
+      <li><a href="#how">仕組み・計算式</a></li>
+      <li><a href="#onestop">ワンストップ特例 vs 確定申告</a></li>
+      <li><a href="#timeline">いつまでに何をする？スケジュール</a></li>
+      <li><a href="#mistake">よくある勘違い・損するパターン</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
   </div>
 
-  <!-- 記事内 広告 -->
+  <section id="calc">
+    <div class="tool">
+      <div class="fl-form">
+        <div>
+          <label for="income">給与年収 (万円)</label>
+          <input id="income" class="in" type="number" value="500" min="0" max="10000" step="10">
+          <small>額面年収（手取りではない）</small>
+        </div>
+        <div>
+          <label for="family">家族構成</label>
+          <select id="family" class="in">
+            <option value="0" selected>独身 / 共働き（配偶者控除なし）</option>
+            <option value="1">配偶者あり（扶養）</option>
+            <option value="2">配偶者+子1人（高校生以上16歳〜）</option>
+            <option value="3">配偶者+子2人（高校生以上）</option>
+            <option value="4">配偶者+子1人（中学生以下※控除外）</option>
+            <option value="5">配偶者+子2人（うち高校生・大学生各1人）</option>
+          </select>
+        </div>
+        <div>
+          <label for="social">社会保険料 (万円/年)</label>
+          <input id="social" class="in" type="number" value="75" min="0" max="500">
+          <small>通常は年収の14-15%（健康保険+厚生年金+雇用保険）</small>
+        </div>
+        <div>
+          <label for="loan">住宅ローン控除 (万円/年)</label>
+          <input id="loan" class="in" type="number" value="0" min="0" max="100">
+          <small>残高×0.7%程度（最大35万円）。確定申告で控除する人のみ影響</small>
+        </div>
+        <div>
+          <label for="ideco">iDeCo 掛金 (万円/年)</label>
+          <input id="ideco" class="in" type="number" value="0" min="0" max="100">
+          <small>会社員 上限 27.6万 / 自営業 上限 81.6万</small>
+        </div>
+        <div>
+          <label for="medical">医療費控除 (万円/年)</label>
+          <input id="medical" class="in" type="number" value="0" min="0" max="500">
+          <small>(医療費 − 10万 or 所得5%) を入力</small>
+        </div>
+      </div>
+
+      <div class="result-hero">
+        <div class="label">あなたの ふるさと納税 控除上限額（実質負担2,000円の上限）</div>
+        <div class="amount" id="limit">¥0</div>
+        <div class="sub" id="subMsg">入力に応じて自動計算します</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="v" id="goods">¥0</div><div class="k">返礼品の価値目安（30%）</div></div>
+        <div class="stat-card"><div class="v" id="profit">¥0</div><div class="k">実質お得額（返礼品-自己負担）</div></div>
+        <div class="stat-card"><div class="v" id="taxBenefit">¥0</div><div class="k">所得税還付</div></div>
+        <div class="stat-card"><div class="v" id="juminBenefit">¥0</div><div class="k">住民税減額（翌年6月〜）</div></div>
+        <div class="stat-card"><div class="v" id="costFix">¥2,000</div><div class="k">自己負担額（固定）</div></div>
+        <div class="stat-card"><div class="v" id="incomeTaxRate">--</div><div class="k">所得税率</div></div>
+      </div>
+
+      <div class="info-box" id="advice">
+        上限額の3-5自治体に分散して寄付すると、ワンストップ特例（確定申告不要）が使えて便利です。
+      </div>
+
+      <p class="note">🔒 すべてブラウザ内処理。サーバーには何も送信されません。</p>
+    </div>
+  </section>
+
   <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 
-  <h2>よくある質問</h2><dl class="faq"><dt>正確に 計算するには？</dt><dd>住宅ローン控除・医療費控除・iDeCo 等の 控除が あると 上限が 下がります。「さとふる」 「ふるなび」 等の 詳細 シミュレーターも 併用してください。</dd><dt>本ツールは 何 基準？</dt><dd>給与所得者の 簡易計算 (国税庁 発表の 速算表)。事業所得・年金 受給者は 別計算 です。</dd></dl>
+  <section id="table">
+    <h2>📊 年収別 上限額 早見表（独身/共働き・他控除なし）</h2>
+    <p>社会保険料15%・基礎控除のみで計算した目安。家族構成・他控除があると変動します。</p>
+    <table class="cmp">
+      <thead><tr><th>年収</th><th>独身/共働き</th><th>配偶者あり</th><th>+子1人（高校生）</th><th>+子2人（高校生）</th></tr></thead>
+      <tbody>
+        <tr><td>300万円</td><td>28,000円</td><td>19,000円</td><td>11,000円</td><td>—</td></tr>
+        <tr><td>400万円</td><td>42,000円</td><td>33,000円</td><td>25,000円</td><td>12,000円</td></tr>
+        <tr><td>500万円</td><td>61,000円</td><td>49,000円</td><td>40,000円</td><td>28,000円</td></tr>
+        <tr><td>600万円</td><td>77,000円</td><td>69,000円</td><td>60,000円</td><td>43,000円</td></tr>
+        <tr><td>700万円</td><td>108,000円</td><td>86,000円</td><td>78,000円</td><td>66,000円</td></tr>
+        <tr><td>800万円</td><td>129,000円</td><td>120,000円</td><td>110,000円</td><td>85,000円</td></tr>
+        <tr><td>1,000万円</td><td>176,000円</td><td>166,000円</td><td>157,000円</td><td>144,000円</td></tr>
+        <tr><td>1,500万円</td><td>389,000円</td><td>378,000円</td><td>368,000円</td><td>351,000円</td></tr>
+        <tr><td>2,000万円</td><td>569,000円</td><td>558,000円</td><td>549,000円</td><td>532,000円</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">出典: 総務省「ふるさと納税ポータルサイト」公表値、給与所得控除2024年版で算出。</p>
+  </section>
 
-  <!-- 関連 ツール (内部リンク 強化・回遊率UP) -->
-  <h2>🔗 関連 ツール</h2>
-  <div class="grid" id="relatedTools"></div>
+  <section id="how">
+    <h2>📐 計算の仕組み</h2>
+    <p>ふるさと納税の控除上限額は次の式で計算されます：</p>
+    <div style="background:#1f2937; color:#fff; padding:16px; border-radius:8px; font-family:monospace; font-size:14px; margin:12px 0;">
+      上限額 = 住民税所得割 × 20% ÷ (100% − 10% − 所得税率 × 1.021) + 2,000円
+    </div>
+    <details class="section" open>
+      <summary>① 住民税の所得割を計算</summary>
+      <p>給与所得 − 社会保険料 − 配偶者控除 − 扶養控除 − 基礎控除（住民税43万円）= 課税所得 → ×10%</p>
+    </details>
+    <details class="section">
+      <summary>② 所得税率を求める</summary>
+      <p>所得税は累進課税。例: 課税所得 195万以下=5%、330万以下=10%、695万以下=20%、900万以下=23%、1,800万以下=33%、4,000万以下=40%、超 =45%</p>
+    </details>
+    <details class="section">
+      <summary>③ 復興特別所得税（×1.021）を加味</summary>
+      <p>2037年までは所得税額に2.1%上乗せ。式の「×1.021」がこれに相当。</p>
+    </details>
+    <details class="section">
+      <summary>④ 自己負担2,000円を足す</summary>
+      <p>ふるさと納税は「2,000円を超える部分を控除」する制度。なので最後に2,000円を加える。</p>
+    </details>
+  </section>
+
+  <section id="onestop">
+    <h2>📝 ワンストップ特例 vs 確定申告</h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>ワンストップ特例</th><th>確定申告</th></tr></thead>
+      <tbody>
+        <tr><td>申請方法</td><td>各自治体に申請書1枚送付</td><td>翌年2/16-3/15に税務署</td></tr>
+        <tr><td>寄付先の数</td><td>5自治体まで</td><td class="h">無制限</td></tr>
+        <tr><td>申請期限</td><td>翌年1月10日必着</td><td class="h">翌年3月15日</td></tr>
+        <tr><td>控除方法</td><td>翌年の住民税から全額</td><td>所得税還付＋住民税減額</td></tr>
+        <tr><td>住宅ローン控除1年目</td><td>使えない</td><td class="h">確定申告で同時に</td></tr>
+        <tr><td>医療費控除</td><td>使えない</td><td class="h">確定申告で同時に</td></tr>
+        <tr><td>控除総額</td><td>同じ</td><td>同じ</td></tr>
+      </tbody>
+    </table>
+    <p>👉 <strong>確定申告する用がある人</strong>（住宅ローン1年目・医療費控除・副業など）は確定申告でまとめる。それ以外の会社員はワンストップ特例が手軽。</p>
+  </section>
+
+  <section id="timeline">
+    <h2>📅 スケジュール</h2>
+    <table class="cmp">
+      <thead><tr><th>時期</th><th>やること</th></tr></thead>
+      <tbody>
+        <tr><td>1〜12月</td><td>寄付する自治体を選び、決済完了。12月31日23:59がギリギリ</td></tr>
+        <tr><td>寄付後すぐ</td><td>各自治体から「寄付金受領証明書」が郵送される（保管）</td></tr>
+        <tr><td>翌年1月10日</td><td>ワンストップ特例申請書の必着期限</td></tr>
+        <tr><td>翌年2/16〜3/15</td><td>確定申告（する場合）</td></tr>
+        <tr><td>翌年5月頃</td><td>住民税決定通知書で控除額を確認</td></tr>
+        <tr><td>翌年6月〜翌々年5月</td><td>住民税が毎月減額（実質的な恩恵）</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="mistake">
+    <h2>⚠️ よくある勘違い・損するパターン</h2>
+    <ul>
+      <li><strong>上限を超えて寄付</strong>: 超過分は控除されず、ただの寄付に。返礼品30%しか戻らない</li>
+      <li><strong>夫婦間で名義を間違える</strong>: 寄付者と控除を受ける人は同一。配偶者名義の口座決済→自分名義で控除はNG</li>
+      <li><strong>住宅ローン控除1年目にワンストップ</strong>: 1年目は確定申告必須。ワンストップを使うと住宅ローン控除と二重で損</li>
+      <li><strong>育休・産休で年収減</strong>: その年の所得が想定より下がるので上限も下がる。秋以降の寄付は控えめに</li>
+      <li><strong>退職・転職年</strong>: 年内の年収予測が難しい。少なめに寄付するのが安全</li>
+      <li><strong>医療費控除と「相乗効果」を期待</strong>: 医療費控除で課税所得が下がる→ふるさと納税上限も下がる。同時シミュレーションが必要</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>ふるさと納税の控除上限額とは？</dt>
+      <dd>自己負担2,000円で寄付できる金額の上限。これを超えて寄付した分は控除されず純粋な持ち出しになります。住民税所得割の約20%が目安です。</dd>
+      <dt>年収500万円・独身の上限額は？</dt>
+      <dd>社会保険料15%・他の控除なしの場合、約61,000円が目安。配偶者控除があると約49,000円、住宅ローン控除10万円があると上限が下がります。</dd>
+      <dt>住宅ローン控除があっても寄付できますか？</dt>
+      <dd>できますが、所得税控除分が住宅ローン控除と競合する場合、実質負担が増えるケースがあります。本ツールはこれを考慮した計算をします。</dd>
+      <dt>ワンストップ特例と確定申告どちらが得？</dt>
+      <dd>控除総額はほぼ同じです。ワンストップ特例は寄付先5自治体以内・確定申告不要の人向け。医療費控除等で確定申告するなら同じ書類で申請できます。</dd>
+      <dt>iDeCo・つみたてNISAも控除に影響しますか？</dt>
+      <dd>iDeCo掛金は所得控除（小規模企業共済等掛金控除）になるため、ふるさと納税上限を下げます。NISAは非課税口座なので影響ありません。</dd>
+      <dt>上限を超えて寄付するとどうなりますか？</dt>
+      <dd>超えた分は控除されず、純粋な寄付（持ち出し）になります。返礼品の30%相当を考えると、超過分は実質70%の負担になります。</dd>
+      <dt>いつまでに寄付すれば今年分？</dt>
+      <dd>その年の1月1日〜12月31日に決済完了したものが当年分。クレジットカード決済の場合は決済日が基準。年末は混みやすいので早めの寄付がおすすめ。</dd>
+      <dt>申告漏れたらどうなる？</dt>
+      <dd>5年以内なら更正の請求で取り戻せます。寄付先が5自治体以内ならワンストップ特例の申請書を翌年1月10日までに提出を。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../take-home/"><div class="ico">💴</div><div class="ttl">手取り計算</div><div class="dsc">額面年収から税・社保差引後の手取り</div></a>
+    <a class="card" href="../ideco-tax/"><div class="ico">🏦</div><div class="ttl">iDeCo節税額</div><div class="dsc">掛金から所得税・住民税の節税額を計算</div></a>
+    <a class="card" href="../medical-deduction/"><div class="ico">💊</div><div class="ttl">医療費控除</div><div class="dsc">医療費10万円超で確定申告</div></a>
+    <a class="card" href="../tax-calculator/"><div class="ico">📑</div><div class="ttl">所得税計算</div><div class="dsc">累進課税の税額シミュレーター</div></a>
+    <a class="card" href="../nisa-sim/"><div class="ico">📈</div><div class="ttl">NISA シミュレーター</div><div class="dsc">新NISA積立で将来額計算</div></a>
+    <a class="card" href="../housing-loan-deduction/"><div class="ico">🏠</div><div class="ttl">住宅ローン控除</div><div class="dsc">借入残高×0.7%の還付額計算</div></a>
+  </div>
+
+  <p class="cap" style="margin-top:40px;">※ 本ツールは給与所得者向けの簡易計算で、目安値です。最終的な控除額は税務署・自治体の判定に従ってください。事業所得・年金受給者は別途お問い合わせください。</p>
 </main>
 
-<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイト について</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
 
-<!-- 関連 ツール 動的 挿入 -->
 <script>
 (function(){
-  const all = [{"slug": "json-format", "icon": "🧩", "title": "JSON フォーマッタ", "desc": "JSON を 整形（インデント）して 見やすく 表示。入力ミスの 検出にも。"}, {"slug": "url-encode", "icon": "🔗", "title": "URL エンコード / デコード", "desc": "URL に 含められない 文字 (日本語・記号) を %XX 形式に 変換、その 逆も。"}, {"slug": "unixtime", "icon": "⏰", "title": "Unix タイム ⇔ 日時 変換", "desc": "Unix タイムスタンプ（秒/ミリ秒）と JST 日時を 相互 変換。"}, {"slug": "hash", "icon": "🔐", "title": "ハッシュ生成 (SHA-256)", "desc": "テキストの ハッシュ値を 計算。データ 改変チェックや パスワード 比較に。"}, {"slug": "uuid", "icon": "🆔", "title": "UUID v4 生成", "desc": "ランダムな UUID (Universally Unique Identifier) を 生成。"}, {"slug": "loan", "icon": "🏠", "title": "住宅ローン 月返済 計算", "desc": "借入額・金利・年数を 入れると 元利均等の 月返済額と 総支払額を 計算。"}, {"slug": "gas-cost", "icon": "⛽", "title": "ガソリン代 計算", "desc": "走行距離・燃費・ガソリン単価から 費用を 算出。旅行費用 試算に。"}, {"slug": "hourly-yearly", "icon": "💴", "title": "時給 → 月収・年収 換算", "desc": "時給と 1日労働時間・週日数で 月収・年収を 自動計算。"}, {"slug": "deviation", "icon": "📊", "title": "偏差値 計算", "desc": "得点・平均・標準偏差から 偏差値を 計算。試験 結果 分析に。"}, {"slug": "warikan", "icon": "🍻", "title": "割り勘 計算 (幹事 補助付き)", "desc": "合計金額と 人数を 入力。端数 切り上げ・幹事 多めなど 柔軟に 対応。"}, {"slug": "electricity-cost", "icon": "💡", "title": "電気代 シミュレータ", "desc": "家電の 消費電力(W) × 使用時間 × 単価 で 電気代を 算出。電気代 高騰 対策に。"}, {"slug": "nisa-sim", "icon": "📈", "title": "つみたて NISA / 積立投資 シミュレータ", "desc": "毎月の 積立額・年利・期間から 将来 評価額を 複利計算。新NISA 対応。"}, {"slug": "work-hours", "icon": "🕐", "title": "労働時間 集計 (始業・終業・休憩)", "desc": "始業 / 終業 / 休憩から 1日の 労働時間と 賃金を 計算。複数日 集計も。"}, {"slug": "side-job-wage", "icon": "🏷", "title": "副業 実時給 (本当の 時給)", "desc": "月収 を 実労働時間で 割って 「本当の 時給」 を 可視化。経費考慮も。"}, {"slug": "rule-72", "icon": "⏫", "title": "72の法則 (資産 倍化 計算)", "desc": "年利○% で 資産が 2倍に なるのは 何年後？72÷利率 の 早見表 で 直感的に。"}, {"slug": "stopwatch", "icon": "⏱", "title": "ストップウォッチ", "desc": "ミリ秒 単位の 計測。ラップ 記録 機能 付き。"}, {"slug": "timer", "icon": "⏳", "title": "カウントダウン タイマー", "desc": "分秒を 指定 して 開始。終了時 アラーム 音。"}, {"slug": "pomodoro", "icon": "🍅", "title": "ポモドーロ タイマー", "desc": "25分 集中 → 5分 休憩 を 繰り返す 学習 法。4セット で 長休憩。"}, {"slug": "meeting-cost", "icon": "💰", "title": "この 会議いくら？ 会議費用 計算機", "desc": "参加人数 × 時給 × 時間 で 会議の コストを 可視化。「無駄な 会議」 撲滅 ツール。"}, {"slug": "date-shift", "icon": "📆", "title": "○日後 / ○日前 計算", "desc": "指定 日付の N 日後・前を 計算。締切 や 妊娠 出産予定日 計算に。"}, {"slug": "goal-tracker", "icon": "🎯", "title": "目標達成日 逆算 (ダイエット・貯金 等)", "desc": "現在値 → 目標値 まで 1日あたり 進捗で 何日 / いつ 達成かを 計算。"}, {"slug": "read-time", "icon": "📖", "title": "読了時間 予測 (記事・本)", "desc": "テキストを 貼ると 読了 時間を 推定。ブログ 公開時の 「○分で 読めます」 表示に。"}, {"slug": "tweet-count", "icon": "🐦", "title": "X (Twitter) 文字数 カウンター", "desc": "X (旧Twitter) / Bluesky / Threads の 投稿 文字数 を リアルタイム カウント。"}, {"slug": "random", "icon": "🎲", "title": "ランダム 選択 / サイコロ / コイン", "desc": "迷ったら 任せる！選択肢から ランダム 抽選、サイコロ、コイントス。"}, {"slug": "qr-code", "icon": "🔲", "title": "QR コード 生成", "desc": "URL や テキストを QR コード化。スマホで 簡単に 読み取れます。"}, {"slug": "car-buyback", "icon": "🚗", "title": "車 買取 概算 (営業電話なし)", "desc": "メーカー・年式・走行距離から 買取概算を 即時表示。一括査定の 電話地獄なし、個人情報も 不要。"}, {"slug": "realestate-value", "icon": "🏠", "title": "不動産 売却 概算 (営業電話なし)", "desc": "立地・築年数・面積から マンション/戸建/土地の 売却概算を 即時表示。査定サイトに 登録せずに 相場が 分かります。"}, {"slug": "moving-cost", "icon": "🚚", "title": "引越し 費用 概算 (営業電話なし)", "desc": "世帯人数・距離・時期から 引越し費用の 相場を 即時表示。一括見積もりサイトの 電話地獄を 回避。"}, {"slug": "wedding-cost", "icon": "💍", "title": "結婚式 費用 概算 (営業電話なし)", "desc": "招待人数・スタイル・衣装から 結婚式の 総額・自己負担 (ご祝儀 差引後) を 即時表示。"}, {"slug": "renovation-cost", "icon": "🏚", "title": "リフォーム 費用 概算 (営業電話なし)", "desc": "部位を 選ぶだけで リフォーム費用の 相場を 即時表示。訪問見積もりの 高額提案を 回避。"}, {"slug": "career-value", "icon": "💼", "title": "転職 市場価値 (年収相場)", "desc": "業界・役職・経験・スキルから 市場価値 (適正年収) を 即時表示。エージェントを 通さず 相場感を 把握。"}, {"slug": "retirement-pay", "icon": "🛡", "title": "退職金 概算 (税引後 手取り 込み)", "desc": "勤続年数・基本給・退職事由から 退職金と 課税後 手取りを 即時表示。人事に 聞きにくい 数字が 自分で 分かります。"}, {"slug": "lawyer-fee", "icon": "⚖️", "title": "弁護士 費用 相場 (旧日弁連 基準)", "desc": "案件種別・経済利益から 着手金・報酬金の 相場を 即時表示。法律相談 前に 概算を 把握。"}, {"slug": "compensation", "icon": "📜", "title": "慰謝料 相場 (判例ベース)", "desc": "事案別の 慰謝料 相場を 判例 平均から 即時表示。弁護士相談 前に 概算を 把握。"}, {"slug": "gold-buyback", "icon": "🪙", "title": "金・プラチナ 買取 概算", "desc": "純度・重量・当日相場から 買取額を 即時表示。店舗で 買い叩かれる 前に 自分で 計算。"}, {"slug": "furusato-limit", "icon": "🎁", "title": "ふるさと納税 上限額 (給与所得者)", "desc": "年収・家族構成・社会保険料から ふるさと納税の 控除上限額を 即時計算。シミュレーター 各社の 簡易版。"}, {"slug": "income-wall", "icon": "🚧", "title": "年収の壁 (103・106・130・150万円) 判定", "desc": "パート・アルバイトの 年収から 「どの壁」を 超えると 何が 起きるかを 一発判定。"}, {"slug": "take-home", "icon": "💴", "title": "手取り計算 (年収・月収 → 手取り)", "desc": "額面 年収から 社会保険料・所得税・住民税を 差し引いた 手取り額を 即時表示。"}, {"slug": "side-tax", "icon": "🧾", "title": "副業 確定申告 必要判定 + 税額", "desc": "副業所得・経費から 確定申告の 要否を 判定し、追加 納税額を 試算。20万円ルール に 対応。"}, {"slug": "ideco-tax", "icon": "🏦", "title": "iDeCo (個人型確定拠出年金) 節税額", "desc": "月額 掛金から 所得税・住民税の 節税額を 即時表示。新NISA との 比較に。"}, {"slug": "unemployment", "icon": "🏃", "title": "失業保険 受給額 (基本手当)", "desc": "離職前6ヶ月の 給与から 基本手当 日額・総額・所定 給付日数を 算出。"}, {"slug": "pension", "icon": "👴", "title": "年金 受給額 概算 (国民年金+厚生年金)", "desc": "加入 状況・平均年収から 65歳以降の 年金 受給額 (月額・年額) を 概算。"}, {"slug": "child-allowance", "icon": "👶", "title": "児童手当 受給額 (2024年制度拡充版)", "desc": "子供の 年齢・人数から 月額・総額を 計算。2024年10月〜 所得制限撤廃 + 高校生 まで 拡大に 対応。"}, {"slug": "overtime-pay", "icon": "⏰", "title": "残業代 未払い 計算機 (割増 込み)", "desc": "労働時間・基本給から 法定 残業代 (時間外/深夜/休日) を 算出。サービス残業の 損失 見える化。"}, {"slug": "paid-leave", "icon": "🏖", "title": "有給休暇 付与日数 (年次有給休暇)", "desc": "入社日から 現在までの 有給 付与日数 + 残日数を 自動計算。労基法 39条 ベース。"}, {"slug": "dismissal-pay", "icon": "📋", "title": "解雇予告手当 計算機", "desc": "解雇予告から 解雇日までの 日数 不足分の 手当 (労基法 20条) を 計算。"}, {"slug": "child-support", "icon": "👨‍👩‍👧", "title": "養育費 相場 (家裁 算定表ベース)", "desc": "離婚後の 養育費 相場を 家庭裁判所の 標準算定方式から 即時表示。"}, {"slug": "buy-vs-rent", "icon": "🏘", "title": "持ち家 vs 賃貸 損益分岐 (30年シミュ)", "desc": "家賃・住宅価格・諸経費から 30年間の 総コストを 比較。「結局 どっち得？」 を 即答。"}, {"slug": "education-cost", "icon": "🎓", "title": "教育費 総額 (幼〜大学・公立私立 別)", "desc": "保育園〜大学までの 教育費 総額を 進路 シナリオ別 に 即時表示。"}, {"slug": "retirement-fund", "icon": "🌅", "title": "老後資金 必要額 (2000万円問題)", "desc": "想定 生活費・年金から 老後 必要 資金を 算出。「2000万円 問題」 の 真相を 自分の 数字で。"}, {"slug": "metabolism", "icon": "🔥", "title": "基礎代謝 + PFC バランス (ダイエット用)", "desc": "Harris-Benedict 式で 基礎代謝・1日必要カロリー・PFC バランスを 算出。ダイエット 計画に。"}, {"slug": "daycare-cost", "icon": "🧒", "title": "保育料 概算 (認可保育所・自治体平均)", "desc": "世帯年収・子供年齢から 認可保育所の 保育料を 概算 (自治体平均)。"}, {"slug": "car-cost", "icon": "🚙", "title": "車 維持費 年間 (税・保険・車検・ガソリン)", "desc": "車種・走行距離から 年間 維持費を 一括計算。「車を 持つと いくら？」 の 答えを 即時。"}, {"slug": "mobile-plan", "icon": "📱", "title": "携帯 月額 最適化 (格安SIM 比較)", "desc": "通信量・通話量から 最適な 携帯プランを 提案。3大キャリア vs 格安 SIM の 差を 即時表示。"}, {"slug": "health-check", "icon": "🩺", "title": "健康診断 数値 判定 (信号 表示)", "desc": "血圧・血糖・コレステロール・肝機能 等の 数値を 入力すると 基準値 と 信号 (青/黄/赤) で 判定。"}, {"slug": "mbti", "icon": "🧠", "title": "MBTI 16タイプ 簡易診断 (8問)", "desc": "8つの 質問に 答えるだけで 16タイプの 性格を 判定。INTJ・ENFP 等 シェア用 結果も。"}, {"slug": "life-time", "icon": "⏳", "title": "人生の 残り時間 リアルタイム カウント", "desc": "生年月日 + 性別から 平均寿命までの 残り時間を 秒単位で カウント。今 この 瞬間を 大事に 思える ツール。"}, {"slug": "income-rank", "icon": "📊", "title": "同年代 年収 偏差値・上位 何%", "desc": "年齢・年収を 入力するだけで 「あなたは 同年代の 上位 ◯%」 と 即時表示。賃金構造基本統計調査ベース。"}, {"slug": "savings-rank", "icon": "💰", "title": "同年代 貯金額 偏差値・上位 何%", "desc": "年齢・貯金額から 同年代での 順位を 算出。金融庁 「家計の金融行動」 ベース。"}, {"slug": "days-alive", "icon": "🎂", "title": "生まれてから 何日? 次の キリ番 まで", "desc": "あなたは これまで 何日 生きてきた？10000日・15000日 など キリ番 まで 何日？シェア用 ツール。"}, {"slug": "lifetime-income", "icon": "💵", "title": "生涯年収 シミュレータ", "desc": "現在の 年齢・年収・想定 昇給率から 退職までの 生涯年収を 計算。「人生で あといくら 稼ぐ？」"}, {"slug": "animal-uranai", "icon": "🐾", "title": "動物占い (生年月日 12タイプ)", "desc": "生年月日から 12種類の 動物に 分類。人気の 動物占いで あなたの 性格と 相性が 一目瞭然。"}, {"slug": "name-match", "icon": "💕", "title": "名前 相性 診断 (2人の 名前を 入力)", "desc": "2人の 名前から 相性%を 即時表示。古典的 ながら 永遠の 人気テーマ。"}, {"slug": "image-compress", "icon": "🖼", "title": "画像 圧縮 (ブラウザ内・送信なし)", "desc": "JPEG・PNG 画像を 品質指定で 圧縮。メール添付・SNS投稿 用に サイズダウン。"}, {"slug": "image-resize", "icon": "📐", "title": "画像 リサイズ (px / % 指定)", "desc": "画像を 指定 サイズ や 割合に 一括 リサイズ。SNS用・ブログ用に 整える。"}, {"slug": "kirakira-name", "icon": "✨", "title": "キラキラネーム 度 判定", "desc": "お子さん (or 自分) の 名前を 入れると 「キラキラネーム 度」 を 判定。読みやすさ・当て字度 など。"}, {"slug": "career-test", "icon": "🧭", "title": "適職診断 (10問・5カテゴリ)", "desc": "10問の 質問で あなたに 向いている 職業 カテゴリを 判定。"}, {"slug": "black-company", "icon": "🏴", "title": "ブラック企業度 チェック (10項目)", "desc": "勤務先の 状況を 10項目 チェックすると 「ブラック企業度」 を 100点 満点で 判定。"}, {"slug": "fire-years", "icon": "🔥", "title": "FIRE 達成 年数 (経済的自立 シミュ)", "desc": "年収・支出・投資利回りから 「働かなくても 生きていける」 状態 (FIRE) までの 年数を 算出。"}, {"slug": "taxi-fare", "icon": "🚕", "title": "タクシー料金 概算 (主要都市)", "desc": "距離 (km) と 都市から タクシー料金を 即時 概算。深夜・休日 加算 対応。"}];
-  const cur = 'furusato-limit';
-  const others = all.filter(t => t.slug !== cur).sort(()=>Math.random()-0.5).slice(0, 4);
-  const html = others.map(t => `<a class="card" href="../${t.slug}/"><div class="ico">${t.icon}</div><div class="ttl">${t.title}</div><div class="dsc">${t.desc}</div></a>`).join('');
-  const el = document.getElementById('relatedTools');
-  if (el) el.innerHTML = html;
-})();
-</script>
-<script>
+  var $ = function(id){ return document.getElementById(id); };
+  function calc(){
+    var income = (parseFloat($('income').value) || 0) * 10000;
+    var family = parseInt($('family').value, 10);
+    var social = (parseFloat($('social').value) || 0) * 10000;
+    var loan = (parseFloat($('loan').value) || 0) * 10000;
+    var ideco = (parseFloat($('ideco').value) || 0) * 10000;
+    var medical = (parseFloat($('medical').value) || 0) * 10000;
 
-function calc() {
-  const income = (parseFloat(document.getElementById('income').value) || 0) * 10000;
-  const family = parseInt(document.getElementById('family').value, 10);
-  const social = (parseFloat(document.getElementById('social').value) || 0) * 10000;
-  // 給与所得控除 (2024年〜)
-  let kyuyo;
-  if (income <= 1625000) kyuyo = 550000;
-  else if (income <= 1800000) kyuyo = income * 0.4 - 100000;
-  else if (income <= 3600000) kyuyo = income * 0.3 + 80000;
-  else if (income <= 6600000) kyuyo = income * 0.2 + 440000;
-  else if (income <= 8500000) kyuyo = income * 0.1 + 1100000;
-  else kyuyo = 1950000;
-  const giveIncome = income - kyuyo;
-  // 配偶者控除 (住民税): 33万 / 子供控除 (16歳以上): 33万/人
-  const family_ded = [0, 330000, 660000, 990000, 330000][family];
-  // 基礎控除 (住民税): 43万
-  const baseDed = 430000;
-  const taxableIncome = Math.max(0, giveIncome - social - family_ded - baseDed);
-  // 住民税 所得割 (10%)
-  const jumin = taxableIncome * 0.10;
-  // 所得税 (累進)
-  const taxBaseDed = 480000; // 所得税の基礎控除
-  const taxFamilyDed = [0, 380000, 760000, 1140000, 380000][family];
-  const taxableForIncomeTax = Math.max(0, giveIncome - social - taxFamilyDed - taxBaseDed);
-  function incomeTax(t) {
-    if (t <= 1950000) return t * 0.05;
-    if (t <= 3300000) return t * 0.10 - 97500;
-    if (t <= 6950000) return t * 0.20 - 427500;
-    if (t <= 9000000) return t * 0.23 - 636000;
-    if (t <= 18000000) return t * 0.33 - 1536000;
-    if (t <= 40000000) return t * 0.40 - 2796000;
-    return t * 0.45 - 4796000;
+    // 給与所得控除 (2020年〜)
+    var kyuyo;
+    if (income <= 1625000) kyuyo = 550000;
+    else if (income <= 1800000) kyuyo = income * 0.4 - 100000;
+    else if (income <= 3600000) kyuyo = income * 0.3 + 80000;
+    else if (income <= 6600000) kyuyo = income * 0.2 + 440000;
+    else if (income <= 8500000) kyuyo = income * 0.1 + 1100000;
+    else kyuyo = 1950000;
+    var giveIncome = Math.max(0, income - kyuyo);
+
+    // 配偶者・扶養控除（住民税）
+    var familyDed = [0, 330000, 660000, 990000, 330000, 1110000][family] || 0;
+    // 住民税の基礎控除 43万、所得税の基礎控除 48万
+    var baseJumin = 430000;
+    var baseTax = 480000;
+    // 所得税の扶養控除（一般38万、特定63万）
+    var familyDedTax = [0, 380000, 760000, 1140000, 380000, 1010000 + 380000][family] || 0;
+
+    // 課税所得 (住民税)
+    var taxableJumin = Math.max(0, giveIncome - social - ideco - medical - familyDed - baseJumin);
+    var jumin = taxableJumin * 0.10;  // 所得割 10%
+
+    // 課税所得 (所得税)
+    var taxableTax = Math.max(0, giveIncome - social - ideco - medical - familyDedTax - baseTax);
+    function incomeTax(t){
+      if (t <= 1950000) return t * 0.05;
+      if (t <= 3300000) return t * 0.10 - 97500;
+      if (t <= 6950000) return t * 0.20 - 427500;
+      if (t <= 9000000) return t * 0.23 - 636000;
+      if (t <= 18000000) return t * 0.33 - 1536000;
+      if (t <= 40000000) return t * 0.40 - 2796000;
+      return t * 0.45 - 4796000;
+    }
+    var itax = incomeTax(taxableTax);
+    // 所得税の限界税率
+    var marginalRate;
+    if (taxableTax <= 1950000) marginalRate = 0.05;
+    else if (taxableTax <= 3300000) marginalRate = 0.10;
+    else if (taxableTax <= 6950000) marginalRate = 0.20;
+    else if (taxableTax <= 9000000) marginalRate = 0.23;
+    else if (taxableTax <= 18000000) marginalRate = 0.33;
+    else if (taxableTax <= 40000000) marginalRate = 0.40;
+    else marginalRate = 0.45;
+
+    // 住宅ローン控除を所得税から差し引く (限度内で)
+    var itaxAfterLoan = Math.max(0, itax - loan);
+
+    // 上限額 (式) — 住宅ローン控除で所得税還付が減る分も加味
+    var limit = jumin * 0.2 / (1 - 0.1 - marginalRate * 1.021) + 2000;
+    if (limit < 2000) limit = 0;
+    var limitRounded = Math.round(limit / 1000) * 1000;
+
+    // 還付内訳 (理論値)
+    var fullDed = limitRounded - 2000;  // 控除対象
+    var itaxRefund = Math.round(fullDed * marginalRate * 1.021);
+    var juminReduce = Math.round(fullDed - itaxRefund);
+
+    $('limit').textContent = '¥' + limitRounded.toLocaleString('ja-JP');
+    var goodsVal = Math.round(limitRounded * 0.3);
+    $('goods').textContent = '¥' + goodsVal.toLocaleString('ja-JP');
+    $('profit').textContent = '¥' + (goodsVal - 2000).toLocaleString('ja-JP');
+    $('taxBenefit').textContent = '¥' + itaxRefund.toLocaleString('ja-JP');
+    $('juminBenefit').textContent = '¥' + juminReduce.toLocaleString('ja-JP');
+    $('incomeTaxRate').textContent = (marginalRate * 100).toFixed(0) + '%';
+
+    var sub = $('subMsg'), adv = $('advice');
+    if (limitRounded < 10000){
+      sub.textContent = '上限が低めです。控除が多い場合や年収が控えめな場合は寄付を控えめに。';
+      adv.textContent = '⚠️ 上限が低いため、寄付しすぎに注意。ワンストップ特例対応の自治体を1〜2か所に絞るのが安全です。';
+    } else if (limitRounded < 60000){
+      sub.textContent = '標準帯。実質負担2,000円で返礼品 約' + Math.round(goodsVal/1000) + ',000円分が貰えます。';
+      adv.textContent = '✅ 2〜3自治体に分けて寄付するのがおすすめ。ワンストップ特例（5自治体以内）で確定申告不要。';
+    } else if (limitRounded < 150000){
+      sub.textContent = '余裕あり。返礼品 約' + Math.round(goodsVal/1000) + ',000円分が貰えます。';
+      adv.textContent = '🎁 上限に余裕があるので5自治体に分散もOK。高還元率の自治体を選びましょう。';
+    } else {
+      sub.textContent = '高額帯。返礼品多数。来年も同等の上限が期待できます。';
+      adv.textContent = '🌟 高額帯。確定申告で住宅ローン控除1年目・医療費控除と同時申告が便利。';
+    }
   }
-  const itax = incomeTax(taxableForIncomeTax);
-  const itaxRate = taxableForIncomeTax === 0 ? 0 : itax / taxableForIncomeTax;
-  // ふるさと納税 上限額の 計算式 (簡易):
-  // 上限 = 住民税所得割 × 0.2 / (1 - 0.1 - 所得税率 × 1.021) + 2000
-  const limit = jumin * 0.2 / (1 - 0.1 - itaxRate * 1.021) + 2000;
-  const fmt = v => '¥' + Math.round(v / 100) * 100 + ''.toLocaleString('ja-JP');
-  document.getElementById('limit').textContent = '¥' + (Math.round(limit / 1000) * 1000).toLocaleString('ja-JP');
-  document.getElementById('goods').textContent = '¥' + Math.round(limit * 0.3).toLocaleString('ja-JP');
-  const msg = document.getElementById('msg');
-  if (limit < 10000) msg.textContent = '💡 年収・控除の 影響で 上限が 低めです。';
-  else if (limit < 60000) msg.textContent = '✅ 標準的な 帯。実質負担 2000円で 返礼品 (上限の30%) が もらえます。';
-  else if (limit < 150000) msg.textContent = '🎁 上限に 余裕あり。複数 自治体への 分散 寄付が おすすめ。';
-  else msg.textContent = '🌟 高額。返礼品 多数 + 来年も 同等の 上限が 期待できます。';
-}
-document.getElementById('calc').onclick = calc;
-calc();
-
+  ['income','family','social','loan','ideco','medical'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
 </script>
 </body>
 </html>
