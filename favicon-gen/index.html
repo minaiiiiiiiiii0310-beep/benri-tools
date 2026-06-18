@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favicon ジェネレーター｜1枚から全サイズ + manifest.json 一括生成（無料）</title>
+<meta name="description" content="1枚の画像から favicon.ico・apple-touch-icon・Android用 192/512px・PWA用 manifest.jsonを ZIPで一括生成。すべてブラウザ内処理・画像はサーバーに送信されません。Web制作者向け定番ツール。">
+<meta name="keywords" content="favicon,ファビコン,生成,Apple Touch Icon,PWA,manifest.json">
+<link rel="canonical" href="https://patto-tool.com/favicon-gen/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Favicon ジェネレーター｜1枚から全サイズ + manifest 一括生成">
+<meta property="og:description" content="1枚の画像から favicon・apple-touch-icon・PWA manifest を ZIPで一括生成。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/favicon-gen/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Faviconジェネレーター","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"Faviconジェネレーター","item":"https://patto-tool.com/favicon-gen/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop-zone { border:3px dashed #93c5fd; border-radius:14px; padding:40px 20px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f0f9ff; }
+  .drop-zone:hover, .drop-zone.dragover { background:#dbeafe; border-color:var(--accent); }
+  .drop-zone p { margin:8px 0; color:#1e40af; }
+  .drop-zone .icon { font-size:48px; margin-bottom:8px; }
+  .drop-zone input { display:none; }
+  .preview-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin:20px 0; }
+  .preview-item { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .preview-item .sz { font-size:13px; font-weight:600; color:#374151; margin-bottom:4px; }
+  .preview-item .nm { font-size:11px; color:var(--muted); margin-top:6px; word-break:break-all; }
+  .preview-item canvas { display:block; margin:0 auto; max-width:100%; image-rendering:pixelated; background:repeating-conic-gradient(#e5e7eb 0% 25%, #fff 0% 50%) 50% / 16px 16px; border:1px solid var(--line); border-radius:4px; }
+  .opts-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin:14px 0; }
+  .opts-grid label { font-size:13px; font-weight:600; color:#374151; }
+  .opts-grid input, .opts-grid select { display:block; width:100%; padding:8px; margin-top:4px; border:1px solid var(--line); border-radius:6px; box-sizing:border-box; }
+  .color-row { display:flex; align-items:center; gap:8px; margin-top:4px; }
+  .color-row input[type=color] { width:48px; height:36px; padding:0; cursor:pointer; }
+  .download-bar { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  .download-bar button { padding:10px 18px; font-size:14px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; font-weight:600; }
+  .download-bar button:hover { background:#f3f4f6; }
+  .download-bar button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .download-bar button.primary:hover { background:var(--accent-dark); }
+  .browser-preview { background:#f3f4f6; border-radius:10px; padding:14px; margin:14px 0; }
+  .browser-tab { background:#fff; border:1px solid #d1d5db; border-radius:8px 8px 0 0; padding:8px 12px; display:inline-flex; align-items:center; gap:6px; font-size:13px; min-width:160px; }
+  .browser-tab img { width:16px; height:16px; }
+  .code-block { background:#1f2937; color:#e5e7eb; padding:14px; border-radius:8px; font-family:'SF Mono',Monaco,Consolas,monospace; font-size:12px; overflow-x:auto; line-height:1.6; margin:10px 0; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; Faviconジェネレーター</nav>
+
+  <h1>🎨 Favicon ジェネレーター</h1>
+  <p class="lead">1枚の画像から、<strong>favicon.ico</strong>・apple-touch-icon・Android・PWA用の全サイズを<strong>ZIPで一括生成</strong>。<strong>manifest.json</strong>とHTML埋め込みコードも自動出力。すべてブラウザ内処理で画像は送信されません。</p>
+
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#upload">画像アップロード &amp; 設定</a></li>
+      <li><a href="#preview">プレビュー (各サイズ + ブラウザ表示)</a></li>
+      <li><a href="#download">ZIPダウンロード + 埋め込みコード</a></li>
+      <li><a href="#sizes">生成サイズの解説</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
+  </div>
+
+  <section id="upload">
+    <div class="tool">
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/*">
+        <div class="icon">📤</div>
+        <p style="font-size:16px; font-weight:600;">画像をドラッグ＆ドロップ または クリックしてアップロード</p>
+        <p style="font-size:13px;">PNG / JPG / SVG / WebP (推奨: 512x512 以上の正方形)</p>
+      </div>
+
+      <div class="opts-grid">
+        <div>
+          <label>背景色（透過画像用）</label>
+          <div class="color-row">
+            <input type="color" id="bgColor" value="#ffffff">
+            <select id="bgMode" style="flex:1;">
+              <option value="transparent" selected>透過のまま</option>
+              <option value="color">色で塗る</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>形状</label>
+          <select id="shape">
+            <option value="square" selected>正方形（推奨）</option>
+            <option value="rounded">角丸（rx=12%）</option>
+            <option value="circle">円形</option>
+          </select>
+        </div>
+        <div>
+          <label>パディング</label>
+          <select id="padding">
+            <option value="0" selected>0% (パディングなし)</option>
+            <option value="5">5%</option>
+            <option value="10">10%</option>
+            <option value="15">15%</option>
+            <option value="20">20%</option>
+          </select>
+        </div>
+        <div>
+          <label>サイトタイトル (manifest用)</label>
+          <input type="text" id="siteName" placeholder="My App" value="My App">
+        </div>
+        <div>
+          <label>テーマカラー</label>
+          <input type="color" id="themeColor" value="#2563eb">
+        </div>
+        <div>
+          <label>形式</label>
+          <select id="format">
+            <option value="png" selected>PNG</option>
+            <option value="webp">WebP (より軽量)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preview" style="display:none;">
+    <h2>👀 プレビュー</h2>
+    <div class="browser-preview">
+      <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">ブラウザのタブ表示プレビュー:</div>
+      <div class="browser-tab">
+        <img id="tabFav" alt="">
+        <span id="tabTitle">My App - ホーム</span>
+        <span style="margin-left:auto; color:#9ca3af;">×</span>
+      </div>
+    </div>
+    <div class="preview-grid" id="previewGrid"></div>
+
+    <div class="download-bar">
+      <button id="zipBtn" class="primary">📦 ZIPで一括ダウンロード</button>
+      <button id="icoBtn">⬇ favicon.ico のみ</button>
+      <button id="htmlBtn">📋 HTML埋め込みコードをコピー</button>
+    </div>
+  </section>
+
+  <section id="code" style="display:none;">
+    <h3>📝 HTML 埋め込みコード（&lt;head&gt;に貼る）</h3>
+    <div class="code-block" id="htmlCode"></div>
+
+    <h3>📝 manifest.json（PWA対応）</h3>
+    <div class="code-block" id="manifestCode"></div>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <section id="sizes">
+    <h2>📏 生成サイズの解説</h2>
+    <ul>
+      <li><strong>16x16・32x32 (favicon.ico)</strong>: ブラウザタブ・ブックマーク。ICOフォーマットで両方を1ファイルに収納</li>
+      <li><strong>180x180 (apple-touch-icon.png)</strong>: iOSのホーム画面追加時のアイコン</li>
+      <li><strong>192x192 / 512x512 (android-chrome)</strong>: Androidホーム画面・PWAアプリアイコン</li>
+      <li><strong>SVG favicon</strong>: ベクター対応ブラウザ向け（モダンブラウザはこちらを優先）</li>
+      <li><strong>manifest.json</strong>: PWA対応・Lighthouse スコアUP・「ホーム画面に追加」機能</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>元画像のサイズは？</dt>
+      <dd>512x512px 以上の正方形画像を推奨。元が小さいと拡大時にぼやけます。SVGが理想。</dd>
+      <dt>透過 PNG は使える？</dt>
+      <dd>はい。「背景: 透過のまま」を選べばそのまま使えます。ダークモードでも見えるよう「色で塗る」も選択可能。</dd>
+      <dt>favicon.ico のサイズは？</dt>
+      <dd>16x16 + 32x32 の2サイズを1ファイルに収納したマルチサイズICO。約2-4KB程度。</dd>
+      <dt>古いブラウザ対応は？</dt>
+      <dd>HTMLコードに `link rel="shortcut icon"` も含めるのでIE等にも対応。SVGはモダンブラウザ優先。</dd>
+      <dt>アップロードした画像は送信される？</dt>
+      <dd>いいえ。すべてブラウザ内（Canvas API）で処理し、画像はサーバーに送信されません。安心して機密ロゴも使えます。</dd>
+      <dt>PWA に対応するには？</dt>
+      <dd>生成された manifest.json をルートに置き、HTMLに &lt;link rel="manifest"&gt; を追加すれば対応完了。Service Worker は別途必要です。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../image-compress/"><div class="ico">🖼</div><div class="ttl">画像圧縮</div><div class="dsc">JPG/PNG/WebPの品質指定圧縮</div></a>
+    <a class="card" href="../image-resize/"><div class="ico">📐</div><div class="ttl">画像リサイズ</div><div class="dsc">px・%指定で一括リサイズ</div></a>
+    <a class="card" href="../exif-remove/"><div class="ico">📷</div><div class="ttl">EXIF削除</div><div class="dsc">位置情報・撮影日時を削除</div></a>
+    <a class="card" href="../color-converter/"><div class="ico">🎨</div><div class="ttl">カラー変換</div><div class="dsc">HEX/RGB/HSL/HSV相互変換</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<!-- JSZip for ZIP creation -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var srcImage = null;
+
+  var SIZES = [
+    {name: 'favicon-16x16.png', size: 16},
+    {name: 'favicon-32x32.png', size: 32},
+    {name: 'favicon-48x48.png', size: 48},
+    {name: 'apple-touch-icon.png', size: 180},
+    {name: 'android-chrome-192x192.png', size: 192},
+    {name: 'android-chrome-512x512.png', size: 512},
+  ];
+
+  function loadImage(file){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        srcImage = img;
+        render();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderCanvas(canvas, size){
+    canvas.width = size; canvas.height = size;
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, size, size);
+
+    var bgMode = $('bgMode').value;
+    var bgColor = $('bgColor').value;
+    var shape = $('shape').value;
+    var paddingPct = parseInt($('padding').value, 10);
+
+    // Background
+    if (bgMode === 'color'){
+      ctx.fillStyle = bgColor;
+      if (shape === 'square'){
+        ctx.fillRect(0, 0, size, size);
+      } else if (shape === 'rounded'){
+        var r = size * 0.12;
+        ctx.beginPath();
+        ctx.moveTo(r, 0);
+        ctx.lineTo(size - r, 0);
+        ctx.quadraticCurveTo(size, 0, size, r);
+        ctx.lineTo(size, size - r);
+        ctx.quadraticCurveTo(size, size, size - r, size);
+        ctx.lineTo(r, size);
+        ctx.quadraticCurveTo(0, size, 0, size - r);
+        ctx.lineTo(0, r);
+        ctx.quadraticCurveTo(0, 0, r, 0);
+        ctx.closePath();
+        ctx.fill();
+      } else if (shape === 'circle'){
+        ctx.beginPath();
+        ctx.arc(size/2, size/2, size/2, 0, Math.PI*2);
+        ctx.fill();
+      }
+    } else if (shape === 'rounded' || shape === 'circle'){
+      ctx.save();
+      ctx.beginPath();
+      if (shape === 'circle'){
+        ctx.arc(size/2, size/2, size/2, 0, Math.PI*2);
+      } else {
+        var r = size * 0.12;
+        ctx.moveTo(r, 0);
+        ctx.lineTo(size - r, 0);
+        ctx.quadraticCurveTo(size, 0, size, r);
+        ctx.lineTo(size, size - r);
+        ctx.quadraticCurveTo(size, size, size - r, size);
+        ctx.lineTo(r, size);
+        ctx.quadraticCurveTo(0, size, 0, size - r);
+        ctx.lineTo(0, r);
+        ctx.quadraticCurveTo(0, 0, r, 0);
+      }
+      ctx.closePath();
+      ctx.clip();
+    }
+
+    // Image
+    var pad = size * paddingPct / 100;
+    var dest = size - pad * 2;
+    if (srcImage){
+      // Fit to dest size, preserve aspect
+      var iw = srcImage.width, ih = srcImage.height;
+      var scale = Math.min(dest / iw, dest / ih);
+      var dw = iw * scale, dh = ih * scale;
+      ctx.drawImage(srcImage, pad + (dest - dw) / 2, pad + (dest - dh) / 2, dw, dh);
+    }
+    if (shape === 'rounded' || shape === 'circle') ctx.restore();
+  }
+
+  function render(){
+    if (!srcImage){
+      $('preview').style.display = 'none';
+      return;
+    }
+    document.querySelectorAll('section').forEach(function(s){ if (s.id === 'preview' || s.id === 'code') s.style.display = ''; });
+
+    var grid = $('previewGrid');
+    grid.innerHTML = '';
+    SIZES.forEach(function(spec){
+      var item = document.createElement('div');
+      item.className = 'preview-item';
+      var sz = document.createElement('div');
+      sz.className = 'sz';
+      sz.textContent = spec.size + ' × ' + spec.size;
+      var canvas = document.createElement('canvas');
+      canvas.style.width = Math.min(96, spec.size) + 'px';
+      canvas.style.height = Math.min(96, spec.size) + 'px';
+      renderCanvas(canvas, spec.size);
+      var nm = document.createElement('div');
+      nm.className = 'nm';
+      nm.textContent = spec.name;
+      item.appendChild(sz);
+      item.appendChild(canvas);
+      item.appendChild(nm);
+      grid.appendChild(item);
+    });
+
+    // Tab preview
+    var tabCanvas = document.createElement('canvas');
+    renderCanvas(tabCanvas, 32);
+    $('tabFav').src = tabCanvas.toDataURL();
+    $('tabTitle').textContent = $('siteName').value + ' - ホーム';
+
+    // HTML code
+    var siteName = $('siteName').value;
+    var themeColor = $('themeColor').value;
+    var html =
+      '<!-- Favicons -->\n' +
+      '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">\n' +
+      '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">\n' +
+      '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">\n' +
+      '<link rel="manifest" href="/manifest.json">\n' +
+      '<meta name="theme-color" content="' + themeColor + '">\n' +
+      '<link rel="shortcut icon" href="/favicon.ico">';
+    $('htmlCode').textContent = html;
+
+    var manifest = JSON.stringify({
+      name: siteName,
+      short_name: siteName,
+      icons: [
+        { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+        { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
+      ],
+      theme_color: themeColor,
+      background_color: $('bgColor').value,
+      display: "standalone"
+    }, null, 2);
+    $('manifestCode').textContent = manifest;
+  }
+
+  // Drop zone
+  var dz = $('dropZone'), fi = $('fileInput');
+  dz.addEventListener('click', function(){ fi.click(); });
+  fi.addEventListener('change', function(){
+    if (fi.files[0]) loadImage(fi.files[0]);
+  });
+  ['dragenter','dragover'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(e){
+    dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.remove('dragover'); });
+  });
+  dz.addEventListener('drop', function(e){
+    if (e.dataTransfer.files[0]) loadImage(e.dataTransfer.files[0]);
+  });
+
+  // Re-render on option change
+  ['bgColor','bgMode','shape','padding','siteName','themeColor','format'].forEach(function(id){
+    $(id).addEventListener('input', render);
+    $(id).addEventListener('change', render);
+  });
+
+  // Generate ICO (multi-size 16+32) — PNG-in-ICO format
+  function pngToBlob(canvas, mime){
+    return new Promise(function(resolve){
+      canvas.toBlob(function(blob){ resolve(blob); }, mime || 'image/png');
+    });
+  }
+
+  function generateIcoBlob(){
+    // Simple ICO with 16x16 and 32x32 PNGs embedded
+    var c16 = document.createElement('canvas'); renderCanvas(c16, 16);
+    var c32 = document.createElement('canvas'); renderCanvas(c32, 32);
+    var c48 = document.createElement('canvas'); renderCanvas(c48, 48);
+    return Promise.all([pngToBlob(c16), pngToBlob(c32), pngToBlob(c48)]).then(function(blobs){
+      return Promise.all(blobs.map(function(b){ return b.arrayBuffer(); }));
+    }).then(function(buffers){
+      // ICO header: 6 bytes (reserved=0, type=1, count=3)
+      var count = buffers.length;
+      var header = new Uint8Array(6);
+      header[0] = 0; header[1] = 0;
+      header[2] = 1; header[3] = 0;
+      header[4] = count & 0xff; header[5] = (count >> 8) & 0xff;
+      // Entries: 16 bytes each
+      var sizes = [16, 32, 48];
+      var entries = new Uint8Array(16 * count);
+      var offset = 6 + 16 * count;
+      for (var i = 0; i < count; i++){
+        var bSize = buffers[i].byteLength;
+        var sz = sizes[i] >= 256 ? 0 : sizes[i];
+        entries[i*16+0] = sz; // width
+        entries[i*16+1] = sz; // height
+        entries[i*16+2] = 0; // color palette
+        entries[i*16+3] = 0; // reserved
+        entries[i*16+4] = 1; entries[i*16+5] = 0; // planes
+        entries[i*16+6] = 32; entries[i*16+7] = 0; // bpp
+        // size of png data (4 bytes LE)
+        entries[i*16+8] = bSize & 0xff;
+        entries[i*16+9] = (bSize >> 8) & 0xff;
+        entries[i*16+10] = (bSize >> 16) & 0xff;
+        entries[i*16+11] = (bSize >> 24) & 0xff;
+        // offset (4 bytes LE)
+        entries[i*16+12] = offset & 0xff;
+        entries[i*16+13] = (offset >> 8) & 0xff;
+        entries[i*16+14] = (offset >> 16) & 0xff;
+        entries[i*16+15] = (offset >> 24) & 0xff;
+        offset += bSize;
+      }
+      // Combine
+      var totalSize = 6 + 16 * count + buffers.reduce(function(s, b){ return s + b.byteLength; }, 0);
+      var result = new Uint8Array(totalSize);
+      result.set(header, 0);
+      result.set(entries, 6);
+      var pos = 6 + 16 * count;
+      buffers.forEach(function(b){
+        result.set(new Uint8Array(b), pos);
+        pos += b.byteLength;
+      });
+      return new Blob([result], {type: 'image/x-icon'});
+    });
+  }
+
+  $('zipBtn').addEventListener('click', function(){
+    if (!srcImage) return;
+    var zip = new JSZip();
+    var promises = SIZES.map(function(spec){
+      var c = document.createElement('canvas');
+      renderCanvas(c, spec.size);
+      return pngToBlob(c, $('format').value === 'webp' ? 'image/webp' : 'image/png').then(function(b){
+        var nm = spec.name;
+        if ($('format').value === 'webp') nm = nm.replace('.png', '.webp');
+        zip.file(nm, b);
+      });
+    });
+    promises.push(generateIcoBlob().then(function(b){ zip.file('favicon.ico', b); }));
+    zip.file('manifest.json', $('manifestCode').textContent);
+    zip.file('html_snippet.html', $('htmlCode').textContent);
+    zip.file('README.txt',
+      'Favicon Pack\n=============\n\n' +
+      '1. すべてのファイルをサイトルート(/)に配置\n' +
+      '2. <head>に html_snippet.html の内容を貼り付け\n' +
+      '3. manifest.json は PWA 対応に必須\n\n' +
+      '生成日時: ' + new Date().toISOString() + '\n' +
+      '生成元: https://patto-tool.com/favicon-gen/'
+    );
+    Promise.all(promises).then(function(){
+      zip.generateAsync({type: 'blob'}).then(function(blob){
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'favicon-pack.zip';
+        a.click();
+      });
+    });
+  });
+
+  $('icoBtn').addEventListener('click', function(){
+    if (!srcImage) return;
+    generateIcoBlob().then(function(blob){
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'favicon.ico';
+      a.click();
+    });
+  });
+
+  $('htmlBtn').addEventListener('click', function(){
+    navigator.clipboard.writeText($('htmlCode').textContent + '\n\n<!-- manifest.json -->\n' + $('manifestCode').textContent).then(function(){
+      $('htmlBtn').textContent = '✅ コピーしました';
+      setTimeout(function(){ $('htmlBtn').textContent = '📋 HTML埋め込みコードをコピー'; }, 2000);
+    });
+  });
+})();
+</script>
+</body>
+</html>

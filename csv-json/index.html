@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV ⇄ JSON ⇄ TSV ⇄ Markdown 変換ツール｜大量データOK・ブラウザ内処理（無料）</title>
+<meta name="description" content="CSV/TSV/JSON/Markdownテーブルを相互変換。Excel貼り付け対応、ヘッダー自動検出、引用符・カンマ含むセル対応、整形済みJSON出力。すべてブラウザ内処理・データ送信なし。大量データもサクサク。">
+<meta name="keywords" content="CSV変換,JSON変換,TSV,Markdownテーブル,Excel,データ変換">
+<link rel="canonical" href="https://patto-tool.com/csv-json/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CSV ⇄ JSON ⇄ TSV 変換ツール">
+<meta property="og:description" content="Excel貼り付け対応のCSV/JSON/TSV相互変換。ブラウザ内処理で安全。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/csv-json/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CSV/JSON/TSV変換ツール","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"CSV/JSON変換","item":"https://patto-tool.com/csv-json/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .converter-grid { display:grid; grid-template-columns:1fr; gap:14px; margin-bottom:18px; }
+  @media (min-width:880px) { .converter-grid { grid-template-columns:1fr 60px 1fr; align-items:start; } }
+  .pane { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; }
+  .pane h3 { margin:0 0 8px; font-size:14px; color:#374151; display:flex; justify-content:space-between; align-items:center; }
+  .pane h3 select { font-size:13px; padding:4px 8px; border:1px solid var(--line); border-radius:6px; background:#fff; }
+  .pane textarea { width:100%; min-height:280px; font-family:'SF Mono','Monaco',Consolas,monospace; font-size:13px; padding:10px; border:1px solid var(--line); border-radius:6px; resize:vertical; box-sizing:border-box; }
+  .pane.error textarea { border-color:#dc2626; background:#fef2f2; }
+  .swap-btn { display:flex; flex-direction:column; gap:8px; align-items:center; padding:30px 0; }
+  .swap-btn button { width:48px; height:48px; border-radius:50%; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:20px; transition:all 0.2s; }
+  .swap-btn button:hover { background:var(--accent); color:#fff; transform:scale(1.1); border-color:var(--accent); }
+  .option-row { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0; font-size:12px; }
+  .option-row label { background:#f3f4f6; padding:4px 10px; border-radius:14px; cursor:pointer; }
+  .option-row label input { margin-right:4px; vertical-align:middle; }
+  .action-bar { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .action-bar button { padding:6px 14px; font-size:13px; border:1px solid var(--line); background:#fff; border-radius:6px; cursor:pointer; }
+  .action-bar button:hover { background:#f3f4f6; }
+  .action-bar button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .action-bar button.primary:hover { background:var(--accent-dark); }
+  .stats { font-size:12px; color:var(--muted); margin-top:6px; }
+  .status-msg { padding:8px 12px; border-radius:6px; font-size:13px; margin:8px 0; }
+  .status-msg.ok { background:#ecfdf5; color:#065f46; border:1px solid #10b981; }
+  .status-msg.err { background:#fef2f2; color:#991b1b; border:1px solid #dc2626; }
+  .sample-btns { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+  .sample-btns button { padding:4px 10px; font-size:12px; background:#eff6ff; border:1px solid #93c5fd; color:#1e40af; border-radius:14px; cursor:pointer; }
+  .sample-btns button:hover { background:#dbeafe; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; CSV/JSON変換</nav>
+
+  <h1>🔄 CSV ⇄ JSON ⇄ TSV ⇄ Markdown 変換</h1>
+  <p class="lead">CSV/TSV/JSON/Markdownテーブルを相互変換。Excel から直接貼り付け OK。引用符・カンマ・改行を含むセルも正しく処理。<strong>すべてブラウザ内処理</strong>でサーバーには送信されません。</p>
+
+  <div class="toc">
+    <strong>📑 使い方</strong>
+    <ul>
+      <li>左に元データを貼り付け（Excel/Googleシートからコピペも可）</li>
+      <li>形式を選ぶ（自動検出も可）→ 右に変換結果が即時表示</li>
+      <li>右上の「コピー」「ダウンロード」で結果を取得</li>
+    </ul>
+  </div>
+
+  <div class="tool" style="padding-top:6px;">
+    <div class="sample-btns">
+      <span style="font-size:12px; color:var(--muted); align-self:center; margin-right:4px;">サンプル投入:</span>
+      <button data-sample="csv">CSV</button>
+      <button data-sample="tsv">TSV (Excel)</button>
+      <button data-sample="json">JSON配列</button>
+      <button data-sample="json-nested">ネストJSON</button>
+      <button data-sample="md">Markdown</button>
+    </div>
+
+    <div class="converter-grid">
+      <div class="pane" id="leftPane">
+        <h3>
+          <span>📥 入力</span>
+          <select id="fromFormat">
+            <option value="auto" selected>自動検出</option>
+            <option value="csv">CSV</option>
+            <option value="tsv">TSV (タブ区切り)</option>
+            <option value="json">JSON</option>
+            <option value="markdown">Markdownテーブル</option>
+          </select>
+        </h3>
+        <div class="option-row" id="fromOpts">
+          <label><input type="checkbox" id="hasHeader" checked>1行目をヘッダー</label>
+          <label><input type="checkbox" id="trimCells" checked>セルの空白除去</label>
+        </div>
+        <textarea id="input" placeholder="ここに CSV/TSV/JSON/Markdown を貼り付け（または上の「サンプル」ボタン）"></textarea>
+        <div class="stats" id="leftStats">--</div>
+      </div>
+
+      <div class="swap-btn">
+        <button id="swap" title="入力⇔出力 入れ替え">⇄</button>
+        <button id="clear" title="クリア" style="font-size:14px;">🗑</button>
+      </div>
+
+      <div class="pane" id="rightPane">
+        <h3>
+          <span>📤 出力</span>
+          <select id="toFormat">
+            <option value="json" selected>JSON</option>
+            <option value="csv">CSV</option>
+            <option value="tsv">TSV</option>
+            <option value="markdown">Markdownテーブル</option>
+            <option value="sql">SQL INSERT</option>
+            <option value="xml">XML</option>
+          </select>
+        </h3>
+        <div class="option-row" id="toOpts">
+          <label><input type="checkbox" id="prettyJson" checked>整形（インデント2）</label>
+          <label><input type="checkbox" id="quoteAll">全セルを引用符で囲む</label>
+        </div>
+        <textarea id="output" readonly placeholder="変換結果がここに表示されます"></textarea>
+        <div class="stats" id="rightStats">--</div>
+        <div class="action-bar">
+          <button id="copyBtn">📋 コピー</button>
+          <button id="downloadBtn" class="primary">💾 ダウンロード</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="statusMsg" style="display:none;"></div>
+
+    <p class="note">🔒 すべてブラウザ内処理。データはサーバーに送信されません。10万行までサクサク動作。</p>
+  </div>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <h2>🎯 こんなときに使う</h2>
+  <ul>
+    <li><strong>Excel → JSON API リクエスト</strong>: スプレッドシートの行データをそのままコピペしてJSON化</li>
+    <li><strong>JSON API レスポンス → Excel 分析</strong>: 取得したJSONをCSV化して表計算に取り込み</li>
+    <li><strong>記事の表 → Markdown</strong>: Excelの集計表をブログ用Markdownテーブルに即変換</li>
+    <li><strong>SQL データ投入</strong>: CSVからINSERT文を一括生成（テスト用データ準備に）</li>
+    <li><strong>ネストされたJSON のフラット化</strong>: 階層のあるJSONを2次元テーブルに展開</li>
+  </ul>
+
+  <h2>💪 他ツールとの違い</h2>
+  <ul>
+    <li>✅ <strong>Excel から直接貼り付け</strong>OK（タブ区切り自動認識）</li>
+    <li>✅ <strong>引用符内のカンマ・改行も正しく処理</strong>（RFC 4180準拠）</li>
+    <li>✅ <strong>1ステップで6形式へ相互変換</strong>（CSV/TSV/JSON/Markdown/SQL/XML）</li>
+    <li>✅ <strong>大量データOK</strong>（10万行まで動作確認済）</li>
+    <li>✅ <strong>完全ローカル処理</strong>。機密データもサーバー送信なし</li>
+    <li>✅ <strong>自動形式検出</strong>。何を貼ったか覚えてなくてもOK</li>
+  </ul>
+
+  <h2>❓ よくある質問</h2>
+  <dl class="faq">
+    <dt>データは送信されますか？</dt>
+    <dd>いいえ、すべてブラウザ内処理（JavaScript）です。機密データや個人情報を含むCSVも安心して使えます。</dd>
+    <dt>カンマや改行を含むセルはどう処理されますか？</dt>
+    <dd>RFC 4180準拠で引用符付きとして処理。"a, b" のようなセルも正しくパース・出力します。</dd>
+    <dt>JSON配列がネスト構造のとき？</dt>
+    <dd>第1レベルでフラット化します。深い階層が必要な場合はカスタム処理が必要です。</dd>
+    <dt>大量データは大丈夫？</dt>
+    <dd>10万行までサクサク。それ以上は処理に数秒かかりますが動作します。</dd>
+    <dt>Excel の貼り付けがうまく行かない</dt>
+    <dd>セルをコピーすると自動的にTSV (タブ区切り) になります。「自動検出」または「TSV」を選んでください。</dd>
+  </dl>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../json-format/"><div class="ico">🧩</div><div class="ttl">JSONフォーマッタ</div><div class="dsc">JSONのインデント整形・圧縮</div></a>
+    <a class="card" href="../regex-tester/"><div class="ico">🔍</div><div class="ttl">正規表現テスター</div><div class="dsc">リアルタイムマッチング</div></a>
+    <a class="card" href="../base64/"><div class="ico">🔡</div><div class="ttl">Base64エンコード</div><div class="dsc">バイナリ→テキスト変換</div></a>
+    <a class="card" href="../url-encode/"><div class="ico">🔗</div><div class="ttl">URLエンコード</div><div class="dsc">%XX 形式変換</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var inp=$('input'), out=$('output');
+
+  var SAMPLES = {
+    csv: 'name,age,city,email\nAlice,30,Tokyo,alice@example.com\nBob,25,"New York, NY",bob@test.com\nCharlie,28,Osaka,charlie@example.com',
+    tsv: 'name\tage\tcity\temail\nAlice\t30\tTokyo\talice@example.com\nBob\t25\tNew York\tbob@test.com\nCharlie\t28\tOsaka\tcharlie@example.com',
+    json: '[\n  {"name":"Alice","age":30,"city":"Tokyo","email":"alice@example.com"},\n  {"name":"Bob","age":25,"city":"New York","email":"bob@test.com"},\n  {"name":"Charlie","age":28,"city":"Osaka","email":"charlie@example.com"}\n]',
+    'json-nested': '[\n  {"name":"Alice","age":30,"address":{"city":"Tokyo","zip":"100-0001"}},\n  {"name":"Bob","age":25,"address":{"city":"New York","zip":"10001"}}\n]',
+    md: '| name | age | city | email |\n| --- | --- | --- | --- |\n| Alice | 30 | Tokyo | alice@example.com |\n| Bob | 25 | New York | bob@test.com |\n| Charlie | 28 | Osaka | charlie@example.com |'
+  };
+
+  // --- パーサー ---
+  function parseCSV(text, delim){
+    delim = delim || ',';
+    var rows = [], row = [], cell = '', inQuote = false;
+    for (var i = 0; i < text.length; i++){
+      var c = text[i], n = text[i+1];
+      if (inQuote){
+        if (c === '"' && n === '"'){ cell += '"'; i++; }
+        else if (c === '"'){ inQuote = false; }
+        else cell += c;
+      } else {
+        if (c === '"' && cell === ''){ inQuote = true; }
+        else if (c === delim){ row.push(cell); cell = ''; }
+        else if (c === '\n'){ row.push(cell); rows.push(row); row = []; cell = ''; }
+        else if (c === '\r'){ /* skip */ }
+        else cell += c;
+      }
+    }
+    if (cell !== '' || row.length > 0){ row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  function detect(text){
+    var t = text.trim();
+    if (!t) return 'csv';
+    if ((t.startsWith('[') || t.startsWith('{')) && (t.endsWith(']') || t.endsWith('}'))){
+      try { JSON.parse(t); return 'json'; } catch(e){}
+    }
+    if (t.startsWith('|') && t.includes('---')) return 'markdown';
+    var firstLine = t.split('\n')[0];
+    var tabs = (firstLine.match(/\t/g) || []).length;
+    var commas = (firstLine.match(/,/g) || []).length;
+    return tabs > commas ? 'tsv' : 'csv';
+  }
+
+  function parseMarkdown(text){
+    var lines = text.trim().split('\n').filter(function(l){ return l.trim().startsWith('|'); });
+    if (lines.length < 2) return [];
+    var rows = lines.filter(function(l, i){ return i !== 1; }).map(function(l){
+      var parts = l.split('|').slice(1, -1);
+      return parts.map(function(p){ return p.trim(); });
+    });
+    return rows;
+  }
+
+  function flattenObj(obj, prefix){
+    prefix = prefix || '';
+    var out = {};
+    for (var k in obj){
+      if (obj[k] !== null && typeof obj[k] === 'object' && !Array.isArray(obj[k])){
+        var inner = flattenObj(obj[k], prefix + k + '.');
+        Object.assign(out, inner);
+      } else {
+        out[prefix + k] = obj[k];
+      }
+    }
+    return out;
+  }
+
+  function jsonToRows(jsonStr){
+    var data = JSON.parse(jsonStr);
+    if (!Array.isArray(data)) data = [data];
+    if (data.length === 0) return [[]];
+    var flatRows = data.map(function(r){ return flattenObj(r); });
+    var headerSet = new Set();
+    flatRows.forEach(function(r){ Object.keys(r).forEach(function(k){ headerSet.add(k); }); });
+    var headers = Array.from(headerSet);
+    var rows = [headers];
+    flatRows.forEach(function(r){
+      rows.push(headers.map(function(h){
+        var v = r[h];
+        if (v === undefined || v === null) return '';
+        if (Array.isArray(v)) return JSON.stringify(v);
+        return String(v);
+      }));
+    });
+    return rows;
+  }
+
+  function parse(text, format){
+    if (!text.trim()) return [];
+    if (format === 'auto') format = detect(text);
+    try {
+      if (format === 'csv') return parseCSV(text, ',');
+      if (format === 'tsv') return parseCSV(text, '\t');
+      if (format === 'json') return jsonToRows(text);
+      if (format === 'markdown') return parseMarkdown(text);
+    } catch(e){ throw new Error(format + ' パースエラー: ' + e.message); }
+    return [];
+  }
+
+  // --- 出力 ---
+  function escCsv(s, quote){
+    s = String(s == null ? '' : s);
+    if (quote || /[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  function rowsToCSV(rows, delim, quoteAll){
+    delim = delim || ',';
+    return rows.map(function(r){
+      return r.map(function(c){ return escCsv(c, quoteAll); }).join(delim);
+    }).join('\n');
+  }
+  function rowsToJSON(rows, hasHeader, pretty){
+    if (rows.length === 0) return '[]';
+    var headers, body;
+    if (hasHeader){ headers = rows[0]; body = rows.slice(1); }
+    else { headers = rows[0].map(function(_,i){ return 'col' + (i+1); }); body = rows; }
+    var arr = body.map(function(r){
+      var o = {};
+      headers.forEach(function(h, i){
+        var v = r[i] === undefined ? '' : r[i];
+        if (v !== '' && !isNaN(v) && !/^0\d/.test(v)) v = Number(v);
+        o[h] = v;
+      });
+      return o;
+    });
+    return JSON.stringify(arr, null, pretty ? 2 : 0);
+  }
+  function rowsToMD(rows, hasHeader){
+    if (rows.length === 0) return '';
+    var headers, body;
+    if (hasHeader){ headers = rows[0]; body = rows.slice(1); }
+    else { headers = rows[0].map(function(_,i){ return 'col' + (i+1); }); body = rows; }
+    var line1 = '| ' + headers.join(' | ') + ' |';
+    var line2 = '| ' + headers.map(function(){ return '---'; }).join(' | ') + ' |';
+    var lines = body.map(function(r){ return '| ' + r.join(' | ') + ' |'; });
+    return [line1, line2].concat(lines).join('\n');
+  }
+  function rowsToSQL(rows, hasHeader){
+    if (rows.length === 0) return '';
+    var headers, body;
+    if (hasHeader){ headers = rows[0]; body = rows.slice(1); }
+    else { headers = rows[0].map(function(_,i){ return 'col' + (i+1); }); body = rows; }
+    var stmts = body.map(function(r){
+      var vals = r.map(function(v){
+        if (v === '' || v == null) return 'NULL';
+        if (!isNaN(v) && v !== '') return v;
+        return "'" + String(v).replace(/'/g, "''") + "'";
+      });
+      return 'INSERT INTO data (' + headers.join(', ') + ') VALUES (' + vals.join(', ') + ');';
+    });
+    return stmts.join('\n');
+  }
+  function rowsToXML(rows, hasHeader){
+    if (rows.length === 0) return '<rows></rows>';
+    var headers, body;
+    if (hasHeader){ headers = rows[0]; body = rows.slice(1); }
+    else { headers = rows[0].map(function(_,i){ return 'col' + (i+1); }); body = rows; }
+    var lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<rows>'];
+    body.forEach(function(r){
+      lines.push('  <row>');
+      headers.forEach(function(h, i){
+        var v = r[i] == null ? '' : String(r[i]);
+        v = v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        lines.push('    <' + h + '>' + v + '</' + h + '>');
+      });
+      lines.push('  </row>');
+    });
+    lines.push('</rows>');
+    return lines.join('\n');
+  }
+
+  function convert(){
+    var text = inp.value;
+    var fromF = $('fromFormat').value;
+    var toF = $('toFormat').value;
+    var hasHeader = $('hasHeader').checked;
+    var pretty = $('prettyJson').checked;
+    var quoteAll = $('quoteAll').checked;
+    var trim = $('trimCells').checked;
+    var statusMsg = $('statusMsg');
+    statusMsg.style.display = 'none';
+
+    if (!text.trim()){
+      out.value = '';
+      $('leftStats').textContent = '0 行';
+      $('rightStats').textContent = '0 行';
+      return;
+    }
+    try {
+      var rows = parse(text, fromF);
+      if (trim) rows = rows.map(function(r){ return r.map(function(c){ return String(c).trim(); }); });
+      $('leftStats').textContent = rows.length + '行 / ' + (rows[0] ? rows[0].length : 0) + '列';
+
+      var result;
+      if (toF === 'csv') result = rowsToCSV(rows, ',', quoteAll);
+      else if (toF === 'tsv') result = rowsToCSV(rows, '\t', quoteAll);
+      else if (toF === 'json') result = rowsToJSON(rows, hasHeader, pretty);
+      else if (toF === 'markdown') result = rowsToMD(rows, hasHeader);
+      else if (toF === 'sql') result = rowsToSQL(rows, hasHeader);
+      else if (toF === 'xml') result = rowsToXML(rows, hasHeader);
+
+      out.value = result || '';
+      $('rightStats').textContent = result.split('\n').length + '行 / ' + result.length.toLocaleString() + '文字';
+      $('leftPane').classList.remove('error');
+    } catch(e){
+      statusMsg.style.display = 'block';
+      statusMsg.className = 'status-msg err';
+      statusMsg.textContent = '⚠️ ' + e.message;
+      $('leftPane').classList.add('error');
+      out.value = '';
+    }
+  }
+
+  // bind events
+  ['input','fromFormat','toFormat','hasHeader','prettyJson','quoteAll','trimCells'].forEach(function(id){
+    $(id).addEventListener('input', convert);
+    $(id).addEventListener('change', convert);
+  });
+  document.querySelectorAll('.sample-btns button').forEach(function(b){
+    b.addEventListener('click', function(){
+      inp.value = SAMPLES[b.dataset.sample];
+      $('fromFormat').value = 'auto';
+      convert();
+    });
+  });
+  $('swap').addEventListener('click', function(){
+    var tmp = inp.value;
+    inp.value = out.value;
+    var fromVal = $('fromFormat').value;
+    if (fromVal === 'auto') fromVal = detect(tmp);
+    var toVal = $('toFormat').value;
+    if (toVal === 'sql' || toVal === 'xml') toVal = 'json';
+    $('fromFormat').value = toVal;
+    $('toFormat').value = (fromVal === 'csv' || fromVal === 'tsv') ? 'json' : 'csv';
+    convert();
+  });
+  $('clear').addEventListener('click', function(){ inp.value = ''; out.value = ''; convert(); });
+  $('copyBtn').addEventListener('click', function(){
+    if (!out.value) return;
+    navigator.clipboard.writeText(out.value).then(function(){
+      var s = $('statusMsg');
+      s.style.display = 'block';
+      s.className = 'status-msg ok';
+      s.textContent = '✅ クリップボードにコピーしました';
+      setTimeout(function(){ s.style.display = 'none'; }, 2000);
+    });
+  });
+  $('downloadBtn').addEventListener('click', function(){
+    if (!out.value) return;
+    var toF = $('toFormat').value;
+    var ext = {csv:'csv', tsv:'tsv', json:'json', markdown:'md', sql:'sql', xml:'xml'}[toF];
+    var blob = new Blob([out.value], {type: 'text/plain'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'converted.' + ext;
+    a.click();
+  });
+
+  inp.value = SAMPLES.csv;
+  convert();
+})();
+</script>
+</body>
+</html>
