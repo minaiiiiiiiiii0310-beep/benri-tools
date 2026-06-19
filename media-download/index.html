@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動画・画像ダウンロード補助ツール｜URL→直接DL + yt-dlpコマンド生成（無料）</title>
+<meta name="description" content="画像・動画・PDFのURLを貼るだけで、自動判定してダウンロード補助。YouTube/Vimeo/Twitter は yt-dlp コマンド生成、Webページは <img> URL を抽出。すべてブラウザ内で完結。">
+<meta name="keywords" content="ダウンロード,動画,画像,URL,yt-dlp,YouTube">
+<link rel="canonical" href="https://patto-tool.com/media-download/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="動画・画像ダウンロード補助ツール">
+<meta property="og:description" content="URLを貼るだけ。画像/動画は直接DL、YouTube等はyt-dlpコマンド生成。">
+<meta property="og:image" content="https://patto-tool.com/og.png">
+<meta property="og:url" content="https://patto-tool.com/media-download/">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"動画・画像ダウンロード補助","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"便利ツール","item":"https://patto-tool.com/"},{"@type":"ListItem","position":2,"name":"動画・画像ダウンロード補助","item":"https://patto-tool.com/media-download/"}]}</script>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .url-input-row { display:flex; gap:8px; margin-bottom:12px; }
+  .url-input-row input { flex:1; padding:14px; font-size:15px; border:2px solid var(--line); border-radius:10px; font-family:'SF Mono',Monaco,Consolas,monospace; box-sizing:border-box; }
+  .url-input-row button { padding:14px 24px; background:var(--accent); color:#fff; border:none; border-radius:10px; cursor:pointer; font-weight:700; font-size:15px; }
+  .url-input-row button:hover { background:var(--accent-dark); }
+  .url-input-row button:disabled { background:#9ca3af; cursor:wait; }
+  .detect-result { background:#fff; border:2px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
+  .detect-result.has-result { border-color:var(--accent); }
+  .badge-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .badge { padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; }
+  .badge.b-direct { background:#dcfce7; color:#166534; }
+  .badge.b-yt { background:#fee2e2; color:#991b1b; }
+  .badge.b-page { background:#fef3c7; color:#92400e; }
+  .badge.b-cors { background:#dbeafe; color:#1e40af; }
+  .badge.b-warn { background:#fee2e2; color:#991b1b; }
+  .preview-img { max-width:100%; max-height:300px; border-radius:8px; margin:10px 0; box-shadow:var(--shadow); display:block; }
+  .preview-video { max-width:100%; max-height:400px; border-radius:8px; margin:10px 0; }
+  .action-btn { display:inline-block; padding:10px 20px; background:#16a34a; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; margin-top:10px; text-decoration:none; }
+  .action-btn:hover { background:#15803d; text-decoration:none; }
+  .action-btn.secondary { background:#fff; color:var(--accent); border:1px solid var(--accent); }
+  .code-block { background:#1f2937; color:#e5e7eb; padding:14px; border-radius:8px; font-family:'SF Mono',Monaco,Consolas,monospace; font-size:13px; overflow-x:auto; line-height:1.6; margin:10px 0; position:relative; }
+  .code-block .copy-btn { position:absolute; right:8px; top:8px; padding:4px 10px; background:#fbbf24; color:#1f2937; border:none; border-radius:4px; cursor:pointer; font-size:12px; font-weight:600; }
+  .img-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px; margin:10px 0; }
+  .img-list .item { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:6px; }
+  .img-list img { width:100%; height:100px; object-fit:cover; border-radius:4px; }
+  .img-list .item label { display:block; font-size:11px; margin-top:4px; word-break:break-all; cursor:pointer; }
+  .img-list .item input { vertical-align:middle; margin-right:4px; }
+  .warning-box { background:#fef2f2; border-left:4px solid #dc2626; padding:14px 18px; border-radius:8px; font-size:13px; line-height:1.7; margin:14px 0; }
+  .warning-box strong { color:#991b1b; }
+  .step { background:#f9fafb; border:1px solid var(--line); padding:12px 16px; border-radius:8px; margin:8px 0; }
+  .step .num { background:var(--accent); color:#fff; width:24px; height:24px; line-height:24px; text-align:center; border-radius:50%; display:inline-block; margin-right:8px; font-weight:700; }
+  .toc { background:#f9fafb; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:24px 0; font-size:14px; }
+  .toc ul { margin:6px 0; padding-left:18px; }
+  details.section { margin:10px 0; padding:12px 16px; background:#f9fafb; border:1px solid var(--line); border-radius:8px; }
+  details.section summary { cursor:pointer; font-weight:600; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4VLSBDKTTE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4VLSBDKTTE');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4378368882458709" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="../">便利<span>ツール</span></a><nav><a href="../">ツール一覧</a></nav></div></header>
+
+<main class="wrap">
+  <nav style="font-size:13px; color:var(--muted); margin:12px 0;"><a href="../">便利ツール</a> &raquo; 動画・画像ダウンロード補助</nav>
+
+  <h1>📥 動画・画像ダウンロード補助</h1>
+  <p class="lead">URLを貼るだけで、ファイル種別を自動判定:</p>
+  <ul style="margin-top:0;">
+    <li><strong>直リン (.jpg/.mp4/.pdf 等)</strong> → ブラウザ内で直接ダウンロード</li>
+    <li><strong>Webページ</strong> → 中の画像・動画 URL を抽出してリスト化</li>
+    <li><strong>YouTube/Vimeo/Twitter/TikTok</strong> → <code>yt-dlp</code> コマンドを生成（ご自身のPCで実行）</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>⚠️ 著作権・利用規約について必ずご確認ください</strong><br>
+    第三者の作品（YouTube動画・他サイトの画像など）を無断でダウンロード・転載することは、<strong>著作権侵害</strong>や<strong>利用規約違反</strong>になる場合があります。<br>
+    本ツールは<strong>あなた自身がアップロードしたコンテンツのバックアップ・許諾済みのもの・Public Domain/Creative Commons 素材</strong>等の合法的な用途を想定しています。違法ダウンロードによる損害・処罰について本ツール提供者は責任を負いません。
+  </div>
+
+  <div class="toc">
+    <strong>📑 このページの内容</strong>
+    <ul>
+      <li><a href="#tool">ツール本体</a></li>
+      <li><a href="#capabilities">対応サイト・できること/できないこと</a></li>
+      <li><a href="#ytdlp">yt-dlp のインストール方法</a></li>
+      <li><a href="#cors">CORS とは（技術解説）</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ul>
+  </div>
+
+  <section id="tool">
+    <div class="tool">
+      <div class="url-input-row">
+        <input type="text" id="url" placeholder="例: https://example.com/photo.jpg や https://www.youtube.com/watch?v=...">
+        <button id="detectBtn">🔍 判定</button>
+      </div>
+      <div style="font-size:12px; color:var(--muted); margin-top:-4px;">Enter キーでも実行できます</div>
+
+      <div id="result" style="display:none;"></div>
+
+      <p class="note" style="margin-top:14px;">🔒 直接ダウンロードはブラウザ内処理。URL自体の解析もローカルで行います（YouTube動画本体は別途自分のPCで yt-dlp 実行が必要）。</p>
+    </div>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block;text-align:center;margin:24px 0;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4378368882458709" data-ad-slot="0000000000"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+  <section id="capabilities">
+    <h2>✅ できること / ❌ できないこと</h2>
+    <details class="section" open>
+      <summary>✅ できること</summary>
+      <ul>
+        <li><strong>直リン画像 (.jpg/.png/.webp)</strong>: クロスオリジンでも CORS が緩ければ DL 可能</li>
+        <li><strong>直リン動画 (.mp4/.webm)</strong>: 上と同じ</li>
+        <li><strong>PDF 直リン</strong>: ほぼ全環境で OK</li>
+        <li><strong>あなた自身のサイト</strong>: 自分のサーバー上のファイル</li>
+        <li><strong>YouTube/Vimeo/Twitter/TikTok</strong>: yt-dlp コマンドを生成（自PC実行）</li>
+        <li><strong>WebページのHTML</strong>: CORS-OK の場合は <code>&lt;img&gt;</code> URL を抽出</li>
+      </ul>
+    </details>
+    <details class="section">
+      <summary>❌ できないこと（技術的制約）</summary>
+      <ul>
+        <li>ほとんどのニュースサイト・SNSの画像は CORS で fetch ブロック → 「右クリック→保存」案内に切り替え</li>
+        <li>YouTube/Netflix 等の DRM 保護動画は yt-dlp でも DL 不可</li>
+        <li>会員制サイトのログイン後ページ → ログインセッションがブラウザにあれば自分で右クリック保存</li>
+        <li>Instagram/Facebook のプライベート投稿</li>
+      </ul>
+    </details>
+    <details class="section">
+      <summary>❌ できないこと（法的制約）</summary>
+      <ul>
+        <li>YouTube は利用規約でダウンロードを禁止 → yt-dlp 使用は自己責任</li>
+        <li>有料コンテンツ・著作権で保護されたコンテンツの無断DL は違法</li>
+        <li>日本の著作権法では、違法アップロードと知りつつDLすると刑事罰の対象（2021年改正）</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="ytdlp">
+    <h2>📦 yt-dlp のインストール方法</h2>
+    <p><strong>yt-dlp</strong> は YouTube/Vimeo/Twitter/TikTok など 1,700+ サイト対応のオープンソース動画ダウンローダー。</p>
+    <div class="step"><span class="num">1</span><strong>Windows</strong>: <code>winget install yt-dlp.yt-dlp</code> または <a href="https://github.com/yt-dlp/yt-dlp/releases/latest" target="_blank" rel="noopener">yt-dlp.exe</a> をダウンロード</div>
+    <div class="step"><span class="num">2</span><strong>Mac</strong>: <code>brew install yt-dlp</code></div>
+    <div class="step"><span class="num">3</span><strong>Linux</strong>: <code>sudo pip install yt-dlp</code></div>
+    <div class="step"><span class="num">4</span><strong>ffmpeg も推奨</strong>（音声・動画結合用）: Windows <code>winget install ffmpeg</code> / Mac <code>brew install ffmpeg</code></div>
+    <p style="font-size:13px; color:var(--muted);">本ツールが生成したコマンドをターミナル/コマンドプロンプトに貼り付けて実行してください。</p>
+  </section>
+
+  <section id="cors">
+    <h2>🌐 なぜブラウザだけで全部 DL できないのか</h2>
+    <p>ブラウザのセキュリティ機構「<strong>CORS (Cross-Origin Resource Sharing)</strong>」により、他サイトのリソースを fetch するには、そのサイトが許可ヘッダを返す必要があります。</p>
+    <ul>
+      <li><strong>CORS 許可済み</strong>: Wikipedia, Unsplash, Pexels, GitHub raw 等 → fetch + ZIP 可能</li>
+      <li><strong>CORS なし</strong>: ほとんどのニュースサイト・SNS → fetch 不可。「右クリック→保存」が必要</li>
+      <li><strong>解決策</strong>: 「画像を新規タブで開く → 右クリック → 名前を付けて保存」が最も確実</li>
+    </ul>
+    <p>YouTube は <strong>暗号化された動画ストリーム</strong>を配信するため、URLを直接 fetch しても再生できない形式。yt-dlp は復号・結合まで行うため必要。</p>
+  </section>
+
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <dl class="faq">
+      <dt>このツールはなぜ YouTube 動画を直接ダウンロードできない？</dt>
+      <dd>YouTube は ToS でダウンロードを禁止しています。また技術的にも、ブラウザから直接 YouTube の動画ストリームを取得することは CORS と暗号化によりできません。yt-dlp 等を自分の PC で使うことになります。</dd>
+      <dt>yt-dlp は合法？</dt>
+      <dd>yt-dlp 自体は合法 (MITライセンスのOSS)。ただし、それで取得したコンテンツの利用は著作権法・各サービスのToSに従う必要があります。自分のチャンネル・パブリックドメイン・Creative Commons コンテンツは問題なし。</dd>
+      <dt>違法ダウンロードの罰則は？</dt>
+      <dd>2021年改正著作権法により、違法アップロードと知りつつDLすると2年以下の懲役 or 200万円以下の罰金（私的使用でも）。スクショや写り込みは対象外。</dd>
+      <dt>自分のサイトのバックアップに使える？</dt>
+      <dd>はい。自分が運営するサイトの画像・動画のバックアップなら全く問題なし。むしろ推奨。</dd>
+      <dt>Instagram の自分の投稿を保存したい</dt>
+      <dd>Instagram の公式機能「アーカイブ」を使うのが最も簡単。投稿一覧画面で「・・・」→「保存」も可能。yt-dlp も対応ですがログインCookieが必要で難易度高め。</dd>
+      <dt>X (Twitter) の動画を保存したい</dt>
+      <dd>自分のツイートの動画 → アナリティクスからDL可能。他人の動画は yt-dlp で URL貼って実行（自己責任）。</dd>
+    </dl>
+  </section>
+
+  <h2>🔗 関連ツール</h2>
+  <div class="grid">
+    <a class="card" href="../image-compress/"><div class="ico">🖼</div><div class="ttl">画像圧縮</div><div class="dsc">DL後のサイズ削減</div></a>
+    <a class="card" href="../image-resize/"><div class="ico">📐</div><div class="ttl">画像リサイズ</div><div class="dsc">px・%指定</div></a>
+    <a class="card" href="../bulk-rename/"><div class="ico">📁</div><div class="ttl">ファイル一括リネーム</div><div class="dsc">DL後の整理に</div></a>
+    <a class="card" href="../heic-jpg/"><div class="ico">📸</div><div class="ttl">HEIC→JPG</div><div class="dsc">iPhone写真変換</div></a>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap">© 便利ツール — 無料・登録不要のオンラインツール集 ｜ <a href="../about/">サイトについて</a> ｜ <a href="../privacy/">プライバシー</a></div></footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var urlInput = $('url');
+  var result = $('result');
+
+  function escHTML(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function getExtension(url){
+    try {
+      var u = new URL(url);
+      var path = u.pathname.toLowerCase();
+      var m = path.match(/\.([a-z0-9]{1,5})$/);
+      return m ? m[1] : '';
+    } catch(e){ return ''; }
+  }
+
+  function detectType(url){
+    var u;
+    try { u = new URL(url); } catch(e){ return {type:'invalid', error:'URL形式が不正です'}; }
+    var host = u.hostname.toLowerCase();
+    var ext = getExtension(url);
+
+    // YouTube
+    if (host.match(/(^|\.)youtube\.com$/) || host === 'youtu.be' || host.match(/(^|\.)youtube-nocookie\.com$/))
+      return {type:'youtube', host:host, ext:ext, platform:'YouTube'};
+    if (host.match(/(^|\.)vimeo\.com$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'Vimeo'};
+    if (host.match(/(^|\.)twitter\.com$/) || host === 'x.com' || host.match(/(^|\.)x\.com$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'X (Twitter)'};
+    if (host.match(/(^|\.)tiktok\.com$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'TikTok'};
+    if (host.match(/(^|\.)instagram\.com$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'Instagram'};
+    if (host.match(/(^|\.)nicovideo\.jp$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'ニコニコ動画'};
+    if (host.match(/(^|\.)facebook\.com$/) || host.match(/(^|\.)fb\.com$/))
+      return {type:'video-platform', host:host, ext:ext, platform:'Facebook'};
+
+    // Direct file types
+    var imgExts = ['jpg','jpeg','png','webp','gif','svg','bmp','avif'];
+    var videoExts = ['mp4','webm','mov','m4v','mkv','avi'];
+    var audioExts = ['mp3','wav','m4a','ogg','flac','aac'];
+    var docExts = ['pdf','zip','docx','xlsx','pptx','txt','csv','json'];
+
+    if (imgExts.indexOf(ext) >= 0) return {type:'direct-image', host:host, ext:ext};
+    if (videoExts.indexOf(ext) >= 0) return {type:'direct-video', host:host, ext:ext};
+    if (audioExts.indexOf(ext) >= 0) return {type:'direct-audio', host:host, ext:ext};
+    if (docExts.indexOf(ext) >= 0) return {type:'direct-doc', host:host, ext:ext};
+
+    return {type:'webpage', host:host, ext:ext};
+  }
+
+  function ytDlpCmd(url, platform){
+    var safe = url.replace(/'/g, "'\\''");
+    return [
+      "# " + platform + " 動画を最高画質でダウンロード",
+      "yt-dlp '" + safe + "'",
+      "",
+      "# 720p 以下に制限したい場合",
+      "yt-dlp -f 'best[height<=720]' '" + safe + "'",
+      "",
+      "# 音声のみ (mp3)",
+      "yt-dlp -x --audio-format mp3 '" + safe + "'",
+      "",
+      "# 字幕も一緒にダウンロード",
+      "yt-dlp --write-subs --sub-langs 'ja,en' '" + safe + "'",
+    ].join('\n');
+  }
+
+  async function tryDirectDownload(url, ext){
+    try {
+      var res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var blob = await res.blob();
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      var name = url.split('/').pop().split('?')[0] || ('download.' + ext);
+      a.download = name;
+      a.click();
+      return {ok: true, size: blob.size};
+    } catch(e){
+      return {ok: false, error: e.message};
+    }
+  }
+
+  async function extractFromPage(url){
+    try {
+      var res = await fetch(url, { mode:'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var html = await res.text();
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var imgs = [], videos = [];
+      doc.querySelectorAll('img[src]').forEach(function(img){
+        var src = img.getAttribute('src');
+        if (src && !src.startsWith('data:')){
+          try { src = new URL(src, url).href; imgs.push(src); } catch(e){}
+        }
+      });
+      doc.querySelectorAll('video source[src], video[src]').forEach(function(v){
+        var src = v.getAttribute('src');
+        if (src){
+          try { src = new URL(src, url).href; videos.push(src); } catch(e){}
+        }
+      });
+      // OG image
+      var og = doc.querySelector('meta[property="og:image"]');
+      if (og){
+        try { imgs.unshift(new URL(og.content, url).href); } catch(e){}
+      }
+      return {ok:true, imgs: Array.from(new Set(imgs)), videos: Array.from(new Set(videos))};
+    } catch(e){
+      return {ok:false, error: e.message};
+    }
+  }
+
+  async function handle(){
+    var url = urlInput.value.trim();
+    if (!url) return;
+    var det = detectType(url);
+
+    result.style.display = 'block';
+    result.className = 'detect-result has-result';
+
+    if (det.type === 'invalid'){
+      result.innerHTML = '<div class="badge-row"><span class="badge b-warn">❌ 無効なURL</span></div><p>URLが正しくありません。<code>https://</code>で始まるURLを貼ってください。</p>';
+      return;
+    }
+
+    if (det.type === 'youtube'){
+      var cmd = ytDlpCmd(url, 'YouTube');
+      result.innerHTML =
+        '<div class="badge-row"><span class="badge b-yt">🎬 YouTube</span><span class="badge b-warn">⚠️ ブラウザDL不可</span></div>' +
+        '<h3 style="margin:0 0 8px;">YouTube動画のダウンロード方法</h3>' +
+        '<p>YouTube はブラウザから直接ダウンロードできません。ご自身の PC で <strong>yt-dlp</strong> を実行してください。</p>' +
+        '<p style="font-size:13px; color:#92400e; background:#fef3c7; padding:8px 12px; border-radius:6px;">' +
+        '⚠️ YouTube の利用規約は無断ダウンロードを禁止しています。自分のチャンネル・パブリックドメイン・CC ライセンスのコンテンツに限定してご利用ください。</p>' +
+        '<div class="code-block"><button class="copy-btn" data-copy>📋 コピー</button>' + escHTML(cmd) + '</div>' +
+        '<p><a href="#ytdlp" class="action-btn secondary">📦 yt-dlp のインストール方法</a></p>';
+    } else if (det.type === 'video-platform'){
+      var cmd2 = ytDlpCmd(url, det.platform);
+      result.innerHTML =
+        '<div class="badge-row"><span class="badge b-yt">🎬 ' + escHTML(det.platform) + '</span><span class="badge b-warn">⚠️ ブラウザDL不可</span></div>' +
+        '<h3 style="margin:0 0 8px;">' + escHTML(det.platform) + ' のダウンロード方法</h3>' +
+        '<p>このプラットフォームはブラウザから直接DLできません。yt-dlp を自分の PC で実行してください。</p>' +
+        '<div class="code-block"><button class="copy-btn" data-copy>📋 コピー</button>' + escHTML(cmd2) + '</div>' +
+        '<p style="font-size:13px; color:var(--muted); margin-top:10px;">※' + escHTML(det.platform) + ' の利用規約・著作権を遵守してください。</p>';
+    } else if (det.type === 'direct-image' || det.type === 'direct-video' || det.type === 'direct-audio' || det.type === 'direct-doc'){
+      var typeLabels = {'direct-image':'🖼 画像', 'direct-video':'🎬 動画', 'direct-audio':'🎵 音声', 'direct-doc':'📄 ドキュメント'};
+      result.innerHTML =
+        '<div class="badge-row"><span class="badge b-direct">' + typeLabels[det.type] + ' (直接DL可)</span><span class="badge b-cors">.' + escHTML(det.ext) + '</span></div>' +
+        '<p>直リンクを検出しました。ダウンロードを試みます...</p>' +
+        '<div id="dlStatus">⏳ 取得中...</div>' +
+        (det.type === 'direct-image' ? '<img class="preview-img" src="' + escHTML(url) + '" onerror="this.style.display=\'none\';" alt="プレビュー">' : '') +
+        (det.type === 'direct-video' ? '<video class="preview-video" controls src="' + escHTML(url) + '"></video>' : '');
+
+      var dlRes = await tryDirectDownload(url, det.ext);
+      var status = $('dlStatus');
+      if (dlRes.ok){
+        status.innerHTML = '<div style="background:#dcfce7; padding:10px 14px; border-radius:6px; color:#166534;">✅ ダウンロード完了！ (' + (dlRes.size > 1024*1024 ? (dlRes.size/1024/1024).toFixed(2) + 'MB' : Math.round(dlRes.size/1024) + 'KB') + ')</div>';
+      } else {
+        status.innerHTML =
+          '<div style="background:#fef2f2; padding:10px 14px; border-radius:6px; color:#991b1b;">❌ 自動DL失敗: ' + escHTML(dlRes.error) + ' (CORS制限の可能性)</div>' +
+          '<p style="margin-top:10px;">代わりに以下の方法をお試しください：</p>' +
+          '<div class="step"><span class="num">1</span><a href="' + escHTML(url) + '" target="_blank" rel="noopener" class="action-btn">🔗 新しいタブで開く</a></div>' +
+          '<div class="step"><span class="num">2</span>開いたページで <strong>右クリック → 「名前を付けて画像/動画を保存」</strong></div>';
+      }
+    } else if (det.type === 'webpage'){
+      result.innerHTML =
+        '<div class="badge-row"><span class="badge b-page">🌐 Webページ</span><span class="badge b-cors">' + escHTML(det.host) + '</span></div>' +
+        '<p>Webページを解析して画像・動画を抽出中...</p>' +
+        '<div id="extractStatus">⏳ 解析中...</div>';
+
+      var ext = await extractFromPage(url);
+      var status2 = $('extractStatus');
+      if (!ext.ok){
+        status2.innerHTML =
+          '<div style="background:#fef2f2; padding:10px 14px; border-radius:6px; color:#991b1b;">❌ ページ解析失敗: ' + escHTML(ext.error) + '</div>' +
+          '<p style="margin-top:10px;">このサイトは CORS で外部からのアクセスを禁止しています。代わりに：</p>' +
+          '<div class="step"><span class="num">1</span><a href="' + escHTML(url) + '" target="_blank" rel="noopener" class="action-btn">🔗 ページを開く</a></div>' +
+          '<div class="step"><span class="num">2</span>保存したい画像で <strong>右クリック → 「名前を付けて画像を保存」</strong></div>' +
+          '<div class="step"><span class="num">3</span>ページ全体を保存: <strong>Ctrl+S</strong> / <strong>Cmd+S</strong></div>';
+      } else {
+        var html = '<div style="background:#dcfce7; padding:10px 14px; border-radius:6px; color:#166534; margin-bottom:10px;">✅ 取得成功: 画像 ' + ext.imgs.length + ' 件 / 動画 ' + ext.videos.length + ' 件</div>';
+        if (ext.imgs.length > 0){
+          html += '<h4 style="margin:10px 0 6px;">🖼 抽出された画像</h4><div class="img-list">';
+          ext.imgs.slice(0, 30).forEach(function(src, i){
+            html += '<div class="item"><label><input type="checkbox" class="img-cb" data-src="' + escHTML(src) + '" checked><img src="' + escHTML(src) + '" loading="lazy" onerror="this.style.opacity=0.3;">' + (src.length > 40 ? '...' + escHTML(src.slice(-37)) : escHTML(src)) + '</label></div>';
+          });
+          html += '</div>';
+          if (ext.imgs.length > 30) html += '<p style="font-size:12px; color:var(--muted);">※ 最初の30件のみ表示</p>';
+          html += '<button id="dlAllBtn" class="action-btn">📦 選択した画像をZIPでDL</button>';
+        }
+        if (ext.videos.length > 0){
+          html += '<h4 style="margin:14px 0 6px;">🎬 抽出された動画</h4><ul>';
+          ext.videos.forEach(function(src){
+            html += '<li><a href="' + escHTML(src) + '" target="_blank" rel="noopener">' + escHTML(src) + '</a></li>';
+          });
+          html += '</ul>';
+        }
+        status2.innerHTML = html;
+
+        if (ext.imgs.length > 0){
+          $('dlAllBtn').addEventListener('click', async function(){
+            var checked = Array.from(document.querySelectorAll('.img-cb:checked')).map(function(c){ return c.dataset.src; });
+            if (checked.length === 0) return alert('画像を選択してください');
+            $('dlAllBtn').disabled = true;
+            $('dlAllBtn').textContent = '⏳ DL中...';
+            if (!window.JSZip){
+              var s = document.createElement('script');
+              s.src = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
+              document.head.appendChild(s);
+              await new Promise(function(r){ s.onload = r; });
+            }
+            var zip = new JSZip();
+            var ok = 0, fail = 0;
+            for (var i = 0; i < checked.length; i++){
+              try {
+                var r = await fetch(checked[i]);
+                if (r.ok){
+                  var b = await r.blob();
+                  var name = checked[i].split('/').pop().split('?')[0] || ('image_' + (i+1) + '.jpg');
+                  zip.file(name, b);
+                  ok++;
+                } else fail++;
+              } catch(e){ fail++; }
+            }
+            var blob = await zip.generateAsync({type:'blob'});
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'images_' + Date.now() + '.zip';
+            a.click();
+            $('dlAllBtn').disabled = false;
+            $('dlAllBtn').textContent = '📦 完了: ' + ok + '件成功 / ' + fail + '件失敗';
+          });
+        }
+      }
+    }
+
+    // Bind copy buttons
+    setTimeout(function(){
+      document.querySelectorAll('[data-copy]').forEach(function(b){
+        b.addEventListener('click', function(){
+          var pre = b.parentElement;
+          var text = pre.textContent.replace('📋 コピー', '').trim();
+          navigator.clipboard.writeText(text).then(function(){
+            b.textContent = '✅ コピー';
+            setTimeout(function(){ b.textContent = '📋 コピー'; }, 1500);
+          });
+        });
+      });
+    }, 100);
+  }
+
+  $('detectBtn').addEventListener('click', handle);
+  urlInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') handle(); });
+})();
+</script>
+</body>
+</html>
